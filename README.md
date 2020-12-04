@@ -5,8 +5,8 @@ Built using [WebXR](https://github.com/immersive-web/webxr) & [Three.js](https:/
 
 ## Table of Contents
 * [Libraries](#libraries)
-* [Wiki](https://github.com/joshstovall/XR.js/wiki)
-* [Examples](https://github.com/joshstovall/XR.js/wiki/examples)
+* [Wiki](https://github.com/xrscript/XR.js/wiki)
+* [Examples](https://github.com/xrscript/XR.js/wiki/examples)
 * [Live demo](https://xrjs.dev/)
 
 
@@ -19,4 +19,4 @@ Built using [WebXR](https://github.com/immersive-web/webxr) & [Three.js](https:/
 * [Socket.IO](https://github.com/CreateJS/TweenJS) multiplayer
 
 ## Get Started
-See the [Wiki](https://github.com/joshstovall/XR.js/wiki) and try the [live demo](https://xrjs.dev).
+See the [Wiki](https://github.com/xrscript/XR.js/wiki) and try the [live demo](https://xrjs.dev).
