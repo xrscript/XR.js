@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Multiple</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/animate/">Animation</a>
+			<a href="/examples/animate/multiple.html">Multiple</a>
+			<p>
+				<a href="./index.html">Basic</a>
+				<a href="./color.html">Color</a>
+				<a href="./opacity.html">Opacity</a>
+				<a href="./scale.html">Scale</a>
+				<a href="./position.html">Position</a>
+				<a href="/examples/animate/multiple.html">Multiple</a>
+
+			</p>
+		</header>
+<script type="module">
+import * as XR from '/XR.js';
+
+new XR.Reality({gravity:-60});
+new XR.Light();
+new XR.Floor();
+
+var myBox = new XR.Box({
+	position:[0,2,-5],
+	physics:true,
+	color: Math.random() * 0x0000ff,
+	
+});
+
+// animate both rotation and position
+new XR.Animate({
+	at: myBox,
+	rotation: {
+		x: 0,
+		y: 0,
+		z: Math.PI * 2
+	},
+	/*position: {
+		x: 0,
+		y:  3,
+		z: 5
+	},*/
+	color: Math.random() * 0xffffff,
+	//
+	repeat: Infinity,
+	yoyo: true,
+	ease: ['cubic','inout'],
+	delay:12,
+	duration: 1098,
+	type:'absolute'
+});
+</script>
+	
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Light Color</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects/">Objects</a>
+			<a href="/examples/objects/light/">Light</a>
+			<a href="/examples/objects/light/lensflare.html">Lensflare</a>
+			<p>
+				<a href="/examples/objects/light/index.html">Basic</a>
+				<a href="/examples/objects/light/color.html">Color</a>
+				<a href="/examples/objects/light/lensflare.html">Lensflare</a>
+			</p>
+
+		</header>
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
+
+var options = {
+	type: 'cubemap',
+	file: '/assets/img/cube/sky',
+}
+
+new XR.Sky(options);
+
+new XR.Lensflare({
+	position:[-40,1,-60]
+});
+
+		</script>
+	</body>
+</html>

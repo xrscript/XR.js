@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Button</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/button.html">Button</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="#">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from '/XR.js';
+	
+new XR.Reality({physics:false});
+new XR.Menu();
+new XR.Light();
+
+new XR.Button({
+	position:[-2,1,-6],
+	scale:[3,1],
+	name:'button 1',
+	text:'button 1',
+	action:button1
+});
+new XR.Button({
+	position:[1.5,1,-6],
+	scale:[3,1],
+	text:'button 2',
+	name:'button 2',
+	action:button2
+});
+
+
+var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer();
+
+
+function button1(){
+	console.log("you clicked button 1")
+}
+
+
+function button2(){
+	console.log("you clicked button 2")
+}
+
+new XR.Sky()
+</script>
+	
+	</body>
+</html>

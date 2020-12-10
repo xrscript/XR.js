@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Image</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/media/">Media</a>
+			<a href="/examples/media/image.html">Image</a>
+			<p>
+				<a href="audio.html">Audio</a>
+				<a href="video.html"	>Video</a>
+				<a href="video360.html">360 Video</a>
+				<a href="#">Image</a>
+				<a href="svg.html">SVG</a>
+				<a href="video-in.html">VideoIn</a>
+				<a href="audio-in.html">AudioIn</a>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Light();
+
+new XR.Image({
+	file:"/assets/img/monalisa.jpg",
+	scale:2,
+	side:'front',
+	position:[0,1.5,0],
+	action: myFunction
+});
+
+function myFunction(){
+	console.log('you clicked the image')
+}
+</script>
+	</body>
+</html>

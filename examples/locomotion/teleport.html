@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Teleport</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/locomotion">Locomotion</a>
+			<a href="/examples/locomotion/teleport.html">Teleport</a>
+			<p>
+				<a href="/examples/locomotion/walk.html">Walk</a>
+				<a href="/examples/locomotion/fly.html">Fly</a>
+				<a href="/examples/locomotion/teleport.html">Teleport</a>
+				<a href="/examples/locomotion/rotate.html">Rotate</a>
+			</p>
+		</header>
+<script type="module">
+import * as XR from '/XR.js';
+
+new XR.Reality();
+new XR.Light();
+new XR.Floor({
+	map:'/assets/textures/wood 2.jpg',
+	repeat:[4,4]
+});
+
+var controller = new XR.Gamepad();
+
+console.log(controller)
+new XR.Locomotion({
+	type:'teleport',
+	bind: controller.right
+});
+</script>
+	</body>
+</html>

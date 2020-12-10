@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | X Model</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link type="text/css" rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/objects/">Objects</a>
+			<a href="/examples/objects/model/">Model</a>
+			<a href="/examples/objects/model/x.html">X</a>
+
+			<p>
+				<a href="/examples/objects/model/3dm.html">3DM</a>
+			   <a href="/examples/objects/model/3ds.html">3DS</a>
+			   <a href="/examples/objects/model/3mf.html">3MF</a>
+			   <a href="/examples/objects/model/amf.html">AMF</a>
+			   <a href="/examples/objects/model/dae.html">DAE</a>
+			   <a href="/examples/objects/model/fbx.html">FBX</a>
+			   <a href="/examples/objects/model/glb.html">GLB</a>
+			   <a href="/examples/objects/model/gltf.html">GLTF</a>
+			   <a href="/examples/objects/model/md2.html">MD2</a>
+			   <a href="/examples/objects/model/nrrd.html">NRRD</a>
+			   <a href="/examples/objects/model/obj.html">OBJ</a>
+			   <a href="/examples/objects/model/pcd.html">PCD</a>
+			   <a href="/examples/objects/model/pdb.html">PDB</a>
+			   <a href="/examples/objects/model/ply.html">PLY</a>
+			   <a href="/examples/objects/model/prwm.html">PRWM</a>
+			   <a href="/examples/objects/model/stl.html">STL</a>
+			   <a href="/examples/objects/model/vrm.html">VRM</a>
+			   <a href="/examples/objects/model/x.html">X</a>
+			   <a href="/examples/objects/model/xyz.html">XYZ</a>
+			</p>
+		</header>
+		<select id="mech1_anime">
+					<option value="stand">stand</option>
+					<option value="wark">wark</option>
+					<option value="attack">attack</option>
+				</select>
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Floor();
+new XR.Light();
+
+// load model
+new XR.Model({
+	file: '/assets/models/x/SSR06_model.x',
+	scale:0.5,
+	rotation:[0,Math.PI,0]
+});</script>
+			
+	</body>
+</html>

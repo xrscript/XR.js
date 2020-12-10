@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Animate</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+			<script src="/lib/tween.js/dist/tween.umd.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/animate/">Animation</a>
+			<p>
+				<a href="./index.html">Basic</a>
+				<a href="./color.html">Color</a>
+				<a href="./opacity.html">Opacity</a>
+				<a href="./scale.html">Scale</a>
+				<a href="./position.html">Position</a>
+			</p>
+		</header>
+		<script type="module">
+import * as XR from  '/XR.js';
+
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+var boxy = new XR.Box({
+	position:[0,0,0],
+
+});
+new XR.Animate({
+	at:boxy,
+	to: {x: 3, y: 6, z: 3},
+	repeat: Infinity,
+	yoyo: true,
+	ease: 'Cubic.InOut',
+	delay:12,
+	duration:1000
+});
+		
+var myBox = new XR.Box({
+	position:[0,3,5],
+	color: 0x00ff00
+});
+
+new XR.Animate({
+	at: myBox,
+	to: {color: 0xff0000},
+	repeat: Infinity,
+	yoyo: true,
+	ease: ['cubic','inout'],
+	delay: 0,
+	duration: 5
+});
+			</script>
+	
+	</body>
+</html>

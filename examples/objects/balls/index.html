@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Balls</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/objects/balls/">Balls</a></span>
+			<p>
+				<span><a href="./baseball.html">Base</a></span>
+				<span><a href="./basketball.html">Basket</a></span>
+				<span><a href="./beach.html">Beach</a></span>
+				<span><a href="./boules.html">Boules</a></span>
+				<span><a href="./cricket.html">Cricket</a></span>
+				<span><a href="./golf.html">Golf</a></span>
+				<span><a href="./rugby.html">Rugby</a></span>
+				<span><a href="./soccer.html">Soccer</a></span>
+				<span><a href="./tennis.html">Tennis</a></span>
+				<span><a href="./volleyball.html">Volley</a></span>
+			</p>
+		</header>
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
+new XR.Floor()
+new XR.Light();
+
+function rand(){
+return [(Math.random()*2)-1,5,(Math.random()*2)-1]
+}
+new XR.Ball({ type:'baseball', position: rand()
+ });
+new XR.Ball({ type:'basketball',position: rand()
+ });
+new XR.Ball({ type:'beach',position: rand() });
+new XR.Ball({ type:'cricket',position: rand() });
+new XR.Ball({ type:'golf',position: rand() });
+new XR.Ball({ type:'rugby',position: rand() });
+new XR.Ball({ type:'soccer',position: rand() });
+new XR.Ball({ type:'tennis',position: rand() });
+new XR.Ball({ type:'volleyball',position: rand() });
+
+
+
+
+
+
+
+var controller = new XR.Gamepad();
+new XR.Grab({ bind:controller.left})
+
+</script>
+
+	</body>
+</html>

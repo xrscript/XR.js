@@ -1,0 +1,27 @@
+Robin Wood
+http://www.robinwood.com
+June 1, 2000
+
+Hi!
+
+This is my first Poser prop (at least the first one I made specifically for Poser, as opposed to stuff I made to put into pictures that I intended to render in Bryce, or Strata Studio Pro, or something.)
+
+You can color it using the Materials choices under the Render menu. There are colors there already, but you can always change them if you want to (of course. <g>)
+
+If you want the dew drop on the leaf to look like water, simply chose a high number for the highlight as well as near total transparency in both channels. I find that a highlight of 95% works well. If you don't want it there at all, of course, just choose solid black for all four color channels, 100% for both transparency channels, and 0% for highlight, and it will be gone.
+
+There is a rose just like this that uses texture maps available at my site, if you want to use them. Just click on the first page, where it says "Poser Goodies!" Or you can get it from Renderosity, if you prefer. You will need the new file, since the UV mapping is only good with that one. It's the Rose Prop 2.
+
+I am giving you permission to incorporate this prop into your own work, whether for print, film, or electronic media; for sale, private use, or display on the web.  However,  it is not public domain. I retain the copyright and all other rights to this model.
+
+You may not give it to other people without this notice. Nor may you sell the model as a model by itself, as part of a collection, or in any other way, or use it as the sole element in any work. (In other words, by all means use it in a picture or whatever. Just make sure that there is something else there that makes it your work, not just mine.)
+
+If you want to include this model in a collection of free-to-use models, please contact me.
+
+If you have any problems, questions, or comments (or if you just did something really cool using this prop and you want to share it with me) please contact me.
+
+My e-mail address is chat@robinwood.com
+
+If you are interested in more of my work, my website is http://www.robinwood.com.
+
+Thanks for reading all this, and enjoy your new model!

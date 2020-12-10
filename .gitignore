@@ -1,0 +1,5 @@
+.DS_Store
+.xcworkspace
+workspace.xcworkspace
+node_modules
+examples/objects/model/.DS_Store

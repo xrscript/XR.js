@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>XR.js | WASD</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+	<script type="module">
+		import * as XR from  '/xr.js';
+		
+		var myReality = new XR.Reality();
+
+		var light = new XR.Light({type:"point"});
+
+		var mybox = new XR.Box({
+			name: 'mybox',
+			material: "physical",
+			color: 0x0000ff,
+			position:[0,0.5,-0.5],
+			transparent:true,
+			opacity:0.6,
+			scale:0.6
+		});
+
+	
+		var posi = new XR.Locomotion();
+	</script>
+</body>
+</html>

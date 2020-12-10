@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Models</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link type="text/css" rel="stylesheet" href="/css/main.css">
+			<script src="/js/gasp.js"></script>
+	</head>
+	<body>
+
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/objects/">Objects</a>
+			<a href="/examples/objects/model/">Model</a>
+			<a href="/examples/objects/model/gltf.html">GLTF</a>
+
+			<p>
+			<a href="/examples/misc/ocean.html">Ocean</a>
+			<a href="/examples/misc/theater.html">Theater</a>
+			<a href="/examples/misc/pendulum.html">Pendulum</a>
+			<a href="/examples/misc/globe.html">Globe</a>
+			</p>
+		</header>
+	</header>
+	
+<script type="module">import * as XR from  '/XR.js';
+new XR.Reality();
+new XR.Light();
+
+new XR.Pendulum({
+	balls:12,
+	radius: 0.2,
+	length:0,
+	distance:0.5,
+	speed:2,
+	power:0.3,
+
+});
+
+
+
+var geometry =  new THREE.BoxGeometry(1, 1, 1)
+const loader = new THREE.TextureLoader();
+loader.load('/assets/textures/wood 2.jpg', (texture) => {
+  const material = new THREE.MeshBasicMaterial({
+	map: texture,
+  });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+  cubes.push(cube);  // add to our list of cubes to rotate
+});
+if(options.lookAt){
+	camera.lookAt(...options.lookAt);
+	//	controls.target.set( ...options.lookAt);
+}
+//return scene
+</script>
+			
+	</body>
+</html>

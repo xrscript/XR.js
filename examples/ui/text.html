@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Text</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/text.html">Text</a>
+			<p>
+				<a href="#">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+<script type="module">
+import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Floor();
+new XR.Light();
+
+new XR.Text({
+	text:'hello world',
+	size: 0.6,
+	thickness: 0.3,
+	color: 0xff0000,
+	segments:1,   position:[0,0,0],
+	font:'/assets/fonts/Prisma.json'
+});
+
+new XR.Text({
+	text:'It is easy to display virtual text!',
+	size: 0.3,
+	thickness: 0,
+	color: 'black',
+	segments:4,
+});
+
+</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | UI</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/media/">Media</a>
+			<a href="/examples/media/svg.html">SVG</a>
+			<p>
+				<a href="audio.html">Audio</a>
+				<a href="video.html">Video</a>
+				<a href="video360.html">360 Video</a>
+				<a href="image.html">Image</a>
+				<a href="#">SVG</a>
+				<a href="video-in.html">VideoIn</a>
+				<a href="audio-in.html">AudioIn</a>
+			</p>
+	</header>
+<script type="module">import * as XR from  '/XR.js';
+
+new XR.Reality();
+new XR.Light();
+
+new XR.SVG({
+	file:'/assets/svg/tiger.svg',
+	position:[0,3,0],
+	scale:0.002
+});</script>
+	
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Bullet</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/physics/">Physics</a>
+			<a href="/examples/physics/collisions.html">Slider</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+	<script type="text/javascript" src="/js/three.min.js"></script>
+	<script type="text/javascript" src="/js/physi.js"></script>
+	
+	<script type="module">
+	
+	import * as XR from  '/XR.js';
+
+	new XR.Reality({gravity:-50});
+	new XR.Light();
+	//	new XR.Floor();
+	//new XR.Collisions()
+	var controller = new XR.Gamepad();
+
+	new XR.Locomotion({
+		type:'teleport',
+		bind: controller.right
+	});
+	new XR.Slider();
+	//new XR.Pointer({ bind: controller.right });
+
+	new XR.Grab({
+		bind:controller.left
+	})
+	</script>
+</head>
+
+</html>

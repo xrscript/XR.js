@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Rotation</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+			<script src="/lib/tween.js/dist/tween.umd.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script></head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/animate/">Animation</a>
+			<a href="/examples/animate/size.html">Rotation</a>
+			<p>
+				<a href="./index.html">Basic</a>
+				<a href="./color.html">Color</a>
+				<a href="./opacity.html">Opacity</a>
+				<a href="./scale.html">Scale</a>
+				<a href="./position.html">Position</a>
+			</p>
+		</header>
+		<script type="module">
+import * as XR from  '/XR.js';
+
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+var myBox = new XR.Box({
+	position:[0,2,0],
+	physics:0
+});
+
+new XR.Animate({
+	at: myBox,
+	rotation: {
+		x:0,
+		y:Math.PI,
+		z:0
+	},
+	position: {x: -3, y: 3, z: -3},
+
+	repeat: Infinity,
+	yoyo: false,
+	ease: ['cubic','inout'],
+	delay:12,
+	duration: 1
+});
+</script>
+	
+	</body>
+</html>

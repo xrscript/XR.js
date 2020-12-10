@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Icons</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/text.html">Icons</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="#">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from  '/XR.js';
+
+new XR.Reality();
+new XR.Floor({color:'purple', opacity:0.3});
+new XR.Light({position:[0,2,5]});
+
+new XR.Menu();
+
+new XR.Text({
+	text:'click an icon',
+	size: 0.8,
+	segments:3,
+	position:[0,0.3,-0.5]
+});
+
+new XR.Text({
+	text:'D',
+	size: 0.3,
+	font:'/assets/fonts/social.json',
+	position:[-1,0.2,3.2],
+	rotation:[-0.3,0.2,0],
+	href:'https://twitter.com/XR_Script',
+	name:'Twitter'
+});
+
+new XR.Text({
+	text:'Q',
+	font:'/assets/fonts/social.json',
+	size: 0.3,
+	position:[-0.5,0.2,3.1],
+	rotation:[-0.3,0.2,0],
+	href:'https://instagram.com/XRscript',
+	name:'Instagram'
+});
+
+new XR.Text({
+	text:') ö ',
+	font:'/assets/fonts/social.json',
+	size: 0.3,
+	position:[0,0.2,3],
+	rotation:[-0.3,0,0],
+	href:'https://github.com/xrscript',
+	name:'GitHub Repository'
+});
+new XR.Text({
+	text:'Y',
+	size: 0.3,
+	font:'/assets/fonts/social.json',
+	position:[0.5,0.2,3.0],
+	rotation:[-0.3,-0.2,0],
+	href:'https://discord.com',
+	name:'Discord',
+	//at:mainmenu
+ });
+
+new XR.Text({
+	text:'2',
+	size: 0.3,
+	color: 0xffffff,
+	font:'/assets/fonts/social.json',
+	position:[1,0.2,3.1],
+	rotation:[-0.3,-0.2,0],
+	href:'https://codepen.com/joshstovall',
+	name:'Codepen'
+});
+
+var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer();
+
+</script>
+	</body>
+</html>

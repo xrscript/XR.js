@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Dropdown</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/dropdown.html">Dropdown</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+		<script type="module">import * as XR from '/XR.js';
+var oyutio = new XR.Reality();
+new XR.Sky()
+//new XR.Menu();
+new XR.Light({intensity:0.1});
+new XR.Floor({map:'/assets/textures/plywood.jpg'});
+new XR.Dropdown({
+	position:[1.5,2,-6],
+	rotation:[0,0,0],
+	color:'pink',
+  options:[{
+	name:'Light',
+	value:55,
+	///href:'/examples/objects/light/',
+	action: toggleDropdown
+  },
+   {
+	 name:'Geometry',
+	 href:'/examples/objects/geometry/',
+	 action: myAction,
+	 color:'pink',
+
+   },
+   {
+	 name:'Models',
+	 href:'/examples/objects/model/',
+	 action: myAction
+
+   }]
+});
+		
+
+var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer();
+
+var state = false
+function toggleDropdown(){
+	console.log(oyutio)
+	
+	
+	
+	
+	
+	
+	
+	oyutio.children.forEach(function(model, i) {
+
+		
+		
+		
+	if(oyutio.children[i].name == 'mainmenu'){
+		
+		if (!state){
+			state = true
+			
+			oyutio.children[i].children.forEach(function(model, i) {
+				model.opacity = 1
+				if (i > 0){ model.visible = true }
+		})
+			
+		
+		} else {
+			state = false
+			
+			//model.material.opacity = 0.1
+			oyutio.children[i].children.forEach(function(model, i) {
+				model.opacity = 0.1;
+				if (i > 0){
+					model.visible = false
+				}
+				
+		})
+		}
+		
+		
+		
+		
+		console.log(oyutio.children[i].children)
+		
+		
+		
+		
+		
+		
+		
+		
+		if(model.type == 'Mesh'){
+	//	if (i > 0){
+			
+			
+			model.material.color =  {b: 1, g: 0, r: 1}
+		//	model.material.color = 'pink'
+			console.log(model)
+			}
+		
+		//intersects[0].object.material.color = {b: 1, g: 1, r: 1};
+		// console.log(scene.children[i])
+	 //   mainmenu.children[i].material.color.set(mainmenu.children[i].color);
+	//intersects[0].object.material.color = {b: 1, g: 0, r: 0};
+	  //
+	}
+	
+})
+}new XR.DropdownDemo()
+		function myAction(){
+	  
+  }
+
+</script>
+	
+	</body>
+</html>

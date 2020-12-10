@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Haptics</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples/">Examples</a></span>
+			<span><a href="/examples/gamepad/">Gamepad</a></span>
+			<span><a href="#">Haptics</a></span>
+			<p>
+				<a href="/examples/gamepad/buttons.html">Buttons</a>
+				<a href="/examples/gamepad/haptics.html">Haptics</a>
+				<a href="/examples/gamepad/joystick.html">Joystick</a>
+				<a href="/examples/gamepad/pointer.html">Pointer</a>
+			</p>
+		</header>
+
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
+new XR.Floor();
+new XR.Light();
+
+
+var controller = new XR.Gamepad();
+
+
+//var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer({
+	
+	bind: controller.right
+});
+
+
+setTimeout(function(){
+	controller.vibrate(0.2, 20);
+	
+	//controller.(1,40)
+}, 5020);
+</script>
+
+	</body>
+</html>

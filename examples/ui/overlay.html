@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Overlay</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/overlay.html">Overlay</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Sky();
+
+new XR.Overlay({
+	text:'yo wazzup',
+	size: 0.1
+})
+
+</script>
+	
+	</body>
+</html>

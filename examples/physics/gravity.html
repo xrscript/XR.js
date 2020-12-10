@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Physics</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/physics/">Physics</a>
+			<p>
+				<a href="/examples/physics/index.html">Basic</a>
+				<a href="/examples/physics/car.html">Car</a>
+				<a href="/examples/physics/terrain.html">Terrain</a>
+				<a href="/examples/physics/jenga.html">Jenga</a>
+				<a href="/examples/physics/chairs.html">Chairs</a>
+				<a href="/examples/physics/collisions.html">Collisions</a>
+	</p>
+		</header>
+<script type="module">import * as XR from  '/XR.js';
+
+new XR.Reality({ position:[0,30,15]});
+new XR.Terrain();
+new XR.Light();
+
+
+
+
+for (var i = 0; i < 10; i++) {
+	new XR.Box({
+		color: 'green',
+		position:[0,5,0],
+	});
+}
+
+
+new XR.Chairs()
+</script>
+	</body>
+</html>

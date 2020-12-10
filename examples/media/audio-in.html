@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Audio In</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/media/">Media</a>
+			<a href="/examples/media/audioin.html">AudioIn</a>
+			<p>
+			<audio hidden src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Bruckner_Symphony_No._5%2C_opening.wav" controls autoplay muted loop></audio>
+				<a href="#">Audio</a>
+				<a href="video.html"	>Video</a>
+				<a href="video360.html">360 Video</a>
+				<a href="image.html">Image</a>
+				<a href="svg.html">SVG</a>
+				<a href="video-in.html">VideoIn</a>
+				<a href="audio-in.html">AudioIn</a>
+			</p>
+			<div style="padding-top: 41px;">
+
+			<select id="audioSource"></select>
+	  <select id="videoSource"></select>
+		<audio src="" controls id="audioElement" hidden></audio>
+		</div>
+		</header>
+		
+		
+<script type="module">
+
+import * as XR from  '/XR.js';
+
+var myReality = new XR.Reality();
+
+new XR.Floor({opacity:0.4});
+
+new XR.Controls();
+
+new XR.Audio({
+	file:'/assets/audio/mahsiv.mp3',
+	loop:false,
+	gain:0.1,
+	detune:1200
+});
+
+new XR.Light();
+	
+	/*
+	
+	const audioElement = document.querySelector("audio#audioElement");
+ const audioSelect = document.querySelector("select#audioSource");
+ const videoSelect = document.querySelector("select#videoSource");
+
+ navigator.mediaDevices
+   .enumerateDevices()
+   .then(gotDevices)
+   .then(getStream)
+   .catch(handleError);
+
+ ///audioSelect.onchange = getStream;
+ ///videoSelect.onchange = getStream;
+
+ function gotDevices(deviceInfos) {
+   for (let i = 0; i !== deviceInfos.length; ++i) {
+	 const deviceInfo = deviceInfos[i];
+	 const option = document.createElement("option");
+	 option.value = deviceInfo.deviceId;
+	 if (deviceInfo.kind === "audioinput") {
+	   option.text =
+		 deviceInfo.label || "microphone " + (audioSelect.length + 1);
+	   audioSelect.appendChild(option);
+	 } else if (deviceInfo.kind === "videoinput") {
+	   option.text = deviceInfo.label || "camera " + (videoSelect.length + 1);
+	   videoSelect.appendChild(option);
+	 } else {
+	   console.log("Found another kind of device: ", deviceInfo);
+	 }
+   }
+ }
+
+ function getStream() {
+   if (window.stream) {
+	 window.stream.getTracks().forEach(function (track) {
+	   track.stop();
+	 });
+   }
+
+   const constraints = {
+	 audio: 'true' };
+
+   navigator.mediaDevices
+	 .getUserMedia(constraints)
+	 .then(gotStream)
+	 .catch(handleError);
+ }
+
+ function gotStream(stream) {
+   window.stream = stream; // make stream available to console
+   audioElement.srcObject = stream;
+ }
+
+ function handleError(error) {
+   console.error("Error: ", error);
+ }
+	 */
+</script>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Video</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/media/">Media</a>
+			<a href="/examples/media/video.html">Video</a>
+			<p>
+				<a href="audio.html">Audio</a>
+				<a href="#">Video</a>
+				<a href="video360.html">360 Video</a>
+				<a href="image.html">Image</a>
+				<a href="svg.html">SVG</a>
+				<a href="video-in.html">VideoIn</a>
+				<a href="audio-in.html">AudioIn</a>
+			</p>
+		</header>
+		<input type="file" id="myFile" hidden><br>
+
+		<video id="video" src="/assets/video/cats.mp4" loop  playsinline ></video>
+<script type="module">import * as XR from  '/XR.js';
+	
+	new XR.Reality();
+	new XR.Light();
+
+new XR.Video({
+	type:'2D',
+	file:'/assets/video/movie.mov',
+	position:[0,1,0],
+	scale:1
+});
+
+
+
+new XR.Button({
+	position:[-1.5,-0.35,0.1],
+	scale:[0.9,0.3],
+	value:'play',
+	text:'play',
+	name:'play',
+	action:button1,
+	fontSize:0.18,
+	hover:'yellow',
+	color:'white',
+	background:'green'
+});
+
+
+
+new XR.Button({
+	scale:[0.9,0.3],
+	position:[-0.5,-0.35,0.1],
+	value:'pause',
+	text:'pause',
+	name:'pause',
+	color:'#FF6666',
+	action:button2,
+	fontSize:0.18,
+	color:'white',
+	background:'red'
+
+});
+
+new XR.Button({
+	scale:[0.9,0.3],
+	position:[1.5,-0.35,0.1],
+	value:'upload',
+	text:'upload',
+	name:'upload',
+	//color:'#6666FF',
+	action:button3,
+	fontSize:0.18,
+	color:'white',
+	background:'#6666FF'
+
+});
+
+
+
+function button1(){
+	console.log("you clicked button 1")
+	video.play()
+}
+
+
+function button2(){
+	console.log("you clicked button 2")
+	video.pause()
+}
+
+
+function button3(){
+	console.log("you clicked button 2")
+$('#myFile').click()}
+
+var controller = new XR.Gamepad();
+
+console.log(controller)
+new XR.Locomotion({
+	type:'teleport',
+	bind: controller.left
+});
+new XR.Menu();
+
+//var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer({
+	
+	bind: controller.right
+});</script>
+	</body>
+</html>

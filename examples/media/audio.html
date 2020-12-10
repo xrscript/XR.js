@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Audio</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/media/">Media</a>
+			<a href="/examples/media/audio.html">Audio</a>
+			<p>
+			<!--<audio src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Bruckner_Symphony_No._5%2C_opening.wav" controls autoplay muted loop></audio>-->
+				<a href="#">Audio</a></span>
+				<a href="video.html"	>Video</a>
+				<a href="video360.html">360 Video</a>
+				<a href="image.html">Image</a>
+				<a href="svg.html">SVG</a>
+				<a href="video-in.html">VideoIn</a>
+				<a href="audio-in.html">AudioIn</a>
+			</p>
+		</header>
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
+new XR.Floor();
+new XR.Light();
+
+new XR.Audio({
+	file:'/assets/audio/mahsiv.mp3',
+	loop:false,
+	//gain:1,
+	detune:1200
+});
+</script>	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Environment</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects">Objects</a>
+			<p>
+				<a href="/examples/objects/geometry">Geometry</a>
+				<a href="/examples/objects/model/">Model</a>
+				<a href="/examples/objects/light">Light</a>
+				<a href="/examples/objects/fog">Fog</a>
+				<a href="/examples/objects/sky">Sky</a>
+			</p>
+		</header>
+		
+		<script type="module">
+		 import * as XR from '/XR.js';
+		 
+		 new XR.Reality();
+
+	 
+		 //new XR.GuideLine({})
+		 new XR.Floor();
+		 //new XR.Gamepad();
+		 new XR.Controls();
+
+		 var light = new XR.Light();
+	 
+	 </script>
+	 
+	 </body>
+	
+	</body>
+</html>

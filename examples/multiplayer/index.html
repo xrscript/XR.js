@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Multiplayer</title>
+		<link rel="stylesheet" href="/css/main.css" />
+</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/multiplayer">Multiplayer</a></span>
+		</header>
+
+		
+ <div id="future"></div>
+ <form id="form" id="chat_form">
+	 <input id="chat_input" type="text">
+	 <input type="submit" value="Send">
+ </form>
+  <script src="/lib/jquery/jquery.min.js"></script>
+ <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+
+	<script type="module">
+		
+		import * as XR from  '/XR.js';
+		
+		var myReality = new XR.Reality({fov:350});
+
+		var light = new XR.Light({
+			position:[5,10,2], intensity:1
+		});
+	new XR.Light({position:[Math.random(),Math.random(),Math.random()]});
+	new XR.Light({position:[Math.random(),Math.random(),Math.random()]});
+	new XR.Light({position:[Math.random(),Math.random(),Math.random()]});
+	new XR.Light({position:[Math.random(),Math.random(),Math.random()]});
+
+
+	
+	
+	
+	
+	
+	
+	</script>
+	
+	<br><br>
+ 
+  <script src="/lib/jquery/jquery.min.js"></script>
+ <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+
+ <script>
+
+ </script>
+		 
+	
+	</body>
+</html>

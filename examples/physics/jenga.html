@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Physics</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/physics/">Physics</a>
+			<a href="/examples/physics/jenga.html">Jenga</a>
+			<p>
+				<a href="/examples/physics/index.html">Basic</a>
+				<a href="/examples/physics/car.html">Car</a>
+				<a href="/examples/physics/terrain.html">Terrain</a>
+				<a href="/examples/physics/jenga.html">Jenga</a>
+				<a href="/examples/physics/chairs.html">Chairs</a>
+				<a href="/examples/physics/collisions.html">Collisions</a>
+		</p>
+		</header>
+<script type="module">import * as XR from  '/XR.js';
+
+var reality = new XR.Reality({
+	physics:true,
+	//position:[10,9,10],
+	lookAt:[0,5,0]
+});
+setTimeout(function(){
+
+	
+//reality.lookAt([0,400,0])
+}, 3020);
+
+new XR.Jenga({
+	height:207,
+	rows:6, // rows tall
+	block : [1.5,1, 6] // block dimensions
+});
+new XR.Light();
+
+var controller = new XR.Gamepad();
+
+new XR.Grab({
+	bind:controller.left
+})
+</script>
+	</body>
+</html>

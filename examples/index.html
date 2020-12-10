@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Examples</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+		<header >
+			<h1> <a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<p></p>
+		<br><br>
+		<a>objects</a>
+		<p>
+			<a href="/examples/objects/geometry/">Geometry</a>
+			<a href="/examples/objects/model/">Models</a>
+			<a href="/examples/objects/sky/">Sky</a>
+			<a href="/examples/objects/light/">Light</a>
+			<a href="/examples/objects/fog/">Fog</a>
+			<a href="/examples/objects/balls/">Balls</a>
+		</p>
+		<a>media</a>
+		<p>
+			<a href="/examples/media/audio.html">Audio</a>
+			<a href="/examples/media/image.html">Image</a>
+			<a href="/examples/media/video.html">Video</a>
+			<a href="/examples/media/video360.html">360 Video</a>
+			<a href="/examples/media/screen.html">Screen</a>
+			<a href="/examples/media/svg.html">SVG</a>
+		</p>
+
+		<a  href="/examples/ui/index.html">user interface</a>
+		<p>
+			<a href="/examples/ui/text.html">Text</a>
+			<a href="/examples/ui/button.html">Button</a>
+			<a href="/examples/ui/icons.html">Icons</a>
+			<!--<a href="/examples/ui/menu.html">Menu</a>-->
+			<a href="/examples/ui/splash.html">Splash</a>
+			<a href="/examples/ui/dropdown.html">Dropdown</a>
+			<a href="/examples/ui/slider.html">Slider</a>
+			<a href="/examples/ui/overlay.html">Overlay</a>
+			<a href="/examples/ui/radial.html">Radial</a>
+		</p>
+
+
+		
+		<a>input</a>
+		<p>
+		<a href="/examples/gamepad/index.html">Gamepad</a>
+			<a href="/examples/gamepad/haptics.html">Haptics</a>
+			<a href="/examples/hands/index.html">Hands</a>
+
+</p>
+
+<a href="/examples/physics/index.html">physics</a>
+<p>
+	<a href="/examples/physics/index.html">Basic</a>
+	<a href="/examples/physics/car.html">Car</a>
+	<a href="/examples/physics/terrain.html">Terrain</a>
+	<a href="/examples/physics/jenga.html">Jenga</a>
+	<a href="/examples/physics/chairs.html">Chairs</a>
+</p>
+<a href="/examples/animate/index.html">animate</a>
+<p>
+<a href="/examples/animate/index.html">Basic</a>
+<a href="/examples/animate/opacity.html">Opacity</a>
+<a href="/examples/animate/position.html">Position</a>
+<a href="/examples/animate/scale.html">Scale</a>
+<a href="/examples/animate/color.html">Color</a>
+</p>
+
+
+
+<a href="/examples/locomotion/index.html">locomotion</a>
+<p>
+<a href="/examples/locomotion/teleport.html">Teleport</a>
+<a href="/examples/locomotion/fly.html">Fly</a>
+<a href="/examples/locomotion/walk.html">Walk</a>
+<a href="/examples/locomotion/rotate.html">Rotate</a>
+</p>
+<a>misc</a>
+<p>
+<a href="/examples/multiplayer/index.html">Multiplayer</a>
+<a href="/examples/misc/theater.html">Theater</a>
+<a href="/examples/misc/ocean.html">Ocean</a>
+<a href="/examples/misc/globe.html">Globe</a>
+<a href="/examples/misc/skeleton.html">Skeleton</a>
+
+</p>
+</header>
+
+
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+
+var imgs = [
+	//'/assets/img/equirectangular/venice_sunset.jpg',
+	//'/assets/img/equirectangular/royal_esplanade.jpg',
+	//'/assets/img/equirectangular/quarry.jpg',
+	//'/assets/img/equirectangular/bridge.jpg',
+	//'/assets/img/equirectangular/earth.jpg',
+	//'/assets/img/equirectangular/sky2.jpg',
+	'/assets/img/planets/earth.jpg',
+	'/assets/img/planets/jupiter.jpg',
+	'/assets/img/planets/mars.jpg',
+	'/assets/img/planets/mercury.jpg',
+	'/assets/img/planets/moon.jpg',
+	'/assets/img/planets/saturn.jpg',
+	'/assets/img/planets/stars.jpg',
+	'/assets/img/planets/sun.jpg',
+	'/assets/img/planets/stars_milky_way.jpg',
+	'/assets/img/planets/neptune.jpg',
+	'/assets/img/planets/uranus.jpg',
+];
+
+// load a random sky
+var item = imgs[Math.floor(Math.random() * imgs.length)];
+new XR.Sky({file:item});
+/*
+
+new XR.Dropdown({
+  options:[{ name:'Audio', href:'/examples/media/audio.html' },
+           { name:'Image', href:'/examples/media/image.html' },
+		   { name:'Video', href:'/examples/media/video.html' }]
+});
+
+
+new XR.Dropdown({
+	position:[2,0,0],
+  options:[{ name:'Physics', href:'/examples/physics/index.html' },
+		   { name:'Animate', href:'/examples/animate/index.html' },
+		   { name:'More',     href:'/examples/media/index.html' }]
+});
+new XR.Dropdown({
+	position:[-2,0,0],
+	options:[
+			 { name:'Sky',   href:'/examples/objects/sky/' ,  action: myAction },
+			 { name:'Fog',   href:'/examples/objects/fog/',   action: myAction },
+			 { name:'Light', href:'/examples/objects/light/', action: myAction }
+	]
+});*/
+function dropdownAction(e, href){
+console.log(href)
+if(href){
+
+// location.href = href;
+// window.location.replace(href)
+}
+console.log(e);
+//// for demo
+// var menuBox, menuSphere, menuCylinder;
+
+switch( e ) {
+case 'box':      gr.add( menuBox );      gr.remove(menuCylinder); gr.remove( menuSphere );  break;
+case 'sphere':   gr.add( menuSphere );   gr.remove( menuBox );    gr.remove( menuCylinder); break;
+case 'cylinder': gr.add( menuCylinder ); gr.remove( menuBox );    gr.remove( menuSphere );  break;
+}
+}
+function myAction(e){
+	
+window.location.replace(e);
+////
+//	console.log(e)
+}
+
+new XR.Menu();
+
+var controller = new XR.Gamepad();
+
+
+//var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer({
+	
+	bind: controller.right
+});
+
+setTimeout(function(){
+	controller.vibrate(0.2, 20);
+	//controller.(1,40)
+}, 5020);
+
+
+new XR.Light({
+
+});
+</script>
+	</body>
+</html>

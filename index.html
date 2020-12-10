@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | JavaScript XR Library</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link type="text/css" rel="stylesheet" href="/css/main.css">
+			<script src="https://cdn.jsdelivr.net/npm/es6-tween"></script>
+</head>
+	<body>
+
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<p>
+				<span><a href="/examples/">Examples</a></span>
+				<span><a href="https://github.com/xrscript/XR.js/wiki">Wiki</a></span>
+				<span><a href="https://github.com/xrscript/XR.js">GitHub</a></span>
+			</p>
+		</header>
+
+<script type="module">import * as XR from  '/XR.js';
+new XR.Reality({ physics:false });
+new XR.Floor({color:0x111111});
+new XR.Lensflare();
+
+var imgs = [
+	'/assets/img/equirectangular/venice_sunset.jpg',
+	'/assets/img/equirectangular/royal_esplanade.jpg',
+	'/assets/img/equirectangular/quarry.jpg',
+	'/assets/img/equirectangular/bridge.jpg',
+	'/assets/img/equirectangular/earth.jpg',
+	'/assets/img/equirectangular/sky2.jpg',
+	'/assets/img/planets/earth.jpg',
+	'/assets/img/planets/jupiter.jpg',
+	'/assets/img/planets/mars.jpg',
+	'/assets/img/planets/mercury.jpg',
+	'/assets/img/planets/moon.jpg',
+	'/assets/img/planets/saturn.jpg',
+	'/assets/img/planets/stars.jpg',
+	'/assets/img/planets/sun.jpg',
+	'/assets/img/planets/stars_milky_way.jpg',
+	'/assets/img/planets/neptune.jpg',
+	'/assets/img/planets/uranus.jpg',
+];
+
+// load a random sky
+var item = imgs[Math.floor(Math.random() * imgs.length)];
+new XR.Sky({file:item});
+
+new XR.Light({
+	type:"directional",
+	position:[-5,30,20]
+});
+
+
+var fog = new XR.Fog({
+	opacity: 1,
+	near: 1,
+	far: 400,
+	density: 1000,
+	color:'black'
+});
+//new XR.Light({position:[-2,2,3]});
+/*
+new XR.Text({
+	text:'XRscript',
+	size: 0.15,
+	thickness: 0.01,
+	color: 'white',
+	segments:5,
+	position:[-0.3,0.2,2],
+});*/
+/**/
+new XR.Text({
+	text:'XR.js',
+	size: 1,
+	thickness: 0.2,
+	color:0xff0000,
+	font:'/assets/fonts/helvetiker_bold.json',
+	position:[0,0.5,-3],
+	rotation:[0,0,0],
+	bevel:true
+});/*
+var controller = new XR.Gamepad();
+/*
+console.log(controller)
+new XR.Locomotion({
+	type:'teleport',
+	bind: controller.left
+});
+/*
+new XR.Dropdown({
+  options:[
+   'examples',
+		   'wiki',
+		   'github'
+   ]
+});
+*/
+/*
+new XR.Dropdown({
+  options:[{
+	name:'examples',
+	value:55,
+	href:'/examples/'
+  },
+   {
+	 name:'Wiki',
+	 href:'https://github.com/xrscript/XR.js/Wiki'
+   },
+   {
+	 name:'GitHub',
+	 href:'https://github.com/xrscript/XR.js/'
+   }]
+});
+
+
+*/
+/*
+new XR.Dropdown({
+	position:[2.5,1,0],
+	rotation:[0,-0.6,0],
+  options:[{
+	name:'Audio',
+	value:55,
+	href:'/examples/media/audio.html',
+	action: myAction
+  },
+   {
+	 name:'Image',
+	 href:'/examples/media/image.html',
+	 action: myAction
+
+   },
+   {
+	 name:'Video',
+	 href:'/examples/media/video.html',
+	 action: myAction
+
+   },{
+	   name:'VideoIn',
+	   href:'/examples/media/video-in.html',
+	   action: myAction
+
+	 },{
+		 name:'AudioIn',
+	  href:'/examples/media/audio-in.html',
+	  action: myAction
+
+	},
+		   {
+	   name:'SVG',
+	   href:'/examples/media/svg.html',
+	   action: myAction
+
+	 }]
+});
+*/
+
+new XR.Dropdown({
+position:[-3,1,-7],
+rotation:[0,0.6 ,0],
+opacity:0.9,
+options:[
+{ name:'Models',    href:'/examples/objects/model/', action: myAction },
+{ name:'Physics',   href:'/examples/physics/',       action: myAction },
+{ name:'Animation', href:'/examples/animate/',       action: myAction }]
+});
+new XR.Dropdown({
+	position:[-1,1,-7],
+	rotation:[0,0,0],
+  options:[{ name:'Walk', 		href:'/examples/locomotion/walk.html', 		action: myAction },
+		   { name:'Fly', 		href:'/examples/locomotion/fly.html', 		action: myAction },
+		   { name:'Teleport', 	href:'/examples/locomotion/teleport.html', 	action: myAction }]
+});
+		 
+
+
+new XR.Dropdown({
+	position:[1,1,-7],
+	rotation:[0,0,0],
+  options:[{ name:'Button',   href:'/examples/ui/button.html',   action: myAction },
+           { name:'Dropdown', href:'/examples/ui/dropdown.html', action: myAction },
+           { name:'Text',     href:'/examples/ui/text.html',     action: myAction }]
+});
+
+
+new XR.Dropdown({
+	position:[3,1,-7],
+	rotation:[0,0,0],
+  options:[{ name:'Light',	  href:'/examples/objects/light/',	   action: myAction },
+		   { name:'Geometry', href:'/examples/objects/geometry/',  action: myAction },
+		   { name:'Models',	  href:'/examples/objects/model/',	   action: myAction }]
+});
+
+
+new XR.Dropdown({
+	position:[5,1,-7],
+	rotation:[0,0,0],
+  options:[{
+	name:'Examples',
+	value:55,
+	href:'/examples/',
+	action: myAction
+  },
+   {
+	 name:'Wiki',
+	 href:'https://github.com/xrscript/XR.js/wiki',
+	 action: myAction
+
+   },
+   {
+	 name:'GitHub',
+	 href:'https://github.com/xrscript/XR.js/',
+	 action: myAction
+
+   }]
+});
+
+/*
+new XR.Dropdown({
+	position:[-1.5,1.5,0],
+	rotation:[0,0,0],
+  options:[{
+	name:'Animate',
+	href:'/examples/animate/index.html',
+	action: myAction
+  },
+   {
+	 name:'Color',
+	 href:'/examples/animate/color.html',
+	 action: myAction
+
+   },
+		   {
+	   name:'Opacity',
+	   href:'/examples/animate/opacity.html',
+	   action: myAction
+
+	 },
+		   {
+	   name:'Position',
+	   href:'/examples/animate/position.html',
+	   action: myAction
+
+	 },
+		   {
+	   name:'Size',
+	   href:'/examples/animate/size.html',
+	   action: myAction
+
+	 }]
+});
+
+*/
+/*
+new XR.Dropdown({
+	position:[-3,0,-1],
+	rotation:[0,0.6,0],
+  options:[{
+	name:'Walk',
+	value:55,
+	href:'/examples/locomotion/walk.html',
+	action: myAction
+  },
+   {
+	 name:'Fly',
+	 href:'/examples/locomotion/fly.html',
+	 action: myAction
+
+   },
+   {
+	 name:'Teleport',
+	 href:'/examples/locomotion/teleport.html',
+	 action: myAction
+
+   }]
+});*/
+
+var current;
+document.addEventListener("mousedown", tqer);
+function tqer (){setTimeout(function(){
+
+	if (current){
+console.log(current)
+
+		window.location.assign(current);}
+}, 220);
+}
+function myAction(e,href){
+	current = href
+	//console.log(href)
+window.location.replace(href);
+}
+new XR.Light();
+
+var controller = new XR.Gamepad();
+
+
+//var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer({
+	bind: controller.right
+});
+
+
+</script>
+			
+	</body>
+</html>

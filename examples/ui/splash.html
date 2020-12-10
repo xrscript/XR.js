@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Splash</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/splash.html">Splash</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="#">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+		</p>
+		</header>
+<script type="module">
+import * as XR from '/XR.js';
+
+new XR.Reality({physics:false, position:[0,0,169]});
+new XR.Light({position:[0,6,-9]});
+
+function openLink(href){
+	
+	
+	
+	
+	 console.log('y')
+	 
+	 console.log(href)
+	 window.location.replace('https://github.com');
+
+	 
+}
+var rooms = ['room','park','bridge','snow','SwedishRoyalCastle','skybox','MilkyWay' ]
+
+var random = rooms[Math.floor(Math.random() * rooms.length)];
+
+new XR.Sky();
+new XR.Button({
+	position:[0,-1,0],
+	scale:[3,0.6],
+	text:'GitHub',
+	name:'GitHub',
+	href:'https://github.com/xrscript/XR.js',
+	action:openLink
+});
+new XR.Button({
+	position:[0,-1.7,0],
+	scale:[3,0.6],
+	text:'Wiki',
+	name:'Wiki',
+	href:'https://github.com/xrscript/XR.js/wiki',
+	action:openLink
+});
+new XR.Button({
+	position:[0,-2.4,0],
+	scale:[3,0.6],
+	text:'Examples',
+	name:'Examples',
+	href:'/examples/',
+	action:openLink
+});
+var uyto  =  new XR.Splash({
+	text:'XR.js',
+	font:`/assets/fonts/helvetiker_bold.json`,
+	thickness:0.02,
+	color:'white'
+});
+/*
+var boxy = new XR.Box();
+new XR.Animate({
+at:boxy,
+to: {x: -3, y: -3, z: -3},
+repeat: Infinity,
+yoyo: true,
+ease: 'Cubic.InOut',
+delay:12,
+duration: 9000
+
+});
+*/
+</script>
+	
+	</body>
+</html>

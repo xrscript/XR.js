@@ -1,0 +1,39 @@
+{
+  "name": "Chuck Norris",
+  "version": "1.0.0",
+  "description": "XR on the web",
+  "main": "XR.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
+  },
+  
+  "sound": {
+    "express": "^4.17.1",
+    "gasp": "0.0.2",
+    "jquery": "^3.5.1",
+    "showdown": "^1.9.1",
+    "simplex-noise": "^2.4.0",
+    "socket.io": "^3.0.3",
+    "three": "^0.122.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshstovall/XR.js.git"
+  },
+  "keywords": [
+    "webxr",
+    "threejs"
+  ],
+  "author": "Josh Stovall",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshstovall/XR.js/issues"
+  },
+  "homepage": "https://github.com/joshstovall/XR.js#readme"
+}

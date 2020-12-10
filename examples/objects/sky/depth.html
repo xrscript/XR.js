@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Cubemap</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects/">Objects</a>
+			<a href="/examples/objects/sky/">Sky</a>
+			<p>
+				<a href="/examples/objects/sky/skybox.html">Skybox</a>
+				<a href="/examples/objects/sky/cubemap.html">Cubemap</a>
+				<span><a href="/examples/objects/sky/depth.html">Depth</a></span>
+			</p>
+			<p>
+				Created by <a href="https://orfleisher.com" target="_blank" rel="noopener">@juniorxsound</a>.
+				Panorama from <a href="https://krpano.com/examples/?depthmap" target="_blank" rel="noopener">krpano</a>.
+			</p>
+		</header>
+
+		
+
+<script type="module">
+import * as XR from '/XR.js';
+
+new XR.Reality();
+
+new XR.Light({
+	position:[0,0,0]
+});
+
+//new XR.Depth();
+new XR.Sky({
+	type: 'depth',
+	file :'/assets/textures/kandao3.jpg'
+});
+</script>
+	</body>
+</html>

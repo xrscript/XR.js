@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Light Color</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects/">Objects</a>
+			<a href="/examples/objects/light/">Light</a>
+			<a href="/examples/objects/light/color.html">Color</a>
+			<p>
+				<a href="/examples/objects/light/index.html">Basic</a>
+				<a href="/examples/objects/light/color.html">Color</a>
+				<a href="/examples/objects/light/lensflare.html">Lensflare</a>
+			</p>
+		</header>
+<script type="module">import * as XR from  '/XR.js';
+
+var myReality = new XR.Reality();
+
+new XR.Floor({opacity:0.4});
+new XR.Controls();
+
+new XR.Box({
+	position:[0,0.5,0],
+	opacity:0.6,
+});
+
+new XR.Floor();
+
+new XR.Light({
+	type:'point',
+	color:"red",
+	position:[15,3,15],
+});
+
+new XR.Light({
+	type:'point',
+	color:"blue",
+	position:[-15,3,-15],
+});
+</script>
+	</body>
+</html>

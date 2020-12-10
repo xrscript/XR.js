@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Sphere</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/objects/geometry">Geometry</a></span>
+			<span><a href="#">Sphere</a></span>
+			<p>
+				<span><a href="./box.html">Box</a></span>
+				<span><a href="./sphere.html">Sphere</a></span>
+				<span><a href="./cone.html">Cone</a></span>
+				<span><a href="./cylinder.html">Cylinder</a></span>
+				<span><a href="./plane.html">Plane</a></span>
+				<span><a href="./circle.html">Circle</a></span>
+				<span><a href="./ring.html">Ring</a></span>
+				<span><a href="./tetrahedron.html">Tetrahedron</a></span>
+				<span><a href="./octahedron.html">Octahedron</a></span>
+				<span><a href="./dodecahedron.html">Dodecahedron</a></span>
+				<span><a href="./icosahedron.html">Icosahedron</a></span>
+				<span><a href="./torus.html">Torus</a></span>
+				<span><a href="./torusknot.html">TorusKnot</a></span>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
+new XR.Floor()
+new XR.Light();
+
+for ( let i = 0; i <10; i ++ ) {
+	 
+	 var object = new XR.Sphere({
+		 radius:0.5,
+		color: 0xffffff,
+		scale:3,
+		segments:15,
+		position:[i*0.1,i*1.4+ 1,Math.random()],
+		rotation:[0,-1.5,0],
+		map:'/assets/textures/smile.jpg',
+		physics:true,
+		bounce:1,
+		friction:0.7
+	});
+}
+</script>
+
+	</body>
+</html>

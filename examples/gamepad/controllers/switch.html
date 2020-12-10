@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Buttons</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+		<script src="/lib/jquery/jquery.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/gamepad/">Gamepad</a></span>
+			<span><a href="#">Switch</a></span>
+			
+		</header>
+<svg       height="200" width="300">
+<circle  id="joystick" cx="60" cy="50" r="40"  />
+<circle  id="joystick1"   cx="60" cy="50" r="10"  />
+<circle id="left"  cx="25"  cy="145" r="20"  />
+<circle id="up"  cx="60" cy="115" r="20"  />
+<circle id="down"  cx="60"  cy="175" r="20"  />
+<circle id="right"  cx="95" cy="145" r="20"  />
+
+
+
+
+<text   x="50"   y="130">^</text>
+<text   x="52"  y="185">v</text>
+<text   x="10"  y="155"><</text>
+<text   x="90"  y="150">></text>
+<circle cx="30" cy="1750" r="15"  />
+
+
+<circle cx="250" cy="50" r="40"  />
+<circle cx="250" cy="50" r="10" />
+<circle id="a"  cx="210" cy="100" r="20"  />
+<text   x="200"  y="110">A</text>
+<circle id="b"  cx="180" cy="60" r="20"  />
+<text   x="170"  y="70">B</text>
+<circle cx="260" cy="110" r="15"  />
+</svg>
+<script type="module">import * as XR from '/XR.js';
+	
+	
+	var controllers, gamepad
+	function controllerConnected( evt ) {
+
+		controllers.push( {
+			gamepad: evt.data.gamepad,
+			grip: evt.target,
+			colliding: false,
+			playing: false
+		} );
+
+	}
+
+	function controllerDisconnected( evt ) {
+
+		const index = controllers.findIndex( o => o.controller === evt.target );
+		if ( index !== - 1 ) {
+
+			controllers.splice( index, 1 );
+
+		}
+
+	}
+
+	var gamepad
+	window.addEventListener("gamepadconnected", function(e) {
+ gamepad = e.gamepad;
+console.log(`Gamepad connected at index ${gamepad.index}: ${gamepad.id}.
+			${gamepad.buttons.length} buttons, ${gamepad.axes.length} axes.`);
+});
+
+let interval;
+
+if (!('ongamepadconnected' in window)) {
+// No gamepad events available, poll instead.
+interval = setInterval(pollGamepads, 100);
+}
+
+function pollGamepads() {
+// Grab a list of gamepads that are currently connected or a empty array
+const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+gamepad = gamepads[0];
+console.log(gamepad)
+if(gamepads){
+	if(gamepad.buttons){
+		if(gamepads[0].buttons[2].value){
+	$("#up").attr('stroke-width', '6')
+}
+		else {
+			$("#up").attr('stroke-width', '1')
+		}
+		
+		if(gamepads[0].buttons[3].value){
+	$("#right").attr('stroke-width', '6')
+}
+		else {
+			$("#right").attr('stroke-width', '1')
+		}
+		
+		if(gamepads[0].buttons[1].value){
+	$("#down").attr('stroke-width', '6')
+}
+		else {
+			$("#down").attr('stroke-width', '1')
+		}
+		if(gamepads[0].buttons[0].value){
+	$("#left").attr('stroke-width', '6')
+}
+		else {
+			$("#left").attr('stroke-width', '1')
+		}
+		
+		
+		if(gamepads[0].buttons[10].value){
+	$("#joystick").attr('stroke-width', '6')
+}
+		else {
+			$("#joystick").attr('stroke-width', '1')
+		}
+	}
+
+	
+	}
+
+
+
+$("#joystick1").attr('cx', (gamepads[0].axes[1] * -30) + 50)
+$("#joystick1").attr('cy', (gamepads[0].axes[0] * 30) + 50)
+
+
+
+}
+
+
+</script>
+
+	</body>
+</html>

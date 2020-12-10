@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | </title>
+		<link rel="stylesheet" href="/css/main.css" />
+</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/multiplayer">Multiplayer</a></span>
+		
+		</header>
+		
+	
+	<h1>Hello World!</h1>
+ <div id="future"></div>
+ <form id="form" id="chat_form">
+	 <input id="chat_input" type="text">
+	 <input type="submit" value="Send">
+ </form>
+  <script src="/lib/jquery/jquery.min.js"></script>
+ <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+
+	<script type="module">
+		import * as XR from  '/xr.js';
+
+		// create reality
+		var world = new XR.Reality();
+
+		// create user
+		var user = new XR.User();
+
+		// create server
+		var disco = new XR.Server({
+		   ip: 'http://192.168.0.100',
+		   port: 4200
+		});
+
+		// create rooms
+		var DJ_1 = new XR.Room({ name: 'beethoven' });
+		var DJ_2 = new XR.Room({ name: 'skrillex' });
+
+		// create audio elements
+		var audio1 = new XR.Audio({ file: '/assets/audio/fur_elise.mp3' });
+		var audio2 = new XR.Audio({ file: '/assets/audio/bangarang.mp3' });
+
+		// add audio to rooms
+		DJ_1.add(audio1);
+		DJ_2.add(audio2);
+
+		// add user to room
+		user.enter(DJ_1);
+	var socket = io.connect('http://localhost:4000');
+		socket.on('connect', function(data) {
+		socket.emit('join', 'Hello World from client');
+		socket.emit('say to someone', 'Hello World from client');
+	});
+
+	 socket.on('broad', function(data) {
+		 $('#future').append(data+ "<br/>");
+	 });
+	socket.on('connectToRoom',function(data) {
+			 document.body.innerHTML = '';
+			 document.write(data);
+		  });
+	 $('form').submit(function(e){
+	 e.preventDefault();
+	 var message = $('#chat_input').val();
+	 socket.emit('messages', message);
+	 });
+	
+	</script>
+	
+	<br><br>
+ <p id="future"></p>
+ <form id="form" id="chat_form">
+	 <input id="chat_input" type="text">
+	 <input type="submit" value="Send">
+ </form>
+  <script src="/lib/jquery/jquery.min.js"></script>
+ <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+
+ <script>
+
+ </script>
+		 
+	
+	</body>
+</html>

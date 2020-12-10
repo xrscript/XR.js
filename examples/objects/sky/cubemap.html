@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Cubemap</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<span><a href="/examples">Examples</a></span>
+			<span><a href="/examples/objects">Objects</a></span>
+			<span><a href="/examples/objects/sky">Sky</a></span>
+			<span><a href="/examples/objects/sky/cubemap.html">Cubemap</a></span>
+			<p>
+				<span><a href="/examples/objects/sky/skybox.html">Skybox</a></span>
+				<span><a href="/examples/objects/sky/cubemap.html">Cubemap</a></span>
+				<span><a href="/examples/objects/sky/depth.html">Depth</a></span>
+			</p>
+		</header>
+		
+<script type="module">import * as XR from  '/XR.js';
+
+new XR.Reality();
+
+var rooms = ['room','park','bridge','snow','SwedishRoyalCastle','skybox','MilkyWay' ]
+
+var random = rooms[Math.floor(Math.random() * rooms.length)];
+
+var options = {
+   type: 'cubemap',
+   file: [
+	'/assets/img/cube/'+random+'/px.jpg',
+	'/assets/img/cube/'+random+'/nx.jpg',
+	'/assets/img/cube/'+random+'/py.jpg',
+	'/assets/img/cube/'+random+'/ny.jpg',
+	'/assets/img/cube/'+random+'/pz.jpg',
+	'/assets/img/cube/'+random+'/nz.jpg',
+   ]
+}
+
+new XR.Sky(options);</script>
+	 
+	</body>
+</html>

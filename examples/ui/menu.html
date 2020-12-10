@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Menu</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/menu.html">Menu</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="#">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+		<script type="module">
+	  import * as XR from  '/XR.js';
+	  
+	  var myReality = new XR.Reality();
+	  new XR.Floor({opacity:0.4});
+
+	  var light = new XR.Light({type:"directional",
+		  position:[5,10,2]
+	  });
+
+
+  var light = new XR.Light({position:[-2,2,3]});
+
+
+  new XR.Text({
+	  text:'hello world',
+	  size: 0.2,
+	  thickness: 0.1,
+	  color: 0xff0000,
+	  segments:1,
+	  position:[0,0,0],
+	  font:'/assets/fonts/Prisma.json'
+   });
+
+  new XR.Text({
+	  text:'XRscript',
+   size: 1,
+   thickness: 0.1,
+   color: 0xff0000,
+   segments:5,
+   position:[0,1,1],
+   bevel:true
+   });
+
+
+
+  var options = {
+  text:'D C E M Y Q  ',
+  size: 0.8,
+  thickness: 0.1,
+  color: 0xffffff,
+  segments:3,
+  font:'/assets/fonts/social.json',
+  position:[0,3,0]
+  //font:'/assets/fonts/Opus_Regular.json'
+  }
+
+  new XR.Text(options);
+
+  </script>
+	</body>
+</html>

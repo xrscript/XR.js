@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Physics</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/physics/">Physics</a>
+			<p>
+				<a href="/examples/physics/index.html">Basic</a>
+				<a href="/examples/physics/car.html">Car</a>
+				<a href="/examples/physics/terrain.html">Terrain</a>
+				<a href="/examples/physics/jenga.html">Jenga</a>
+				<a href="/examples/physics/chairs.html">Chairs</a>
+				<a href="/examples/physics/collisions.html">Collisions</a>
+				<a href="/examples/physics/bullet.html">Bullet</a>
+				<a href="/examples/physics/hinge.html">Hinge</a>
+		</p>
+		</header>
+<script type="module">import * as XR from  '/XR.js';
+
+new XR.Reality({
+	gravity:[0,-20,0],
+	position:[0,15,10],
+	fps:60
+});
+new XR.Floor();
+new XR.Light();
+
+
+
+for ( let i = 0; i <3; i ++ ) {
+	  //console.log("asdg")
+
+	  new XR.Sphere({
+	   physics:true,
+	   position:[Math.random()* 1,6,Math.random()* 1],
+	   rotation:[Math.random(),0.1,0.2],
+	   color: 0xffffff * Math.random(),
+	   bounce:1,
+	   scale: Math.random() * 8
+   });
+	  
+	  new XR.Cone({
+	   physics:true,
+	   position:[Math.random()* 10,6,Math.random()* 10],
+	   rotation:[0.1,0.1,0.2],
+	   color: 0xffffff * Math.random(),
+	   scale: Math.random() * 8,
+	   bounce:1
+   });
+	  
+	  new XR.Box({
+	   physics:true,
+	   position:[Math.random()* 10,6,Math.random()* 10],
+	   rotation:[Math.random() - 0.5,Math.random() - 0.5,Math.random() - 0.5],
+	   color:0xffffff * Math.random(),
+	   scale: Math.random() * 2,
+	   bounce:1
+   });
+
+	  }
+//new XR.Hands()
+///new XR.Expload();
+new XR.Sky()
+
+</script>
+	</body>
+</html>

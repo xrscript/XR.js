@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Dropdown</title>
+		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/ui/">UI</a>
+			<a href="/examples/ui/dropdown.html">Dropdown</a>
+			<p>
+				<a href="./text.html">Text</a>
+				<a href="./button.html">Button</a>
+				<a href="./icons.html">Icons</a>
+				<a href="./menu.html">Menu</a>
+				<a href="./splash.html">Splash</a>
+				<a href="./dropdown.html">Dropdown</a>
+				<a href="./slider.html">Slider</a>
+				<a href="./overlay.html">Overlay</a>
+				<a href="./radial.html">Radial</a>
+			</p>
+		</header>
+		
+		<script type="module">import * as XR from '/XR.js';
+var oyutio = new XR.Reality({position:[0,0,0]});
+//new XR.Menu();
+new XR.Light();
+new XR.Floor();
+new XR.Dropdown({
+	position:[-1.5,1,-2],
+	rotation:[0,0,0],
+	color:['blue','pink'],
+  options:[{
+	name:'sphere',
+	value:55,
+	action: dropdownAction
+  },
+   {
+	 name:'Geometry',
+	 href:'/examples/objects/geometry/',
+	 action: dropdownAction,
+	 name:'geo',
+
+   },
+   {
+	 name:'Models',
+	 href:'/examples/objects/model/',
+	 action: myAction
+
+   }]
+});
+		
+
+var leftController = new XR.Gamepad();
+var pointer = new XR.Pointer();
+
+var state = false
+function toggleDropdown(){
+	console.log(oyutio)
+	
+	
+	
+	
+	
+	
+	
+	oyutio.children.forEach(function(model, i) {
+
+		
+		
+		
+	if(oyutio.children[i].name == 'mainmenu'){
+		
+		if (!state){
+			state = true
+			
+			oyutio.children[i].children.forEach(function(model, i) {
+				//model.material.opacity = 1
+				if (i > 0){ model.visible = true }
+		})
+			
+		
+		} else {
+			state = false
+			
+			//model.material.opacity = 0.1
+			oyutio.children[i].children.forEach(function(model, i) {
+				//model.material.opacity = 0.1;
+				if (i > 0){
+					model.visible = false
+				}
+				
+		})
+		}
+		
+		
+		
+		
+		//console.log(oyutio.children[i].children)
+		
+		
+		
+		
+		
+		
+		
+		
+		if(model.type == 'Mesh'){
+	//	if (i > 0){
+			
+			
+			model.material.color =  {b: 1, g: 0, r: 1}
+		//	model.material.color = 'pink'
+			console.log(model)
+			}
+		
+		//intersects[0].object.material.color = {b: 1, g: 1, r: 1};
+		// console.log(scene.children[i])
+	 //   mainmenu.children[i].material.color.set(mainmenu.children[i].color);
+	//	intersects[0].object.material.color = {b: 1, g: 0, r: 0};
+	  //
+	}
+	
+})
+}
+		function myAction(){
+			oyutio.children[i].children.forEach(function(model, i) {
+				//odel.material.opacity = 1
+				 model.visible = false
+			})
+  }
+		function dropdownAction(e, href){
+		console.log(e)
+		//if(href){
+		
+		// location.href = href;
+		// window.location.replace(href)
+		//}
+		console.log(e);
+		//// for demo
+		// var menuBox, menuSphere, menuCylinder;
+
+		switch( e ) {
+		case 'box':      gr.add( menuBox );      gr.remove(menuCylinder); gr.remove( menuSphere );  break;
+		case 'sphere':   gr.add( menuSphere );   gr.remove( menuBox );    gr.remove( menuCylinder); break;
+		case 'cylinder': gr.add( menuCylinder ); gr.remove( menuBox );    gr.remove( menuSphere );  break;
+		}
+		}
+		
+		 new XR.DropdownDemo()
+		
+  
+
+</script>
+	
+	</body>
+</html>
