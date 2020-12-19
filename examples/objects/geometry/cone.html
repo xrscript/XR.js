@@ -9,97 +9,90 @@
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
-			<span><a href="/examples">Examples</a></span>
-			<span><a href="/examples/objects/geometry">Geometry</a></span>
-			<span><a href="#">Cone</a></span>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects/geometry">Geometry</a>
+			<a href="#">Cone</a>
 			<p>
-				<span><a href="./box.html">Box</a></span>
-				<span><a href="./sphere.html">Sphere</a></span>
-				<span><a href="./cone.html">Cone</a></span>
-				<span><a href="./cylinder.html">Cylinder</a></span>
-				<span><a href="./plane.html">Plane</a></span>
-				<span><a href="./circle.html">Circle</a></span>
-				<span><a href="./ring.html">Ring</a></span>
-				<span><a href="./tetrahedron.html">Tetrahedron</a></span>
-				<span><a href="./octahedron.html">Octahedron</a></span>
-				<span><a href="./dodecahedron.html">Dodecahedron</a></span>
-				<span><a href="./icosahedron.html">Icosahedron</a></span>
-				<span><a href="./torus.html">Torus</a></span>
-				<span><a href="./torusknot.html">TorusKnot</a></span>
+				<a href="./box.html">Box</a>
+				<a href="./sphere.html">Sphere</a>
+				<a href="./cone.html">Cone</a>
+				<a href="./cylinder.html">Cylinder</a>
+				<a href="./plane.html">Plane</a>
+				<a href="./circle.html">Circle</a>
+				<a href="./ring.html">Ring</a>
+				<a href="./tetrahedron.html">Tetrahedron</a>
+				<a href="./octahedron.html">Octahedron</a>
+				<a href="./dodecahedron.html">Dodecahedron</a>
+				<a href="./icosahedron.html">Icosahedron</a>
+				<a href="./torus.html">Torus</a>
+				<a href="./torusknot.html">TorusKnot</a>
 			</p>
 		</header>
 		
 
-<script type="module">
-
-import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
 new XR.Reality({
-	gravity:-1,
 	physics:false
-	
 });
-new XR.Light();
+//new XR.Light();
 
 new XR.Cone({
-	color:'green',
-	radius:2,
-	height:4,
-	opacity:1,
-	rotation:[0,0,0],
-	position:[0,3,0],
-	//map:'/assets/img/pine.jpg',
-	side:2,// type:'lambert',
-	physics:true
+	//color:'green',
+	radius:1,
+	height:2,
+	position:[0,1,-2],
+	//map:'/assets/textures/pine.jpg',
 });
-/*
+
 new XR.Box({
 	color:'yellow',
-	position:[0,2,0],
+	position:[0,2,-2],
 	scale:0.3,
 	opacity:1,
-	
+	physics:false
 });
 
-*/
 
 
-/*
+
+
 new XR.Light({
-	position:[-0.65,0.5,0.65],
-	color:"#0000FF",
+	type:'point',
+	position:[-0.3,1.5,-1.65],
+	color:'blue',
 	distance:2,
-	intensity:1
+	decay:0.4
 });
 
 
 new XR.Sphere({
-	position:[-0.2,1.4,0.23],
-	color:"#0000FF",
-	radius:0.05,// material:'lambert',
+	position:[-0.2,1.5,-1.75],
+	color:'blue',
+	radius:0.05,
 	opacity:1,
 	side:2
 });
-*/
 
-/*
+
+
 new XR.Light({
-	position:[-0.25,1.4,0.25],
-	color:"#0000FF",
+	position:[0.3,1,-1.4],
+	color:'red',
 	distance:2,
-	intensity:1
+	decay:0.4
 });
-*/
+
 new XR.Floor();
 
 new XR.Sphere({
-	position:[0.4,1,0.4],
+	position:[0.2,1,-1.5],
 	color:"#FF0000",
 	radius:0.05, //material:'lambert',
 	opacity:1,
 	side:2
 });
-new XR.Fog({density:0.1,far:10, color:'white'});
+//new XR.Fog({density:0.1,far:10, color:'white'});
 
 
 //new XR.Sky()

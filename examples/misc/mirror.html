@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>XR.js | Audio</title>
-		<link rel="stylesheet" href="/css/main.css" />
+		<title>XR.js | Mirror</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
 			<a href="/examples">Examples</a>
 			<a href="/examples/misc/">Misc</a>
-			<a href="/examples/misc/spatial-audio.html">Audio</a>
+			<a href="/examples/misc/mirror.html">Mirror</a>
 			<p>
 				<a href="/examples/misc/ocean.html">Ocean</a>
 				<a href="/examples/misc/theater.html">Theater</a>
 				<a href="/examples/misc/pendulum.html">Pendulum</a>
 				<a href="/examples/misc/globe.html">Globe</a>
-				<a href="/examples/misc/mirror.html">Mirror</a>
+				<a href="./mirror.html">Mirror</a>
 			</p>
 		</header>
-<script type="module">
-import * as XR from  '/XR.js';
+		
 
-new XR.Reality();
-new XR.Floor();
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality({
+	physics:false
+});
 new XR.Light();
+new XR.Sky();
+new XR.Floor();
 
-new XR.Audio({
-	file:'/assets/audio/mahsiv.mp3',
-	loop:false,
-	gain:1,
-	detune:1200
-});
+setTimeout(function(){
+	new XR.Mirror();
+}, 1000);
 
 
-var controller = new XR.Gamepad();
 
-console.log(controller)
-new XR.Locomotion({
-	type:'teleport',
-	bind: controller.right
-});
 </script>
+
+
+
 	</body>
 </html>

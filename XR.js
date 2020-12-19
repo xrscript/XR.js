@@ -105,6 +105,15 @@ let mixerDAE;
 raycaster = new THREE.Raycaster();
 var clock = new THREE.Clock();
 var audioLoader = new THREE.AudioLoader();
+
+//mirror
+var mirror = false;
+var mirrorCameras = []
+var mirrorObjects = []
+// custom global variables
+//var mirrorCube, mirrorCubeCamera; // for mirror material
+//var mirrorSphere, mirrorSphereCamera; // for mirror material
+
 // var camera, scene, raycaster, renderer;
 // var controller, controller1;
 // var tempMatrix = new THREE.Matrix4();/
@@ -1138,7 +1147,7 @@ export class Sphere {
 		this._friction 	= options.friction 	|| 1;
 		var p = this._physics;
 		//var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, true);
-		
+		var messh
 		var rot = this._rotation;
 		var scale = this._scale
 
@@ -1148,9 +1157,10 @@ export class Sphere {
 			color:this._color,
 			opacity:this._opacity,
 			side:0,
-		map:this._map
+		map:this._map,
+		position:this._position,
+
 		})
-		
 	 // var geometry = new THREE.CylinderGeometry(1, 1, 2, 32, 1, true);
 
 	//  if (options.map){
@@ -1169,7 +1179,7 @@ export class Sphere {
 	  else 		   { segments =[s,s];}
 
 	  var m = new THREE.SphereGeometry( radius, segments[0],  segments[1] )
-		var messh
+		
 		if (p){
 			var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
 			messh = new Physijs.SphereMesh( m, physmat )
@@ -1187,6 +1197,10 @@ export class Sphere {
 		messh.receiveShadow = false;
 		messh.castShadow = true;
 		scene.add( messh );
+		
+		
+		if (this._material == 'mirror'){ mirrorObjects.push(messh)
+		}
 	}
 }
 
@@ -1505,7 +1519,8 @@ export class Tetrahedron {
 			opacity:		this._opacity,
 			wireframe:		false,
 			flatShading:	true,
-			map		: this._map
+			map		: this._map,
+		position:this._position,
 
 		});
 		
@@ -1564,6 +1579,8 @@ export class Box {
 		// bumpMap:	THREE.ImageUtils.loadTexture('/assets/map/egyptian_friz_2.png'),
 		bumpScale:0.5,//:	this._opacity,
 			side:		this._side,
+		position:this._position,
+
 		});
 		
 		
@@ -1643,7 +1660,9 @@ export class Box {
 		this.shadowblack = planeMaterial1
 		scene.add(shadowPlane1);
 		 */
-	this.object = box
+	this.object = box;
+		if (this._material == 'mirror'){ mirrorObjects.push(box)}
+
 	}
 
 }
@@ -1683,7 +1702,9 @@ export class Octahedron {
 			opacity:		this._opacity,
 			wireframe:		false,
 			flatShading:	true,
-			map		: this._map
+			map		: this._map,
+		position:this._position,
+
 
 		});
 		var geometry = new THREE.OctahedronGeometry(s, s, s);
@@ -1740,7 +1761,9 @@ export class Dodecahedron {
 		   reflectivity: this.reflect,
 		   color: 		this._color,
 		   side:this._side,
-		   map		: this._map
+		   map		: this._map,
+	   position:this._position,
+
 
 	   });
 	   var geometry = new THREE.DodecahedronGeometry();
@@ -1801,7 +1824,9 @@ export class Icosahedron {
 			transparent:	true,
 			opacity:		this._opacity,
 			wireframe:		false,
-			map		: this._map
+			map		: this._map,
+		position:this._position,
+
 
 			//flatShading:	true
 		});
@@ -1868,6 +1893,8 @@ export class Torus {
 			//opacity:		0.8,
 			//wireframe:	false,
 			//flatShading:	true
+		position:this._position,
+
 		});
 		var geometry = new THREE.TorusGeometry( 10, 3, s[0], s[1] );
 		var newmat = Physijs.createMaterial( material, this._friction, this._bounce );
@@ -1983,7 +2010,9 @@ export class Cylinder {
 			color	: this._color,
 			opacity	: this._opacity,
 			side	: 2,
-			map		: this._map
+			map		: this._map,
+		position:this._position,
+
 		});
 		var materialOuter;
 		var meshOuter = new THREE.Mesh(geometry, material);
@@ -2018,6 +2047,7 @@ meshOuter.add(meshInner);
 		
 
 		scene.add(meshOuter);
+		
 		//meshOuter.receiveShadow 	= false;
 		//spawnBox()
 	}
@@ -2036,6 +2066,8 @@ export class Cone {
 		this._radius 	= options.radius 	|| 1;
 		this._height 	= options.height 	|| 1;
 		this._opacity 	= options.opacity 	|| 1;
+		this._map 		= options.map 		|| null;
+
 		var pos = this._position
 		this._physics = options.physics || true;
 		this._bounce = options.bounce || 0.8;
@@ -2052,8 +2084,10 @@ export class Cone {
 			opacity:this._opacity,
 			reflect:1,
 			clearcoat:1,
-			metalness:0
-			//map:'/assets/img/pinee.jpg',
+			metalness:0,
+			map:this._map,
+		position:this._position,
+
 			//anisotropy :29
 		});
 		var cone;
@@ -2067,9 +2101,6 @@ export class Cone {
 		cone.receiveShadow = true;
 //console.log(thematerial)
 		
-		//var s = this._scale;
-		///if (s.length){ cone.scale.set(...s ); }
-		//else 		 { cone.scale.set(s,s); }
 		
 		cone.rotation.set(...this._rotation)
 
@@ -2095,6 +2126,8 @@ export class Circle {
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
+		this._map 		= options.map 		|| null;
+
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._radius 	= options.radius 	|| false;
@@ -2110,9 +2143,10 @@ export class Circle {
 		var thematerial =  getMaterial({
 			side: this._side,
 			type: this._material,
-		//color: this._color,
-		map: options.map,
-			
+			color: this._color,
+			map: this._map,
+		position:this._position,
+
 		});
 		
 		var circlef;
@@ -2167,7 +2201,9 @@ export class Plane {
 		var material = new THREE.MeshStandardMaterial( {
 			opacity: this._opacity,
 		transparent: true,
-		color: c
+		color: c,
+		position:this._position,
+
 		});
 		var width = this._scale[0],
 			height = this._scale[1],
@@ -2250,6 +2286,8 @@ export class Ring {
 			clearcoat:1,
 			type:this._material,
 			opacity:this._opacity,
+		position:this._position,
+
 		});
 	
 		const geometry = new THREE.RingGeometry(r[0],r[1], 32 );
@@ -2894,9 +2932,9 @@ export class Fog {
 	}
 }
 var solderActive = false
-var ticks = 0, throwOld, throwNew
+var ticks = 0, throwOld, throwNew, tick = 0
 function render(timeNow, frame ) {
-			
+			tick += 1
 			if(solderActive){
 			// animated soldier
 			idleWeight = idleAction.getEffectiveWeight();
@@ -3134,6 +3172,33 @@ function render(timeNow, frame ) {
 	if (animationOn){
 		TWEEN.update();
 	}
+			
+			// mirror stuff
+			if (mirror){
+				//console.log(mirrorCameras)
+				
+				//console.log(tick)
+				
+				if(tick % 60 == 0){
+				mirrorCameras.forEach( function ( cam,i ) {
+console.log(mirrorCameras);
+					
+					
+					cam.position.copy( mirrorObjects[i].position);
+
+				//	console.log(mirrorObjects[i].position)
+					cam.update( renderer, scene );
+
+					  } );
+				}
+	//			mirrorCube.visible = false;
+	//cam.updateCubeMap( renderer, scene );
+	//mirrorCube.visible = true;
+
+	//mirrorSphere.visible = false;
+	//mirrorSphereCamera.updateCubeMap( renderer, scene );
+	//mirrorSphere.visible = true;
+			}
 			//if(xr)
 			renderer.render( scene, camera );
 		//	renderer.render( scene, camera );
@@ -3234,7 +3299,8 @@ var getMaterial = function(options){
 	var repeat 	= options.repeat || [1,1];
 	var bumpScale = options.bumpScale || 0
 	var bumpMap = options.bumpMap || null
-	var alphaMap = options.alphaMap || null
+			var alphaMap = options.alphaMap || null
+			var pos = options.position || null
 	var params;
 	// console.log(bumpMap)
 	var clearcoat = options.clearcoat || 1
@@ -3287,16 +3353,27 @@ var getMaterial = function(options){
 	if(alphaMap){
 		params.alphaMap = new THREE.TextureLoader().load(alphaMap);
 	}
-	
-	 switch(options.type){
-		 case "basic"   : return new THREE.MeshBasicMaterial(params);    break;
-		 case "depth"   : return new THREE.MeshDepthMaterial(params);    break;
-		 case "lambert" : return new THREE.MeshLambertMaterial(params);  break;
-		 case "normal"  : return new THREE.MeshNormalMaterial(params);   break;
-		 case "phong"	: return new THREE.MeshPhongMaterial(params);    break;
-		 case "physical": return new THREE.MeshPhysicalMaterial(params); break;
-		 case "standard": return new THREE.MeshStandardMaterial(params); break;
-	 }
+	switch(options.type){
+		case "basic"	: return new THREE.MeshBasicMaterial(params);    break;
+		case "depth"	: return new THREE.MeshDepthMaterial(params);    break;
+		case "lambert"	: return new THREE.MeshLambertMaterial(params);  break;
+		case "normal"	: return new THREE.MeshNormalMaterial(params);   break;
+		case "phong"	: return new THREE.MeshPhongMaterial(params);    break;
+		case "physical"	: return new THREE.MeshPhysicalMaterial(params); break;
+		case "standard"	: return new THREE.MeshStandardMaterial(params); break;
+		case "mirror"	:
+			mirror = true;
+			const cubeRenderTarget = new THREE.WebGLCubeRenderTarget( 128, { format: THREE.RGBFormat, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter } );
+			var mirrorCubeCamera = new THREE.CubeCamera( 0.1, 5000, cubeRenderTarget );
+			scene.add( mirrorCubeCamera );
+			var mirrorCubeMaterial = new THREE.MeshBasicMaterial( { envMap: cubeRenderTarget.texture } );
+			mirrorCubeCamera.position.set(...pos);
+			mirrorCubeCamera.update( renderer, scene );
+			mirrorCameras.push(mirrorCubeCamera)
+			return mirrorCubeMaterial;
+		break;
+
+	}
 }
 				 
 // Ease selector
@@ -5396,55 +5473,6 @@ export class Expload {
 	}
 }
 
-// bullet
-export class Bullet {
-	constructor (options) {
-		if(!options){options={}}
-		
-		var bullet = new THREE.BoxGeometry( 1, 1, 1 ),
-		
-		bulletCollision = function( collided_with, linearVelocity, angularVelocity ) {
-				console.log(collided_with)
-				switch ( ++this.collisions ) {
-					case 1:this.material.color.setHex(0xff8855);break;
-					case 2:this.material.color.setHex(0xbb9955);break;
-					case 3:this.material.color.setHex(0xaaaa55);break;
-					case 4:this.material.color.setHex(0x99bb55);break;
-					case 5:this.material.color.setHex(0x88cc55);break;
-					case 6:this.material.color.setHex(0x77dd55);break;
-				}
-			},
-		shoot = function() {
-				var box, material;
-				material = Physijs.createMaterial(new THREE.MeshBasicMaterial(),0,0);
-				//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
-				box = new Physijs.BoxMesh( bullet, material );
-				box.collisions = 0;
-				box.castShadow = true;
-			// Enable CCD if the object moves more than 1 meter in one simulation frame
-			box.setCcdMotionThreshold(1);
- 
-			// Set the radius of the embedded sphere such that it is smaller than the object
-			box.setCcdSweptSphereRadius(0.2);
-				box.addEventListener( 'collision', bulletCollision );
-				//box.addEventListener( 'ready', spawnBox );
-				scene.add( box );
-			//setTimeout(function(){
-			
-			
-				box.setLinearVelocity(new THREE.Vector3( 0,99,0 ));
-				
-//}, 3020);
-
-			
-			
-			//box.setLinearFactor( 0, );
-			};
-		shoot();
-		
-	}
-			
-}
 // hinge
 export class Hinge {
 	constructor (options) { if(!options){options={}}

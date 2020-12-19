@@ -61,4 +61,8 @@ setTimeout(function(){
 // bold the current page in the <header>
 var path = window.location.pathname;
 var page = path.split("/").pop();
-$('a[href^="./'+ page + '"]').css('font-weight',900);
+$("a").each(function( index ) {
+	if($( this ).attr('href').indexOf(page) >= 0){
+		$(this).css('font-weight',900);
+	}
+});

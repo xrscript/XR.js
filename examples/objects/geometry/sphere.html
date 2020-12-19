@@ -9,30 +9,30 @@
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
-			<span><a href="/examples">Examples</a></span>
-			<span><a href="/examples/objects/geometry">Geometry</a></span>
-			<span><a href="#">Sphere</a></span>
+			<a href="/examples">Examples</a>
+			<a href="/examples/objects/geometry">Geometry</a>
+			<a href="#">Sphere</a>
 			<p>
-				<span><a href="./box.html">Box</a></span>
-				<span><a href="./sphere.html">Sphere</a></span>
-				<span><a href="./cone.html">Cone</a></span>
-				<span><a href="./cylinder.html">Cylinder</a></span>
-				<span><a href="./plane.html">Plane</a></span>
-				<span><a href="./circle.html">Circle</a></span>
-				<span><a href="./ring.html">Ring</a></span>
-				<span><a href="./tetrahedron.html">Tetrahedron</a></span>
-				<span><a href="./octahedron.html">Octahedron</a></span>
-				<span><a href="./dodecahedron.html">Dodecahedron</a></span>
-				<span><a href="./icosahedron.html">Icosahedron</a></span>
-				<span><a href="./torus.html">Torus</a></span>
-				<span><a href="./torusknot.html">TorusKnot</a></span>
+				<a href="./box.html">Box</a>
+				<a href="./sphere.html">Sphere</a>
+				<a href="./cone.html">Cone</a>
+				<a href="./cylinder.html">Cylinder</a>
+				<a href="./plane.html">Plane</a>
+				<a href="./circle.html">Circle</a>
+				<a href="./ring.html">Ring</a>
+				<a href="./tetrahedron.html">Tetrahedron</a>
+				<a href="./octahedron.html">Octahedron</a>
+				<a href="./dodecahedron.html">Dodecahedron</a>
+				<a href="./icosahedron.html">Icosahedron</a>
+				<a href="./torus.html">Torus</a>
+				<a href="./torusknot.html">TorusKnot</a>
 			</p>
 		</header>
 		
 <script type="module">import * as XR from '/XR.js';
 
 new XR.Reality();
-new XR.Floor()
+new XR.Floor();
 new XR.Light();
 
 for ( let i = 0; i <10; i ++ ) {
@@ -47,7 +47,8 @@ for ( let i = 0; i <10; i ++ ) {
 		map:'/assets/textures/smile.jpg',
 		physics:true,
 		bounce:1,
-		friction:0.7
+		friction:0.7,
+		material:'mirror'
 	});
 }
 </script>
