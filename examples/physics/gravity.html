@@ -20,15 +20,13 @@
 				<a href="/examples/physics/collisions.html">Collisions</a>
 	</p>
 		</header>
-<script type="module">import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
 new XR.Reality({ position:[0,30,15]});
 new XR.Terrain();
 new XR.Light();
 
-
-
-
+// create 10 boxes
 for (var i = 0; i < 10; i++) {
 	new XR.Box({
 		color: 'green',
@@ -36,8 +34,8 @@ for (var i = 0; i < 10; i++) {
 	});
 }
 
+new XR.Chairs();
 
-new XR.Chairs()
 </script>
 	</body>
 </html>

@@ -20,14 +20,18 @@
 				<a href="/examples/physics/collisions.html">Collisions</a>
 	</p>
 		</header>
-<script type="module">import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
-new XR.Reality({ position:[0,30,15], gravity:[0,-50,0]});
+new XR.Reality({
+	position:[0,30,15],
+	gravity:[0,-50,0]
+});
 new XR.Terrain();
 new XR.Light();
-new XR.Sky()
+new XR.Sky();
 
-new XR.Chairs()
+new XR.Chairs();
 </script>
+
 	</body>
 </html>

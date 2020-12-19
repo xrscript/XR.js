@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Compass</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/input/">Input</a>
+			<a href="/examples/input/compass.html">Compass</a>
+			<p>
+				<a href="/examples/input/accelerometer.html">Accelerometer</a>
+				<a href="/examples/input/compass.html">Compass</a>
+				<a href="/examples/input/gyroscope.html">Gyroscope</a>
+			</p>
+		</header>
+		<table>
+			<tr class='labels'>
+				<td><label>X</label></td>
+				<td><label>Y</label></td>
+				<td><label>Z</label></td>
+			</tr>
+			<tr>
+				<td><input class="x" /></td>
+				<td><input class="y" /></td>
+				<td><input class="z" /></td>
+			</tr>
+		</table>
+			
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+new XR.Compass({
+	action: listen
+});
+
+// listen function
+function listen(e){
+	$('.x').val(format(e.beta));  // -180 to 180
+	$('.y').val(format(e.gamma)); //  -90 to  90
+	$('.z').val(format(e.alpha)); //    0 to 360
+}
+
+// add (+) if positive, and round to 4 decimals
+function format(e){
+	return (e<0?"":"+") + (e).toFixed(4);
+}
+</script>
+	
+
+	</body>
+</html>

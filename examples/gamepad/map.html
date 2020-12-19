@@ -2,9 +2,9 @@
 <html lang="en">
 	<head>
 		<title>XR.js | Haptics</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<link rel="stylesheet" href="/css/main.css" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link type="text/css" rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
 		<header>
@@ -17,6 +17,9 @@
 				<a href="/examples/gamepad/haptics.html">Haptics</a>
 				<a href="/examples/gamepad/joystick.html">Joystick</a>
 				<a href="/examples/gamepad/pointer.html">Pointer</a>
+				<a href="/examples/gamepad/grab.html">Grab</a>
+				<a href="/examples/gamepad/touch.html">Touch</a>
+
 			</p>
 		</header>
 
@@ -33,27 +36,14 @@ var controller = new XR.Gamepad({
 		x:buttonX,
 		y:buttonY
 	}
-	
-	
-	
-	
 });
-console.log(controller)
 
+console.log(controller);
 
-function buttonA(){
-	
-}
-
-function buttonB(){
-	
-}
-function buttonX(){
-	
-}
-function buttonY(){
-	
-}
+function buttonA(){ console.log('A button clicked'); }
+function buttonB(){ console.log('B button clicked'); }
+function buttonX(){ console.log('X button clicked'); }
+function buttonY(){ console.log('Y button clicked'); }
 
 </script>
 

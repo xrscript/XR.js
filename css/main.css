@@ -1,5 +1,7 @@
 body{margin:0;background-color:#444;font-family:Helvetica;font-size:2em;line-height:1em;overscroll-behavior:none;padding:0; width:100vw!important; }
-header{position:relative;padding:.5em;z-index:10;max-width: 75vw !important;}
+header{position:relative;padding:.5em;z-index:10;}
+header a{max-width: 75vw ;}
+header p a{max-width: 75vw !important;}
 	/*html{height:100vh!important}*/
  .icons{
 	pointer-events:none
@@ -27,7 +29,7 @@ button{cursor:pointer;text-transform:uppercase}
 .dg.ac{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;z-index:2!important}
 table{padding:1em;table-layout:fixed;width:100%}
 .frame{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#000;perspective:100px}
-td{vertical-align:top}
+td{vertical-align:top;position:relative}
 
 .code{
 	
@@ -35,12 +37,12 @@ td{vertical-align:top}
  background:rgb(0 0 0 / 90%) !important;
  /* height: fit-content; */
  overflow: scroll/*padding:1em*/ z-index:1;
- width: calc(100% - 2em);
+ width: calc(100% - 1em);
  font-size: 0.6em;
  line-height: 110%;
  margin: 0;
  line-height: 1;
- padding-left: 2em;
+ padding-left: 1em;
 
  position: absolute;
  bottom: 0;
@@ -116,7 +118,7 @@ header p {
 }
 header p:nth-of-type(1) {
 
- position:absolute !important;
+ /*position:absolute !important;*/
  width:100%
 }
 header span {
@@ -174,4 +176,143 @@ h3{
 	z-index: 9999999 !important;
 		pointer-events: all;
 	
+}
+
+#sourceLink {
+	position:absolute;
+	right:1em
+}
+#sourceLink a{
+	color:pink
+}
+
+
+/* joystick */
+
+
+.row{
+	display: inline-flex;
+	clear: both;
+	position:fixed;
+	bottom:0;
+	width:100vw
+}
+
+#joy1Div, #joy2Div
+{position:fixed;
+	width:150px;
+	height:150px;
+	margin:0px;
+	bottom:0;
+}
+#joy2Div
+{
+  right:0;
+}
+
+#buttonGroupL,#buttonGroupR {
+	
+	position: fixed;
+ bottom: 0;
+ /*padding: 1em;*/
+pointer-events:none
+}
+#buttonGroupL {
+	left:150px
+}
+#buttonGroupR {
+	
+	right:150px
+
+}
+#buttonGroupL div, #buttonGroupR div{
+	
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+ padding: 0.5em;
+height:1em;
+width:1em;
+text-align:center;
+border-radius:50%;
+
+border: 4px solid rgba(0,0,0,0.5);
+margin: 0.1em;
+cursor:pointer;
+position:relative;
+pointer-events:all
+}
+
+#a{ background:rgba(  0,255,  0,0.5); }
+#b{ background:rgba(255,  0,  0,0.5); /*left: 1em;*/}
+#x{ background:rgba(  0,  0,255,0.5); }
+#y{ background:rgba(255,255,  0,0.5); /*left: 1em;*/}
+
+
+
+#dpad {
+	
+	width:150px;
+	height:150px;
+background:transparent;
+align-content:center;
+
+}
+#dpad div{
+	width: 50%;
+	 margin: 0 auto;
+	 width:33.3%;
+	 height:33.3%;
+background:rgba(0,0,0,0.5);
+text-align:center;
+border-radius:4px;
+
+cursor:pointer;
+pointer-events:all
+}
+
+.dpadRow {
+	background: transparent !important;
+	position:relative;
+	width: 100% !important;
+}
+
+.dpadRow div{
+	margin: auto;
+display:inline-block;
+position:relative;
+height: 100%!important;
+width: 33.3%!important;
+text-align:center
+}
+#dpad div i{
+font-size:1.5em;
+color:rgba(255,255,255,0.9);
+text-shadow:none
+}
+.dpadRow #dpad_right{
+	right:0;
+	position: absolute;
+}
+
+.dpadRow #dpad_left{
+	left:0;
+	position: absolute;
+}
+input{
+	width: 95% !important;
+	position: absolute;
+	font-size:26px;
+
+	font-family: 'Courier New', monospace;
+font-weight:900;
+padding:0.1em
+}
+table  .labels{
+	text-align:center !important;
+	width:100%;
+	font-size:0.8em;
+	font-weight:900;
+	color:#fff;
 }

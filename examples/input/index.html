@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Input</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/input/">Input</a>
+			<p>
+				<a href="/examples/input/accelerometer.html">Accelerometer</a>
+				<a href="/examples/input/compass.html">Compass</a>
+				<a href="/examples/input/gyroscope.html">Gyroscope</a>
+			</p>
+		</header>
+	
+	<script type="module">
+import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+		  function requestOrientationPermission(){
+			  DeviceOrientationEvent.requestPermission()
+			  .then(response => {
+				  if (response == 'granted') {
+					  window.addEventListener('deviceorientation', (e) => {
+						  // do something with e
+					  })
+				  }
+			  })
+			  .catch(console.error)
+		  }
+	</script>
+	
+	<button onclick='requestOrientationPermission();'>Request orientation permission</button>
+
+	</body>
+</html>

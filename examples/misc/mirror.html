@@ -2,8 +2,8 @@
 <html lang="en">
 	<head>
 		<title>XR.js | Mirror</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
 		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
@@ -25,15 +25,18 @@
 <script type="module">import * as XR from '/XR.js';
 
 new XR.Reality({
-	physics:false
+	physics:false,
+	fps:3
 });
 new XR.Light();
 new XR.Sky();
 new XR.Floor();
 
-setTimeout(function(){
-	new XR.Mirror();
-}, 1000);
+new XR.Box({
+	material:'mirror',
+	position:[0,2,0],
+	scale:[3,1,0.1]
+});
 
 
 

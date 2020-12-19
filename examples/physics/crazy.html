@@ -20,7 +20,7 @@
 				<a href="/examples/physics/collisions.html">Collisions</a>
 </p>
 		</header>
-<script type="module">import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
 new XR.Reality({
 	gravity:[0,-20,0],
@@ -35,7 +35,6 @@ new XR.Box({
 	rotation:[0.1,0.1,0.2],
 	color:'#59ff00'
 });
-
 
 new XR.Cone({
 	bounce:0.03,
@@ -81,8 +80,7 @@ for ( let i = 0; i <3; i ++ ) {
 	  }*/
 //new XR.Hands()
 ///new XR.Expload();
-new XR.Bowl()
-
+new XR.Bowl();
 
 for (let i=0; i<60; i++) {
 	makeShape(i);

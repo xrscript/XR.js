@@ -2,15 +2,15 @@
 <html lang="en">
 	<head>
 		<title>XR.js | Rotation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
 		<link rel="stylesheet" href="/css/main.css" />
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	</head>
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
 			<a href="/examples/">Examples</a>
-			<a href="/examples/animate/">Animation</a>
+			<a href="/examples/animate/">Animate</a>
 			<a href="/examples/animate/size.html">Rotation</a>
 			<p>
 				<a href="./index.html">Basic</a>
@@ -20,8 +20,7 @@
 				<a href="./position.html">Position</a>
 			</p>
 		</header>
-		<script type="module">
-import * as XR from  '/XR.js';
+<script type="module"> import * as XR from '/XR.js';
 
 new XR.Reality({physics:false});
 new XR.Light();
@@ -34,20 +33,14 @@ var myBox = new XR.Box({
 
 new XR.Animate({
 	at: myBox,
-	rotation: {
-		x:0,
-		y:Math.PI,
-		z:0
-	},
-	//position: {x: -3, y: 3, z: -3},
-
+	rotation: { x: 0, y: Math.PI, z: 0 },
 	repeat: Infinity,
 	yoyo: false,
-	ease: 'exponential',	 // ease type
-	direction: 'inout', // ease direction
+	ease: 'exponential',
+	direction: 'inout',
 	duration: 3000
 });
 </script>
-	
+
 	</body>
 </html>

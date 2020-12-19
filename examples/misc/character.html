@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Character</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link type="text/css" rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/misc/character.html">Character</a>
+			<p>
+				<a href="/examples/misc/ocean.html">Ocean</a>
+				<a href="/examples/misc/theater.html">Theater</a>
+				<a href="/examples/misc/pendulum.html">Pendulum</a>
+				<a href="/examples/misc/globe.html">Globe</a>
+				<a href="/examples/misc/character.html">Character</a>
+			</p>
+		</header>
+	</header>
+	
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+var myCharacter =  new XR.Character({
+	 file:'/assets/models/glb/Soldier.glb',
+	 helper:true // shows skeleton helper
+ });
+ 
+ setTimeout(function(){ myCharacter.run(); }, 3020);
+ setTimeout(function(){ myCharacter.idle(); }, 6020);
+ setTimeout(function(){ myCharacter.walk(); },9020);
+
+
+
+</script>
+			
+	</body>
+</html>

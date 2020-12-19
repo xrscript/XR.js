@@ -2,14 +2,14 @@
 <html lang="en">
 	<head>
 		<title>XR.js | Animate</title>
-		<link rel="stylesheet" href="/css/main.css" />
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
-			<a href="/examples/">Examples</a>
+			<a href="/examples/">Animate</a>
 			<a href="/examples/animate/">Animation</a>
 			<p>
 				<a href="./index.html">Basic</a>
@@ -19,8 +19,7 @@
 				<a href="./position.html">Position</a>
 			</p>
 		</header>
-		<script type="module">
-import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
 new XR.Reality();
 new XR.Light();
@@ -28,8 +27,8 @@ new XR.Floor();
 
 var boxy = new XR.Box({
 	position:[0,0,0],
-
 });
+
 new XR.Animate({
 	at:boxy,
 	to: {x: 3, y: 6, z: 3},

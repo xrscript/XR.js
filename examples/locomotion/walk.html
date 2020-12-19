@@ -19,20 +19,19 @@
 				<a href="/examples/locomotion/rotate.html">Rotate</a>
 			</p>
 		</header>
-<script type="module">import * as XR from  '/XR.js';
-new XR.Reality({});
+<script type="module">import * as XR from '/XR.js';
+
+new XR.Reality();
 new XR.Light();
 new XR.Floor();
 
-new XR.Gamepad();
+var controller = new XR.Gamepad();
 
 new XR.Locomotion({
 	type:'walk',
-	//bind:controller[1]
+	bind:controller.left
 });
-
 </script>
-
 
 	</body>
 </html>

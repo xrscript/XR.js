@@ -11,7 +11,7 @@
 			<h1><a href="/">XR.js</a> 🥽</h1>
 			<a href="/examples/">Examples</a>
 			<a href="/examples/objects/geometry/">Geometry</a>
-			<a href="#">Circle</a>
+			<a href="/examples/objects/geometry/circle.html">Circle</a>
 			<p>
 				<a href="/examples/objects/geometry/box.html">Box</a>
 				<a href="/examples/objects/geometry/circle.html">Circle</a>
@@ -32,25 +32,19 @@
 
 <script type="module">import * as XR from '/XR.js';
 new XR.Reality();
-new XR.Light({helper:true});
+new XR.Light();
 new XR.Floor();
 
 for ( let i = 0; i <10; i ++ ) {
-	 
-	 var object = new XR.Circle({
-		 radius:0.5,
-  color: 0xffffff,
-  scale:3,
-  segments:15,
-  position:[i*0.1,i*1.4+ 1,0],
-  rotation:[0,-1.5,0],
-  map:'/assets/textures/smile.jpg',
-  physics:true,
-  bounce:1,
-  friction:0.7,
-  });
-
-	  }
+	new XR.Circle({
+		radius:0.5,
+		position:[i*0.1,i*1.4+ 1,0],
+		rotation:[0,-1.5,0],
+		map:'/assets/textures/smile.jpg',
+		bounce:1,
+		friction:0.7,
+	});
+}
 //new XR.Ha
 </script>
 	

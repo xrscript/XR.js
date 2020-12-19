@@ -7,25 +7,19 @@
 	<link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
-	<script type="module">
-		import * as XR from  '/xr.js';
+
+<script type="module">import * as XR from '/XR.js';
 		
-		var myReality = new XR.Reality();
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
 
-		var light = new XR.Light({type:"point"});
-
-		var mybox = new XR.Box({
-			name: 'mybox',
-			material: "physical",
-			color: 0x0000ff,
-			position:[0,0.5,-0.5],
-			transparent:true,
-			opacity:0.6,
-			scale:0.6
-		});
+new XR.Box();
 
 	
-		var posi = new XR.Locomotion();
+new XR.Locomotion({
+	type:'wasd'
+});
 	</script>
 </body>
 </html>

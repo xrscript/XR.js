@@ -2,8 +2,8 @@
 <html lang="en">
 	<head>
 		<title>XR.js | Ocean</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
 		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
@@ -19,14 +19,12 @@
 				<a href="/examples/misc/globe.html">Globe</a>
 				<a href="/examples/misc/spatial-audio.html">Spatial Audio</a>
 				<a href="/examples/misc/mirror.html">Mirror</a>
-
-	</p>
-
+			</p>
 		</header>
 
 <script type="module">import * as XR from '/XR.js';
 
-new XR.Reality();
+new XR.Reality({fps:10,physics:false});
 new XR.Ocean();
 
 </script>

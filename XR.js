@@ -2,45 +2,47 @@
 import '/lib/three/build/three.js';	// three.js
 import '/lib/tween/tween.umd.js';	// tween.js
 import '/lib/physijs/physi.js';		// physi.js
+import  { JoyStick } from '/lib/joy/joy.js';		// joy.js
+
 Physijs.scripts.worker = '/lib/physijs/physijs_worker.js';
 Physijs.scripts.ammo = '/lib/physijs/ammo.js';
 
-import basketball from '/assets/json/basketball.js';
 //import gasp from "/node_modules/gasp";
 //import  '/js/TimelineMax.min.js';
 
 import '/node_modules/simplex-noise/simplex-noise.js';
 import { GUI } from './node_modules/three/examples/jsm/libs/dat.gui.module.js';
 import { VRButton } 					from './node_modules/three/examples/jsm/webxr/VRButton.js';
+import { ARButton } 					from './node_modules/three/examples/jsm/webxr/ARButton.js';
 import { XRControllerModelFactory } 	from './node_modules/three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { XRHandModelFactory }       	from './node_modules/three/examples/jsm/webxr/XRHandModelFactory.js';
 import { OrbitControls } 				from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 import { PositionalAudioHelper  } 		from './node_modules/three/examples/jsm/helpers/PositionalAudioHelper.js';
-import { SVGLoader  } 					from './node_modules/three/examples/jsm/loaders/SVGLoader.js';
-import { TDSLoader  }					from './node_modules/three/examples/jsm/loaders/TDSLoader.js';
-import { ThreeMFLoader }				from './node_modules/three/examples/jsm/loaders/3MFLoader.js';
-import { Rhino3dmLoader } 				from './node_modules/three/examples/jsm/loaders/3DMLoader.js';
-import { AMFLoader  }					from './node_modules/three/examples/jsm/loaders/AMFLoader.js';
-import { ColladaLoader } 				from './node_modules/three/examples/jsm/loaders/ColladaLoader.js';
-import { OBJLoader2 } 					from './node_modules/three/examples/jsm/loaders/OBJLoader2.js';
-import { FBXLoader  } 					from './node_modules/three/examples/jsm/loaders/FBXLoader.js';
-import { GLTFLoader }               	from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
-import { MTLLoader  } 					from './node_modules/three/examples/jsm/loaders/MTLLoader.js';
-import { PCDLoader } 					from './node_modules/three/examples/jsm/loaders/PCDLoader.js';
-import { MD2Character } 					from '/node_modules/three/examples/jsm/misc/MD2Character.js';
-import { NRRDLoader } from '/node_modules/three/examples/jsm/loaders/NRRDLoader.js';
-			import { VTKLoader } from '/node_modules/three/examples/jsm/loaders/VTKLoader.js';
-import { PDBLoader }					from './node_modules/three/examples/jsm/loaders/PDBLoader.js';
-import { PLYLoader } from '/node_modules/three/examples/jsm/loaders/PLYLoader.js';
-import { PRWMLoader }					from './node_modules/three/examples/jsm/loaders/PRWMLoader.js';
-import { STLLoader  }					from './node_modules/three/examples/jsm/loaders/STLLoader.js';
-import { VRMLoader  }					from './node_modules/three/examples/jsm/loaders/VRMLoader.js';
-import { XLoader   }					from './node_modules/three/examples/jsm/loaders/XLoader.js';
-import { XYZLoader }					from './node_modules/three/examples/jsm/loaders/XYZLoader.js';
-import { MtlObjBridge } 				from './node_modules/three/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
-import { Lensflaree,LensflareElement }   from '/node_modules/three/examples/jsm/objects/Lensflare.js';
-import { CSS2DRenderer, CSS2DObject } from '/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js';
-
+// loaders
+import { SVGLoader		} 				from './node_modules/three/examples/jsm/loaders/SVGLoader.js';
+import { TDSLoader		}				from './node_modules/three/examples/jsm/loaders/TDSLoader.js';
+import { ThreeMFLoader	}				from './node_modules/three/examples/jsm/loaders/3MFLoader.js';
+import { Rhino3dmLoader	} 				from './node_modules/three/examples/jsm/loaders/3DMLoader.js';
+import { AMFLoader		}				from './node_modules/three/examples/jsm/loaders/AMFLoader.js';
+import { ColladaLoader	} 				from './node_modules/three/examples/jsm/loaders/ColladaLoader.js';
+import { OBJLoader2		} 				from './node_modules/three/examples/jsm/loaders/OBJLoader2.js';
+import { FBXLoader		} 				from './node_modules/three/examples/jsm/loaders/FBXLoader.js';
+import { GLTFLoader		}               from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import { MTLLoader		} 				from './node_modules/three/examples/jsm/loaders/MTLLoader.js';
+import { PCDLoader		} 				from './node_modules/three/examples/jsm/loaders/PCDLoader.js';
+import { MD2Character	}				from '/node_modules/three/examples/jsm/misc/MD2Character.js';
+import { NRRDLoader		}				from '/node_modules/three/examples/jsm/loaders/NRRDLoader.js';
+import { VTKLoader		}				from '/node_modules/three/examples/jsm/loaders/VTKLoader.js';
+import { PDBLoader		}				from './node_modules/three/examples/jsm/loaders/PDBLoader.js';
+import { PLYLoader		}				from '/node_modules/three/examples/jsm/loaders/PLYLoader.js';
+import { PRWMLoader		}				from './node_modules/three/examples/jsm/loaders/PRWMLoader.js';
+import { STLLoader		}				from './node_modules/three/examples/jsm/loaders/STLLoader.js';
+import { VRMLoader		}				from './node_modules/three/examples/jsm/loaders/VRMLoader.js';
+import { XLoader		}				from './node_modules/three/examples/jsm/loaders/XLoader.js';
+import { XYZLoader		}				from './node_modules/three/examples/jsm/loaders/XYZLoader.js';
+import { MtlObjBridge	} 				from './node_modules/three/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
+import { Lensflaree,LensflareElement }	from '/node_modules/three/examples/jsm/objects/Lensflare.js';
+import { CSS2DRenderer, CSS2DObject }	from '/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js';
 //import { Bolt } 						from '/js/handy/third-party/SpaceRocks/Bolt.js'
 //import { Handy } 						from '/js/handy/Handy.js'
 import { Water } 						from './node_modules/three/examples/jsm/objects/Water.js';
@@ -56,43 +58,71 @@ var	mixer
 let idleAction, walkAction, runAction;
 let idleWeight, walkWeight, runWeight;
 let  settings;
+import basketball from '/assets/json/basketball.js';
 
 let singleStepMode = false;
 let sizeOfNextStep = 0;
 var currentTime, totalGrabTime, throwTime
 var objectNewPosition
 var objectNewRotation
-var grabber = false
-var grabbing = false
+var grabber		= false
+var grabbing	= false
 var grabbingObject
-var grabStartTime = 0;
-var grabEndTime = 0;
-var grabTime = 0;
+var grabStartTime	= 0;
+var grabEndTime		= 0;
+var grabTime		= 0;
 var intersecto
 var startEndDifference
 var startEndRotation
-var throwLinearVelocity =  new THREE.Vector3();
-var throwAngularVelocity =  new THREE.Vector3();
 var grabbingController
-var controllerGrabVector =  new THREE.Vector3();
-var controllerGrabPosition =  new THREE.Vector3();
-var controllerGrabRotation =  new THREE.Vector3();
-var controllerGrabStartPosition =  new THREE.Vector3();
-var controllerGrabStartRotation =  new THREE.Vector3();
-var throwStartVector =  new THREE.Vector3();
-var throwEndVector =  new THREE.Vector3();
-
-var throwStartRotation =  new THREE.Vector3();
-var throwEndRotation =  new THREE.Vector3();
-
-var controllerGrabEndPosition =  new THREE.Vector3();
-var controllerGrabEndRotation =  new THREE.Vector3();
-var intersectingObjectPosition =  new THREE.Vector3();
-var intersectingObjectDirection =  new THREE.Vector3();
+var throwLinearVelocity			=  new THREE.Vector3();
+var throwAngularVelocity		=  new THREE.Vector3();
+var controllerGrabVector		=  new THREE.Vector3();
+var controllerGrabPosition		=  new THREE.Vector3();
+var controllerGrabRotation		=  new THREE.Vector3();
+var controllerGrabStartPosition	=  new THREE.Vector3();
+var controllerGrabStartRotation	=  new THREE.Vector3();
+var throwStartVector			=  new THREE.Vector3();
+var throwEndVector				=  new THREE.Vector3();
+var throwStartRotation			=  new THREE.Vector3();
+var throwEndRotation			=  new THREE.Vector3();
+var controllerGrabEndPosition	=  new THREE.Vector3();
+var controllerGrabEndRotation	=  new THREE.Vector3();
+var intersectingObjectPosition	=  new THREE.Vector3();
+var intersectingObjectDirection	=  new THREE.Vector3();
 var fps
+var head
 // for demo
 var menuBox, menuSphere, menuCylinder;
-var fullGamepad;
+var fullGamepad = {
+					  joystick:{
+						  l : [0,0],
+						  r : [0,0]
+					  },
+					  button:{
+						  a : 0, // A Button
+						  b : 0, // B Button
+						  x : 0, // X Button
+						  y : 0 // Y Button
+						  //r : controller[0].gamepad.buttons[3], // stick button R
+						  //l : controller[1].gamepad.buttons[3]  // stick button L
+					  }/*
+					  trigger:{
+						  r : controller[0].gamepad.buttons[0], // trigger R
+						  l : controller[1].gamepad.buttons[0]  // trigger L
+					  },
+					  grip:{
+						  r : controller[0].gamepad.buttons[1], // grip R
+						  l : controller[1].gamepad.buttons[1]  // grip L
+					  },
+					  rest:{
+						  r : controller[0].gamepad.buttons[6], // thumbrest R
+						  l : controller[1].gamepad.buttons[6]  // thumbrest L
+					  }*/
+				  //},
+}
+
+var touchGamepad;
 var animationOn = false;
 var joystick;
 var fingermenu
@@ -108,24 +138,21 @@ var audioLoader = new THREE.AudioLoader();
 
 //mirror
 var mirror = false;
-var mirrorCameras = []
-var mirrorObjects = []
-// custom global variables
-//var mirrorCube, mirrorCubeCamera; // for mirror material
-//var mirrorSphere, mirrorSphereCamera; // for mirror material
+var mirrorCameras = [];
+var mirrorObjects = [];
 
-// var camera, scene, raycaster, renderer;
-// var controller, controller1;
-// var tempMatrix = new THREE.Matrix4();/
-// var intersectedObject, intersectedPosition; // Contains the object and intersected position of where the user is pointing.
-		  var loader = new THREE.TextureLoader();
-
-		  var mainmenu = new THREE.Group(); // main menu
+var cameraDirection = new THREE.Vector3();
+var cameraPostion	= new THREE.Vector3();
+var dollyDirection	= new THREE.Vector3();
+var dollyPostion	= new THREE.Vector3();
+var loader			= new THREE.TextureLoader();
+var mainmenu		= new THREE.Group(); // main menu
 mainmenu.name = 'mainmenu';
 var guidingController;
 var pointingController;
+var walkController;
 let sphere//, clock;
-let hands,hand1, hand2;
+let hands, hand1, hand2;
 let controller2;
 let controllerGrip1, controllerGrip2;
 var pointer = false;
@@ -157,16 +184,15 @@ var walk = false;
 
 var objects =[];
 
+
+// joysticks
+var Joy1 , Joy2;
+
+// toggle fullscreen
 function toggleFullscreen() {
- let elem = document.body
-	elem.requestFullscreen().catch(err => {
-	  alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-	});
-  if (document.fullscreenElement) {} else {
-	document.exitFullscreen();
-  }
+  if (document.fullscreenElement) { document.exitFullscreen();} else { document.body.requestFullscreen().catch(err => { console.log(err); }); }
 }
-	  var rightArm
+var rightArm
 
 // Reality
 export class Reality {
@@ -215,16 +241,6 @@ export class Reality {
 	}
 }
 
-// Reality
-export class Physics {
-	constructor (options) {
-		if(!options){options={}}
-		//new Scene();
-		//new Camera();
-		//new Player();
-		//new Controls();
-	}
-}
 // Scene
 export class Scene {
 	constructor (options) {
@@ -232,27 +248,18 @@ export class Scene {
 		this.gravity = options.gravity || -5;
 		 fps  = options.fps || 60;
 		var p = options.physics || false
-		if (options.physics == false){
-			scene = new THREE.Scene();
-		}
+		if (options.physics == false){ scene = new THREE.Scene(); }
 		else {
-			
 			var g = this.gravity;
 			if (g.length){ } else { g = [0, g,0] }
 			scene =  new Physijs.Scene({
-			reportsize: 50, // set this to the total number of objects
-			fixedTimeStep: 1 / fps,
+				reportsize: 50, // set this to the total number of objects
+				fixedTimeStep: 1 / fps,
 				broadphase: 'sweepprune', // or  'dynamic'
 			});
-		window.scene = scene
+			window.scene = scene
 			scene.setGravity(new THREE.Vector3( ...g ));
-			scene.addEventListener(
-				'update',
-				function() {
-					scene.simulate( undefined, 1 );
-					//physics_stats.update();
-				}
-			);
+			scene.addEventListener( 'update', function() { scene.simulate( undefined, 1 ); /* physics_stats.update(); */ } );
 			scene.simulate();
 		}
 		
@@ -318,14 +325,12 @@ export class Server {
 			var box = new THREE.Mesh( geometry, material )
 			scene.add(box)
 		});
-		var cameraDirection = new THREE.Vector3();
 		 setInterval( function () {
 	 //  if (video && video.currentTime){
 		   socket.emit('pos',cameraGroup.getWorldPosition(cameraDirection) );
 	 //  }
 	 }, 1000 / 24 );
-		// var cameraPostion = new THREE.Vector3();
-		// var cameraDirection = new THREE.Vector3();
+	
 		// camera.getWorldPosition(cameraPostion);
 		// camera.getWorldDirection(cameraDirection);
 		// raycaster.set( cameraPostion, cameraDirection );
@@ -395,30 +400,22 @@ export class Grab {
 				  
 				  if(child.name != 'controller' && child.name != 'floor'){
 					  console.log(intersecto)
-				  intersecto = GrabRaycaster.intersectObject(child );
+					  intersecto = GrabRaycaster.intersectObject(child );
 					  grabbingObject = intersecto
 					  console.log(grabbingObject)
-					  
-					  
-		//	 console.log(scene.children)
- 
-				  
- // console.log(intersecto)
-				  if (intersecto[0]){
-				//	  var objpos = intersecto
-					  
-				var direction = intersecto[0].object.getWorldDirection(intersectingObjectDirection);
-					var position =   intersecto[0].object.getWorldPosition(intersectingObjectPosition);
-					//  intersecto[0].object.material.color.set( 0xff0000 );
+					  // console.log(scene.children)
+					  // console.log(intersecto)
+					  if (intersecto[0]){
+						  var direction = intersecto[0].object.getWorldDirection(intersectingObjectDirection);
+						  var position  = intersecto[0].object.getWorldPosition(intersectingObjectPosition);
+						  //  intersecto[0].object.material.color.set( 0xff0000 );
+					  }
 				  }
-			}
 			//	  console.log('mesh')
 				//child.material = ClassMaterial; //apply same material to all meshes
 			  }
 			});
-			
-			
-	});
+		});
 		 
 		grabbingController.addEventListener( 'squeezeend', function ( event ) {
 			panoSphereMat.wireframe = true;
@@ -449,15 +446,13 @@ export class Grab {
 				intersecto[0].object.rotation.z = objectNewRotation.z;
 				intersecto[0].object.__dirtyRotation = true;
 				
-				
-				
-				console.log(position, grabTime)
+				// console.log(position, grabTime)
 				
 				// calculate the linear velocity, so user can 'throw' objects
 				var velocityThrow = (1000 - grabTime) / 1000;
-				console.log(velocityThrow)
-				console.log(startEndDifference)
-				console.log(startEndRotation)
+				// console.log(velocityThrow)
+				// console.log(startEndDifference)
+				// console.log(startEndRotation)
 				//throwStartVector
 				var positiong2 = grabbingController.getWorldPosition(controllerGrabPosition);
 				var dir = grabbingController.getWorldDirection(controllerGrabRotation);
@@ -467,42 +462,36 @@ export class Grab {
 				
 				var throwdiffDirection = positionVector1(throwStartRotation, controllerGrabRotation);
 				var throwdiff = positionVector1(throwStartVector, controllerGrabPosition);
-				console.log(throwdiff)
+				// console.log(throwdiff)
 				//console.log(startEndDifference)
 				//var igy = positionVector(intersectingObjectPosition, positiong);
 				
-				var sdgf = multiplyVector(throwLinearVelocity, 10)
+				var sdgf  = multiplyVector(throwLinearVelocity, 10)
 				var sdgf1 = multiplyVector(throwAngularVelocity, 10)
 				
 				
 				intersecto[0].object.setLinearVelocity(sdgf);
 				intersecto[0].object.setAngularVelocity(sdgf1);
 
-					//targetObject.setLinearVelocity(new THREE.Vector3(e.x, e.y, e.z));
-					//targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
-					//console.log(e)
-					//anim = e;
-					
+				//targetObject.setLinearVelocity(new THREE.Vector3(e.x, e.y, e.z));
 				//targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
-			//	targetObject.setLinearVelocity(linearVelocity);
+				//console.log(e)
+				//anim = e;
+					
+				// targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
+				//targetObject.setLinearVelocity(linearVelocity);
 
 				//targetObject.setLinearVelocity(new THREE.Vector3(e.x, e.y, e.z));
 				//targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
 				//console.log(e)
 				//anim = e;
-				
-			//	intersecto[ 0 ].object.material.color.set( 0x000000 );
+				//intersecto[ 0 ].object.material.color.set( 0x000000 );
 				
 			}
 			grabbing = false;
-			
-			
-			intersecto = []
-			
-	})
-		
+			intersecto = [];
+		});
 	};
-	
 }
 
 // Controls
@@ -513,7 +502,7 @@ export class Controls {
 		//controls.damping = 0.2;
 		//this.minDistance = 0;
 		this.maxDistance = 100;
-		var position = options.position || [0,3,5]
+		var position = options.position || [0,2,0]
 		// controls.target.set( 0, 0,  0 );
 		controls.update();
 		// controls.screenSpacePanning = true;
@@ -528,58 +517,51 @@ export class Controls {
 		//controls.addEventListener( 'change', render );
 	}
 }
-								  let floorMat;
+let floorMat;
 // Floormat
 export class Floormat {
 	constructor (options) {
 		if(!options){options={}}
 		
 		floorMat = new THREE.MeshStandardMaterial( {
-				  roughness: 0.8,
-				  color: 0xffffff,
-				  metalness: 0.2,
-				  bumpScale: 0.01
-			  } );
-			  const textureLoader = new THREE.TextureLoader();
-			  textureLoader.load( "/assets/hardwood2_diffuse.jpg", function ( map ) {
-
-				  map.wrapS = THREE.RepeatWrapping;
-				  map.wrapT = THREE.RepeatWrapping;
-				  map.anisotropy = 4;
-				  map.repeat.set( 10, 14 );
-				  map.encoding = THREE.sRGBEncoding;
-				  floorMat.map = map;
-				  floorMat.needsUpdate = true;
-
-			  } );
-			  textureLoader.load( "/assets/hardwood2_bump.jpg", function ( map ) {
-
-				  map.wrapS = THREE.RepeatWrapping;
-				  map.wrapT = THREE.RepeatWrapping;
-				  map.anisotropy = 4;
-				  map.repeat.set( 10, 14 );
-				  floorMat.bumpMap = map;
-				  floorMat.needsUpdate = true;
-
-			  } );
-			  textureLoader.load( "/assets/hardwood2_roughness.jpg", function ( map ) {
-
-				  map.wrapS = THREE.RepeatWrapping;
-				  map.wrapT = THREE.RepeatWrapping;
-				  map.anisotropy = 4;
-				  map.repeat.set( 10, 14 );
-				  floorMat.roughnessMap = map;
-				  floorMat.needsUpdate = true;
-
-			  } );
+			  roughness: 0.8,
+			  color: 0xffffff,
+			  metalness: 0.2,
+			  bumpScale: 0.01
+		  } );
+		  const textureLoader = new THREE.TextureLoader();
+		  textureLoader.load( "/assets/hardwood2_diffuse.jpg", function ( map ) {
+			  map.wrapS = THREE.RepeatWrapping;
+			  map.wrapT = THREE.RepeatWrapping;
+			  map.anisotropy = 4;
+			  map.repeat.set( 10, 14 );
+			  map.encoding = THREE.sRGBEncoding;
+			  floorMat.map = map;
+			  floorMat.needsUpdate = true;
+		  } );
+		  textureLoader.load( "/assets/hardwood2_bump.jpg", function ( map ) {
+			  map.wrapS = THREE.RepeatWrapping;
+			  map.wrapT = THREE.RepeatWrapping;
+			  map.anisotropy = 4;
+			  map.repeat.set( 10, 14 );
+			  floorMat.bumpMap = map;
+			  floorMat.needsUpdate = true;
+		  } );
+		  textureLoader.load( "/assets/hardwood2_roughness.jpg", function ( map ) {
+			  map.wrapS = THREE.RepeatWrapping;
+			  map.wrapT = THREE.RepeatWrapping;
+			  map.anisotropy = 4;
+			  map.repeat.set( 10, 14 );
+			  floorMat.roughnessMap = map;
+			  floorMat.needsUpdate = true;
+		  } );
 
 		const floorGeometry = new THREE.PlaneBufferGeometry( 20, 20 );
-			  const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
-			  floorMesh.receiveShadow = true;
-			  floorMesh.rotation.x = - Math.PI / 2.0;
-			  scene.add( floorMesh );
-		
-  }
+		const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
+		floorMesh.receiveShadow = true;
+		floorMesh.rotation.x = - Math.PI / 2.0;
+		scene.add( floorMesh );
+	}
 }
 
 // Floor
@@ -587,7 +569,7 @@ export class Floor {
 	constructor (options) {
 		if(!options){options={}}
 		this._color 	= options.color 	|| 0xffffff;
-		this._opacity 	= options.opacity 	||0.6;
+		this._opacity 	= options.opacity 	|| 0.6;
 		this._size 		= options.size 		|| 100;
 		this._scale 	= options.scale 	|| [100,100];
 		this._name 		= options.name 		|| 'floor';
@@ -603,7 +585,7 @@ export class Floor {
 		var mat =  getMaterial({
 			type:this._material,
 			color: this._color,
-		//	transparent:true,
+			//	transparent:true,
 			opacity:this._opacity,
 			side: THREE.FrontSide,
 			map:this._map,
@@ -648,9 +630,7 @@ spawnBox = (function() {
 		},
 		createBox = function() {
 			var box, material;
-			material = Physijs.createMaterial(new THREE.MeshLambertMaterial({
-				map: loader.load( '/assets/textures/wood.jpg' )
-			}),.6,.3);
+			material = Physijs.createMaterial(new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }),.6,.3);
 			//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
 			box = new Physijs.BoxMesh( box_geometry, material );
 			box.collisions = 0;
@@ -660,8 +640,6 @@ spawnBox = (function() {
 			box.position.set(0,5,0)
 			
 			scene.add( box );
-			
-			
 			
 		};
 	return function() {setTimeout( createBox, 1000 );	};
@@ -673,7 +651,6 @@ spawnBox = (function() {
 export class Terrain {
 	constructor (options) {
 		if(!options){options={}}
-		
 		
 		var noise = 3;
 		// Ground
@@ -690,7 +667,7 @@ export class Terrain {
 		
 		var ground_material = Physijs.createMaterial( ground_materialo,
 			0.2, // high friction
-			0.3// low restitution
+			0.3  // low restitution (bounce)
 		);
 		ground_geometry = new THREE.PlaneGeometry( 200, 200, 50, 50 );
 		for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
@@ -718,7 +695,7 @@ export class Player {
 		if(!options){options={}}
 		
 		dolly = new THREE.Group();
-		dolly.position.set( 0, 0, 0 );
+		dolly.position.set( 0, 0, 3 );
 
 		if(options.position){
 			var p = options.position
@@ -735,7 +712,7 @@ export class Player {
 			0 // low restitution
 		);
 		// add head
-		var head = new Physijs.ConvexMesh( new THREE.OctahedronGeometry( 0.1, 2 ), ground_material, 1 );
+		 head = new Physijs.ConvexMesh( new THREE.OctahedronGeometry( 0.1, 2 ), ground_material, 1 );
 		//head.castShadow = true;
 		camera.add( head );
 		
@@ -743,84 +720,73 @@ export class Player {
 }
 
 var overlaytext;
-								  
-								  var overlays = []
+var overlays = [];
 // Overlay
 export class Overlay {
 	constructor (options) {
 		//newText(options)
 		this._font 	=  '/assets/fonts/helvetiker_bold.json';
-		 this._text 	=  options.text;
-		 this._size 	=  options.size || 0.3;
-		
-	var sdfg =	newText(this._font, this._text, this._size)
+		this._text 	=  options.text;
+		this._size 	=  options.size || 0.3;
+
+		var sdfg =	newText(this._font, this._text, this._size)
 		console.log(sdfg)
-var thisOverlay = this;
+		var thisOverlay = this;
 		thisOverlay.object = overlaytext
-		
-		
-		
 	}
 			
 			text(e){
-				
 				//console.log(this.object)
 				//console.log(e)
-				console.log(this)
-				console.log(overlays)
-	camera.remove(this.object)
+				//console.log(this)
+				//console.log(overlays)
+				camera.remove(this.object)
 				overlays.forEach(function(model, i) {
-console.log(model,i)
-					
-					camera.remove(overlays[i])
-				})
+					//console.log(model,i)
+					camera.remove(overlays[i]);
+				});
 				newText(this._font, e, this._size)
-
-
 			}
 }
 function newText(thefont,text,size){
-			
-			var thetextobj;
-			const font = new THREE.FontLoader();
-			font.load( '/assets/fonts/helvetiker_bold.json', function ( font ) {
-				const textGeo = new THREE.TextBufferGeometry( text, {
-					font: font,
-					size: size,
-					height: 0.1,
-					//curveSegments: segments,
-					//bevelEnabled: b,
-					bevelThickness: 0.1,
-					bevelSize: 0.02,
-					bevelOffset:0.01,
-					bevelSegments:3,
-				});
-				textGeo.computeBoundingBox();
-				const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
-				material = new THREE.MeshPhongMaterial({
-					//specular: specular,
-					color:'black',
-					transparent:true,
-					opacity:1
-				});
-				overlaytext = new THREE.Mesh( textGeo, material );
-				//text.castShadow 	= true;
-				//text.receiveShadow 	= false;
-				
-				// if 'href' exists, make it clickable
-				if (overlaytext.href){ mainmenu.add(overlaytext); }
-				else          { scene.add(overlaytext);    }
-				//text.rotation.set(r[0],r[1],r[2])
-				overlaytext.position.set(centerOffset + 0 , 0,-3)
-				//
-				
-				
-				camera.add(overlaytext)
-				overlays.push(overlaytext)
-
-			});
-			return thetextobj;
-		}
+	
+	var thetextobj;
+	const font = new THREE.FontLoader();
+	font.load( '/assets/fonts/helvetiker_bold.json', function ( font ) {
+		const textGeo = new THREE.TextBufferGeometry( text, {
+			font: font,
+			size: size,
+			height: 0.1,
+			//curveSegments: segments,
+			//bevelEnabled: b,
+			bevelThickness: 0.1,
+			bevelSize: 0.02,
+			bevelOffset:0.01,
+			bevelSegments:3,
+		});
+		textGeo.computeBoundingBox();
+		const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
+		material = new THREE.MeshPhongMaterial({
+			//specular: specular,
+			color:'black',
+			transparent:true,
+			opacity:1
+		});
+		overlaytext = new THREE.Mesh( textGeo, material );
+		//text.castShadow 	= true;
+		//text.receiveShadow 	= false;
+		
+		// if 'href' exists, make it clickable
+		if (overlaytext.href){ mainmenu.add(overlaytext); }
+		else          { scene.add(overlaytext);    }
+		//text.rotation.set(r[0],r[1],r[2])
+		overlaytext.position.set(centerOffset + 0 , 0,-3)
+		//
+		camera.add(overlaytext)
+		overlays.push(overlaytext)
+	});
+	return thetextobj;
+}
 var	chair_material,ground_material,ground
 var spawnChair
 // Chairs
@@ -839,7 +805,7 @@ spawnChair = (function() {
 	
 	buildBack = function() {
 		var back, _object;
-		back = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, .5 ),chair_material);back.position.y = 5;back.position.z = -2.5;back.castShadow = true;back.receiveShadow = true;// rungs - relative to back
+		   back = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, .5 ),chair_material);back.position.y = 5;back.position.z = -2.5;back.castShadow = true;back.receiveShadow = true;// rungs - relative to back
 		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = -2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
 		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
 		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = 2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
@@ -855,92 +821,180 @@ spawnChair = (function() {
 	};
 	
 	doSpawn = function() {
-		var chair, back, legs;
+		var chair;
 		// seat of the chair
 		chair = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, 5 ),chair_material);
 		chair.castShadow = true;
 		chair.receiveShadow = true;
-		back = buildBack(); chair.add( back ); // back - relative to chair ( seat )
-		legs = buildLegs(); chair.add( legs ); // legs - relative to chair ( seat )
-		chair.position.y = 100;
-		chair.position.x = Math.random() * 50 - 25;
-		chair.position.z = Math.random() * 50 - 25;
+		chair.add( buildBack() ); // back - relative to chair ( seat )
+		chair.add( buildLegs() ); // legs - relative to chair ( seat )
+		chair.position.set(Math.random() * 50 - 25, 100, Math.random() * 50 - 25);
 		chair.rotation.set(Math.random() * Math.PI * 2,Math.random() * Math.PI * 2,Math.random() * Math.PI * 2);
 		chair.addEventListener( 'ready', spawnChair );
 		scene.add( chair );
 	};
 	
-	return function() {setTimeout( doSpawn, 500 );};
+	return function() {setTimeout( doSpawn, 1000 );};
 })();
-
 
 // Gamepad
 export class Gamepad {
 	constructor (options) {
 		if(!options){options={}}
-		console.log(options.buttons)
+		// console.log(options.buttons)
 		var t = options.type;
 		this.type = t;
-		//this.controller = [{},{}]
-		//console.log(options.bind)
-		// controllers
-		controller[0] = renderer.xr.getController(0);
-		controller[0].addEventListener( 'connected', (e) => {
-			
-			
-			console.log( e.data.handedness );
+		this.style = options.style || 'oculus';
 
-			controller[0].gamepad = e.data.gamepad;
-			// console.log(controller[0].gamepad);
-		 });
-		controller[0].addEventListener( 'disconnected', function () { this.remove( this.children[ 0 ] ); } );
-		//dolly.add( controller ).add( controller1 );
-		this.left = controller[0];
-		controller[1] = renderer.xr.getController(1);
-		controller[1].addEventListener( 'connected', (e) => {
+		// touch gamepad
+		if (this.type == 'touch'){
+			controls.enabled = false;
+			// joysticks
 			
-			console.log( e.data.handedness );
+			
+			if (this.style == 'xbox'){
 
-			controller[1].gamepad = e.data.gamepad;
-			// console.log(controller[1].gamepad);
-			// controller[0].gamepad.
-			// controller[0].gamepad.hapticActuators[ 0 ].pulse( 1, 100 )
-		});
-		//controller[0].addEventListener( 'selectstart', onSelectStart )
-		//controller[0].addEventListener( 'selectend', onSelectEnd );
-		//controller[0].addEventListener( 'selectstart', vibrateL );
-		//this.controller[0] = controller[0]
-		//controller[1].addEventListener( 'selectstart', vibrateR);
-		//controller[1].addEventListener( 'selectend', onSelectEnd );
-		controller[1].addEventListener( 'squeezestart', function ( event ) {
+			// create html elements
+			var joyRow = document.createElement("div");
+			joyRow.setAttribute("id", "row");
+			document.body.appendChild(joyRow);
+
+			var joy1 = document.createElement("div");
+			joy1.setAttribute("id", "joy1Div");
+			joyRow.appendChild(joy1);
+			Joy1 = new JoyStick('joy1Div');
+
+			var joy2 = document.createElement("div");
+			joy2.setAttribute("id", "joy2Div");
+			joyRow.appendChild(joy2);
+			Joy2 = new JoyStick('joy2Div', { "title": "joystick2",/* "autoReturnToCenter": false */});
+
 			
-			/*spawnBox()*/} );
-		
-		this.right = controller[1];
-		// this.controller[1] = controller[1]
-		//  controller.addEventListener( 'disconnected', function () { this.remove( this.children[ 0 ] ); } );
-		dolly.add( controller[0] )
-		dolly.add( controller[1] );
-		var controllerGrip = renderer.xr.getControllerGrip( 0 );
-		controllerGrip.add( new XRControllerModelFactory().createControllerModel( controllerGrip ) );
-		var controllerGrip1 = renderer.xr.getControllerGrip( 1 );
-		controllerGrip1.add( new XRControllerModelFactory().createControllerModel( controllerGrip1 ) );
-		dolly.add( controllerGrip );
-		dolly.add( controllerGrip1 );
-		console.log(controller[0])
-		console.log(controller[1])
+			// create html elements
+			var buttonGroupL = document.createElement("div");
+			buttonGroupL.setAttribute("id", "buttonGroupL");
+			document.body.appendChild(buttonGroupL);
+
+			var buttonGroupR = document.createElement("div");
+			buttonGroupR.setAttribute("id", "buttonGroupR");
+			document.body.appendChild(buttonGroupR);
+
+	
+			
+			var Abutton = document.createElement("div");
+			Abutton.setAttribute("id", "a"); Abutton.innerHTML = "A";
+			
+			var Bbutton = document.createElement("div");
+			Bbutton.setAttribute("id", "b"); Bbutton.innerHTML = "B";
+			
+			buttonGroupR.appendChild(Bbutton);
+			buttonGroupR.appendChild(Abutton);
+			
+			var Xbutton = document.createElement("div");
+			Xbutton.setAttribute("id", "x"); Xbutton.innerHTML = "X";
+			
+			var Ybutton = document.createElement("div");
+			Ybutton.setAttribute("id", "y"); Ybutton.innerHTML = "Y";
+			
+			buttonGroupL.appendChild(Ybutton);
+			buttonGroupL.appendChild(Xbutton);
+
+				
+				
+				
+				// create html elements
+			 var dpadRow = document.createElement("div");
+				dpadRow.setAttribute("class", "dpadRow");
+			 document.body.appendChild(dpadRow);
+
+				
+				
+				
+				var dpad = document.createElement("div");
+				dpad.setAttribute("id", "dpad");
+				document.body.appendChild(dpad);
+
+				var dpad_up = document.createElement("div");
+				dpad_up.setAttribute("id", "d_up"); dpad_up.innerHTML = '<i class="fas fa-caret-up"></i>';
+				dpad.appendChild(dpad_up);
+
+				var dpad_left = document.createElement("div");
+				dpad_left.setAttribute("id", "dpad_left"); dpad_left.innerHTML = '<i class="fas fa-caret-left"></i>';
+				dpadRow.appendChild(dpad_left);
+
+				var dpad_right = document.createElement("div");
+				dpad_right.setAttribute("id", "dpad_right"); dpad_right.innerHTML = '<i class="fas fa-caret-right"></i>';
+				dpadRow.appendChild(dpad_right);
+
+				
+				dpad.appendChild(dpadRow);
+				
+				
+				
+				var dpad_down = document.createElement("div");
+				dpad_down.setAttribute("id", "dpad_down"); dpad_down.innerHTML = '<i class="fas fa-caret-down"></i>';
+				dpad.appendChild(dpad_down);
+
+				
+			// event listeners
+			$(Abutton).on('touchstart mousedown', function(e){ console.log('clicked A'); fullGamepad.button.a = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release A'); fullGamepad.button.a = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
+			$(Bbutton).on('touchstart mousedown', function(e){ console.log('clicked B'); fullGamepad.button.b = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release B'); fullGamepad.button.b = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
+			$(Xbutton).on('touchstart mousedown', function(e){ console.log('clicked X'); fullGamepad.button.x = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release X'); fullGamepad.button.x = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
+			$(Ybutton).on('touchstart mousedown', function(e){ console.log('clicked Y'); fullGamepad.button.y = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release Y'); fullGamepad.button.y = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
+
+			
+			
+			//Joy2 = new JoyStick('joy2Div', { "title": "joystick2",/* "autoReturnToCenter": false */});
+
+			}
+			touchGamepad = true
+
+		}
+		else{
+			//this.controller = [{},{}]
+			//console.log(options.bind)
+			// controllers
+			controller[0] = renderer.xr.getController(0);
+			controller[0].addEventListener( 'connected', (e) => {
+				//console.log( e.data.handedness );
+				controller[0].gamepad = e.data.gamepad;
+			 });
+			controller[0].addEventListener( 'disconnected', function () { this.remove( this.children[ 0 ] ); } );
+			//dolly.add( controller ).add( controller1 );
+			this.left = controller[0];
+			controller[1] = renderer.xr.getController(1);
+			controller[1].addEventListener( 'connected', (e) => {
+				//console.log( e.data.handedness );
+				controller[1].gamepad = e.data.gamepad;
+			});
+			//controller[0].addEventListener( 'selectstart', onSelectStart )
+			//controller[0].addEventListener( 'selectend', onSelectEnd );
+			//controller[0].addEventListener( 'selectstart', vibrateL );
+			//this.controller[0] = controller[0]
+			//controller[1].addEventListener( 'selectstart', vibrateR);
+			//controller[1].addEventListener( 'selectend', onSelectEnd );
+			controller[1].addEventListener( 'squeezestart', function ( event ) {
+				
+				/*spawnBox()*/} );
+			
+			this.right = controller[1];
+			// this.controller[1] = controller[1]
+			controller[1].addEventListener( 'disconnected', function () { this.remove( this.children[ 0 ] ); } );
+			dolly.add( controller[0] )
+			dolly.add( controller[1] );
+			var controllerGrip = renderer.xr.getControllerGrip( 0 );
+			controllerGrip.add( new XRControllerModelFactory().createControllerModel( controllerGrip ) );
+			var controllerGrip1 = renderer.xr.getControllerGrip( 1 );
+			controllerGrip1.add( new XRControllerModelFactory().createControllerModel( controllerGrip1 ) );
+			dolly.add( controllerGrip );
+			dolly.add( controllerGrip1 );
+		}
 	}
 	
-	
 	vibrate(i,l){
-		console.log('asdf')
-		if(controller[0].gamepad){
-			controller[0].gamepad.hapticActuators[ 0 ].pulse( i, l )
-		}
-		if(controller[1].gamepad){
-			controller[1].gamepad.hapticActuators[ 1 ].pulse( i, l )
-			
-		}
+		// console.log('asdf')
+		if(controller[0].gamepad){ controller[0].gamepad.hapticActuators[ 0 ].pulse( i, l ) }
+		if(controller[1].gamepad){ controller[1].gamepad.hapticActuators[ 1 ].pulse( i, l ) }
 	}
 	//gamepad.hapticActuators[ 0 ].pulse( 1, 100 );
 	//raycaster = new THREE.Raycaster();
@@ -1070,14 +1124,12 @@ export class Radial {
 				map: options.map,
 			});
 		
-		const geometry = new THREE.CircleGeometry(1, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
-
-		var circlePart = new THREE.Mesh( geometry, thematerial );
-		// circlePart.rotation.set(rot[0],rot[1],rot[2])
-										  
-		mainmenu.add(circlePart)
+			const geometry = new THREE.CircleGeometry(1, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
+			var circlePart = new THREE.Mesh( geometry, thematerial );
+			// circlePart.rotation.set(rot[0],rot[1],rot[2])
+			mainmenu.add(circlePart)
 		}
-  }
+	}
 }
 // Triangle
 export class Triangle {
@@ -1107,18 +1159,13 @@ export class Triangle {
 		var thematerial =  getMaterial({
 			side: this._side,
 			type: this._material,
-		color: this._color,
-		map: options.map,
-			
+			color: this._color,
+			map: options.map,
 		});
 		
 		var circlef;
-		if (p){
-			//var physmat = Physijs.createMaterial( thematerial, this._friction, this._bounce );
-			circlef = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 );
-		} else {
-			circlef = new THREE.Mesh( geometry, thematerial );
-		}
+		if (p){ circlef = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 ); }
+		else  { circlef = new THREE.Mesh( geometry, thematerial ); }
 		
 		circlef.castShadow 	= true;
 		circlef.receiveShadow 	= false;
@@ -1153,12 +1200,12 @@ export class Sphere {
 
 		
 		material =  getMaterial({
-			type:this._material,
-			color:this._color,
-			opacity:this._opacity,
-			side:0,
-		map:this._map,
-		position:this._position,
+			type	:this._material,
+			color	:this._color,
+			opacity	:this._opacity,
+			side	:0,
+			map		:this._map,
+			position:this._position,
 
 		})
 	 // var geometry = new THREE.CylinderGeometry(1, 1, 2, 32, 1, true);
@@ -1180,13 +1227,8 @@ export class Sphere {
 
 	  var m = new THREE.SphereGeometry( radius, segments[0],  segments[1] )
 		
-		if (p){
-			var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
-			messh = new Physijs.SphereMesh( m, physmat )
-			
-		} else {
-			messh = new THREE.Mesh( m, material )
-		}
+		if (p){ messh = new Physijs.SphereMesh( m, Physijs.createMaterial( material, this._friction, this._bounce ) ) }
+		else  { messh = new THREE.Mesh( m, material ) }
 	//  obj.add(messh)
 		//var s = this._scale;
 		//if (scale.length){ messh.scale.set(...scale ); }
@@ -1205,23 +1247,23 @@ export class Sphere {
 }
 
 
-								  function loadSound(src) {
-		//	var mydata = JSON.parse(basketball);
-		//
-			//console.log(basketball.sounds[0])
-									this.sound = document.createElement("audio");
-									this.sound.src = src;
-									this.sound.setAttribute("preload", "auto");
-									this.sound.setAttribute("controls", "none");
-									this.sound.style.display = "none";
-									document.body.appendChild(this.sound);
-									this.play = function(){
-									  this.sound.play();
-									}
-									this.stop = function(){
-									  this.sound.pause();
-									}
-								  }
+function loadSound(src) {
+	//	var mydata = JSON.parse(basketball);
+	//console.log(basketball.sounds[0])
+	this.sound = document.createElement("audio");
+	this.sound.src = src;
+	this.sound.setAttribute("preload", "auto");
+	this.sound.setAttribute("controls", "none");
+	this.sound.style.display = "none";
+	document.body.appendChild(this.sound);
+			
+	this.play = function(){
+		this.sound.play();
+	}
+	this.stop = function(){
+		this.sound.pause();
+	}
+}
 
 // Collisions
 export class Collisions {
@@ -1276,9 +1318,7 @@ export class Collisions {
 
 }
 
-// ===== animation ===== //
-
-var targetPosition = new THREE.Vector3();
+// ===== Animations ===== //
 
 // Animate
 export class Animate {
@@ -1300,43 +1340,30 @@ export class Animate {
 		var ease 	= options.ease 		|| 'linear';
 		var e		= getEase(ease, dir);
 		
-		
 		var linearVelocity  = new THREE.Vector3();
 		var angularVelocity = new THREE.Vector3();
 
 		var anim;
-	// create animation
-		var shad = options.at.shadow
+		
+		// if custom shadows exist
+		var shad  = options.at.shadow
 		var shad1 = options.at.shadowblack
-	//console.log(options.at.shadow)
-		//targetPosition = new THREE.Vector3( t[0], t[1], t[2] );
-		//	new TWEEN.Tween( targetObject.material ).to( { opacity: 0 }, 1 ).start();
-		// console.log(shad)
-		//console.log(shad1)
+		
 		// opacity
 		if (options.opacity != undefined){
-			//new TWEEN.Tween( targetObject.material ).to( options.opacity, dur ).start();
-			//var col = new THREE.Color(Math.random() * 0xffffff);
-			//TweenLite.to(targetObject.material, dur, {opacity:0});
-			new TWEEN.Tween(targetObject.material).to({
-				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
-			if(shad){
-			new TWEEN.Tween(shad).to({
-				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
-			}
-			if(shad1){
-				new TWEEN.Tween(shad1)
-				.to({ opacity:options.opacity }, dur)
-				.repeat(r)
-				.easing(e)
-				.yoyo(y)
-				.delay(del)
-				.start();
-				// console.log(shad)
-				//shad.visible = true
-				//shad.color = 'green'
-			}
+
+			new TWEEN.Tween(targetObject.material).to({ opacity:options.opacity	}, dur)
+			.repeat(r)
+			.easing(e)
+			.yoyo(y)
+			.delay(del)
+			.start();
+			
+			// if custom shadows...
+			if(shad){ new TWEEN.Tween(shad).to({opacity:options.opacity	}, dur).repeat(r).yoyo(y).delay(del).start();}
+			if(shad1){ new TWEEN.Tween(shad1).to({ opacity:options.opacity }, dur).repeat(r).easing(e).yoyo(y).delay(del).start(); /* console.log(shad) //shad.visible = true //shad.color = 'green' */ }
 		}
+		
 		// color
 		if (options.color  != null){
 			var col = new THREE.Color(options.color);
@@ -1346,11 +1373,16 @@ export class Animate {
 			.repeat(r)
 			.easing(e)
 			.yoyo(y)
+			.delay(del)
 			.start();
 		
 			// for custom shadows...
 			if(shad){
-			new TWEEN.Tween(shad.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
+			new TWEEN.Tween(shad.color).to({r:col.r,g:col.g,b:col.b,}, dur)
+				.repeat(r)
+				.yoyo(y)
+				.delay(del)
+				.start();
 			//new TWEEN.Tween(shad1.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
 			}
 			
@@ -1384,6 +1416,7 @@ export class Animate {
 			 .yoyo(y)
 			 .onStart(updatePosition)
 			 .onComplete(callbackPosition)
+			 .delay(del)
 			 .start()
 		}
 	
@@ -1417,6 +1450,7 @@ export class Animate {
 			//.onStart(updateRotation)
 			.onUpdate()
 			//.onComplete(callbackRotation)
+			.delay(del)
 			.start()
 		}
 		
@@ -1432,7 +1466,7 @@ export class Animate {
 						y:((e.y + options.position.y) - e.y) / 1,//(e.y + options.position.y) + options.position.y,
 						z:((e.z + options.position.z) - e.z) / 1 //((e.z + options.position.z) - e.y)  / 1//(e.z + options.position.z) + options.position.z,
 					}*/
-					console.log(calculate)
+					// console.log(calculate)
 					linearVelocity = calculate;
 				}
 				
@@ -1494,17 +1528,16 @@ export class Tetrahedron {
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
 		this._opacity 	= options.opacity 	|| 1;
-		this._map 	= options.map 	|| null;
-
+		this._map		= options.map		|| null;
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._physics	= options.physics	|| true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
 		var p = this._physics;
 		
 		material =  getMaterial({
@@ -1520,19 +1553,14 @@ export class Tetrahedron {
 			wireframe:		false,
 			flatShading:	true,
 			map		: this._map,
-		position:this._position,
-
+			position:this._position,
 		});
 		
 		var geometry = new THREE.TetrahedronGeometry(s, s, s);
 		
-		var box
-		if (p){
-			var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
-			box = new Physijs.ConvexMesh( geometry, physmat );
-		} else {
-			box = new THREE.Mesh( geometry, material );
-		}
+		var box;
+		if (p){ box = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( material, this._friction, this._bounce ) ); }
+		else  { box = new THREE.Mesh( geometry, material ); }
 		box.receiveShadow = false;
 		box.castShadow = true;
 		
@@ -1548,7 +1576,21 @@ export class Tetrahedron {
 	}
 		  
 }
+function handleCollision( collided_with, linearVelocity, angularVelocity ) {
+	console.log(collided_with);
+	console.log(linearVelocity);
+	console.log(angularVelocity);
 
+	switch ( ++this.collisions ) {
+		case 1:this.material.color.setHex(0xff8855);console.log('first');break;
+		case 2:this.material.color.setHex(0xbb9955);break;
+		case 3:this.material.color.setHex(0xaaaa55);break;
+		case 4:this.material.color.setHex(0x99bb55);break;
+		case 5:this.material.color.setHex(0x88cc55);break;
+		case 6:this.material.color.setHex(0x77dd55);break;
+	}
+}
+												  
 // Box
 export class Box {
 			
@@ -1563,28 +1605,25 @@ export class Box {
 		this._map 		= options.map 		|| null;
 		this._name 		= options.name 		|| null;
 		this._opacity	= options.opacity 	|| 1;
-		this._physics 	= options.physics	|| true;
 		this._position	= options.position	|| [0,0,0];
 		this._reflect 	= options.reflect 	|| 1;
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._scale 	= options.scale 	|| 1;
 		this._side 		= options.side 		|| 2;
+		
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
-
+		
 		var	material =  getMaterial({
-		type:		this._material,
-		color:		this._color,
-		opacity:	this._opacity,
-		map:		this._map,
-		// bumpMap:	THREE.ImageUtils.loadTexture('/assets/map/egyptian_friz_2.png'),
-		bumpScale:0.5,//:	this._opacity,
+			type:		this._material,
+			color:		this._color,
+			opacity:	this._opacity,
+			map:		this._map,
+			// bumpMap:	THREE.ImageUtils.loadTexture('/assets/map/egyptian_friz_2.png'),
+			bumpScale:0.5,//:	this._opacity,
 			side:		this._side,
-		position:this._position,
-
+			position:this._position,
 		});
-		
-		
-		
 		
 		// different on each side
 		/*
@@ -1660,52 +1699,135 @@ export class Box {
 		this.shadowblack = planeMaterial1
 		scene.add(shadowPlane1);
 		 */
-	this.object = box;
-		if (this._material == 'mirror'){ mirrorObjects.push(box)}
+		this.object = box;
+		if (this._material == 'mirror'){ mirrorObjects.push(box); }
+		
+		box.addEventListener( 'collision', handleCollision );
+		//box.addEventListener( 'ready', spawnBox );
+		//new Geometry(options)
 
 	}
 
 }
-
-// Octahedron
-export class Octahedron {
+												  
+									  
+// Geometry
+export class Geometry {
 			
 	constructor (options) {
 		if(!options){options={}}
+		var s = this._scale
+		this._geometry = new THREE.BoxGeometry(s, s, s);
+		//box.color('red')
+	}
+			
+	// set or get color
+	color(e) {
+		if(e){ this._color = e; this.object.material.color = new THREE.Color(this._color); }
+		else { return this.object.material.color}
+	}
+		
+	hide(){ scene.remove(this.object) } // hide object
+	show(){ scene.add   (this.object) } // show object
+	
+	// get functions
+	getColor()		{ return this.object.material.color	} // get color
+	getPosition()	{ return this.object.position		} // get position
+	getQuaternion()	{ return this.object.quaternion		} // get quaternion
+	getRotation()	{ return this.object.rotation		} // get rotation
+	getScale()		{ return this.object.scale			} // get scale
+
+	// set functions
+	setColor		(e) { this._color = e;		this.object.material.color = new THREE.Color(this._color); 						} // set color
+	setPosition		(e)	{ this._position = e;	this.object.position  .set(e[0],e[1],e[2]); this.object.__dirtyPosition = true; } // set position
+	setQuaternion	(e) { this._quaternion = e;	this.object.quaternion.set(e[0],e[1],e[2]);										} // set quaternion
+	setRotation		(e)	{ this._rotation = e;	this.object.rotation  .set(e[0],e[1],e[2]); this.object.__dirtyRotation = true; } // set rotation
+	setScale		(e)	{ this._scale = e;		this.object.scale     .set(e[0],e[1],e[2]);										} // set scale
+
+}
+
+export class Cube extends Geometry {
+	constructor(options) {
+		if(!options){options={}}
+		super(options);
+		this._blend 	= options.blend		|| "normal";
+		this._bounce	= options.bounce 	|| 0.5;
+		this._color 	= options.color 	|| 0xffffff;
+		this._friction 	= options.physics 	|| 0.3;
+		this._helper 	= options.helper 	|| false;
+		this._material 	= options.material 	|| "standard";
+		this._map 		= options.map 		|| null;
+		this._name 		= options.name 		|| null;
+		this._opacity	= options.opacity 	|| 1;
+		this._position	= options.position	|| [0,0,0];
+		this._reflect 	= options.reflect 	|| 1;
+		this._rotation	= options.rotation	|| [0,0,0];
 		this._scale 	= options.scale 	|| 1;
-		this._color 	= options.color 	|| 0xff0000;
+		this._side 		= options.side 		|| 2;
+		
+		if(options.physics == false){this._physics = false} else {this._physics = true}
+		var p = this._physics;
+
+		var	material =  getMaterial({
+			type:		this._material,
+			color:		this._color,
+			opacity:	this._opacity,
+			map:		this._map,
+			// bumpMap:	THREE.ImageUtils.loadTexture('/assets/map/egyptian_friz_2.png'),
+			bumpScale:0.5,//:	this._opacity,
+			side:		this._side,
+			position:this._position,
+		});
+		var box;
+		if (p == undefined || p == true){ box = new Physijs.BoxMesh( this._geometry, Physijs.createMaterial( material, this._friction, this._bounce ) ); }
+		else 		  { box = new THREE.Mesh( this._geometry, material ); }
+	  
+		// scale
+		var s = this._scale;
+		if (s.length){ box.scale.set(...s ); }
+		else 		 { box.scale.set(s,s,s); }
+		//	  console.log(name)
+		scene.add(box);
+		this.object = box;
+	}
+}
+												  
+// Octahedron
+export class Octahedron extends Geometry{
+			
+	constructor (options) {
+		if(!options){options={}} super(options);
+		this._scale 	= options.scale 	|| 1;
+		this._color 	= options.color 	|| 'red';
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
 		this._opacity 	= options.opacity 	|| 1;
-		this._map 	= options.map 	|| null;
-
+		this._map		= options.map		|| null;
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		
 		material =  getMaterial({
-			type	: this._material,
-			combine: 		THREE.MixOperation,
-			reflectivity: 	this.reflect,
-			color: 			this._color,
-			side:			this._side,
-			clearcoat:		1,
-			metalness:		0,
-			transparent:	true,
-			opacity:		this._opacity,
-			wireframe:		false,
-			flatShading:	true,
-			map		: this._map,
-		position:this._position,
-
-
+			type		: this._material,
+			combine		: THREE.MixOperation,
+			reflectivity: this.reflect,
+			color		: this._color,
+			side		: this._side,
+			clearcoat	: 1,
+			metalness	: 0,
+			transparent	: true,
+			opacity		: this._opacity,
+			wireframe	: false,
+			flatShading	: true,
+			map			: this._map,
+			position	: this._position,
 		});
 		var geometry = new THREE.OctahedronGeometry(s, s, s);
 		
@@ -1748,7 +1870,7 @@ export class Dodecahedron {
 	   this._bounce 	= options.bounce 	|| 0.8;
 	   this._friction 	= options.physics 	|| 0.3;
 	   
-		  var p = this._physics;
+	   var p = this._physics;
 	   
 	   //var thematerial =  getMaterial(this._material,this._color,this._blend)
 	   // material = thematerial;
@@ -1756,15 +1878,13 @@ export class Dodecahedron {
 	 // var thematerial =  getMaterial(this._material)
 
 	   material =  getMaterial({
-		   type	: this._material,
-		   combine: 		THREE.MixOperation,
-		   reflectivity: this.reflect,
-		   color: 		this._color,
-		   side:this._side,
-		   map		: this._map,
-	   position:this._position,
-
-
+		   type			: this._material,
+		   combine		: THREE.MixOperation,
+		   reflectivity	: this.reflect,
+		   color		: this._color,
+		   side			: this._side,
+		   map			: this._map,
+		   position		: this._position,
 	   });
 	   var geometry = new THREE.DodecahedronGeometry();
 	   
@@ -1792,7 +1912,6 @@ export class Dodecahedron {
 
 // Icosahedron
 export class Icosahedron {
-			
 	constructor (options) {
 		if(!options){options={}}
 		this._scale 	= options.scale 	|| 1;
@@ -1800,7 +1919,6 @@ export class Icosahedron {
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
 		this._opacity 	= options.opacity 	|| 1;
-
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1813,18 +1931,17 @@ export class Icosahedron {
 		var p = this._physics;
 		
 		material =  getMaterial({
-			type	: this._material,
-
-			combine: 		THREE.MixOperation,
-			reflectivity: 	this.reflect,
-			color: 			this._color,
-			side:			this._side,
-			clearcoat:		1,
-			metalness:		0,
-			transparent:	true,
-			opacity:		this._opacity,
-			wireframe:		false,
-			map		: this._map,
+			type		: this._material,
+			combine		: THREE.MixOperation,
+			reflectivity: this.reflect,
+			color		: this._color,
+			side		: this._side,
+			clearcoat	: 1,
+			metalness	: 0,
+			transparent	: true,
+			opacity		: this._opacity,
+			wireframe	: false,
+			map			: this._map,
 		position:this._position,
 
 
@@ -1832,13 +1949,9 @@ export class Icosahedron {
 		});
 		var geometry = new THREE.IcosahedronGeometry(s, s, s);
 		var box
-		if (p){
-			box = new Physijs.ConvexMesh( geometry, material );
-		   
-		} else {
-			box = new THREE.Mesh( geometry, material );
-		   }
-		 box = new Physijs.ConvexMesh( geometry, material );
+		if (p){ box = new Physijs.ConvexMesh( geometry, material ); }
+		else  { box = new THREE.Mesh( geometry, material );         }
+		//box = new Physijs.ConvexMesh( geometry, material );
 		box.receiveShadow = false;
 		box.castShadow = true;
 		
@@ -1853,9 +1966,7 @@ export class Icosahedron {
 		else 		 { box.scale.set(s,s,s); }
 		objects.push(this.object);
 		scene.add(box);
-		
 	}
-		  
 }
 						 
 
@@ -1869,7 +1980,6 @@ export class Torus {
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
 		this._opacity 	= options.opacity 	|| 1;
-
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1893,8 +2003,7 @@ export class Torus {
 			//opacity:		0.8,
 			//wireframe:	false,
 			//flatShading:	true
-		position:this._position,
-
+			position:this._position,
 		});
 		var geometry = new THREE.TorusGeometry( 10, 3, s[0], s[1] );
 		var newmat = Physijs.createMaterial( material, this._friction, this._bounce );
@@ -1925,16 +2034,16 @@ export class TorusKnot {
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
 		this._opacity 	= options.opacity 	|| 1;
-
 		this._position	= options.position	|| [0,6,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._physics	= options.physics	|| true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
+		
 		var p = this._physics;
 		var s = options.segments || [8,6]
 		var w = options.wind || [3,2]
@@ -1972,7 +2081,6 @@ export class TorusKnot {
 		//objects.push(this.object);
 		this.object = toruos;
 		scene.add(toruos);
-		
 	}
 		  
 }
@@ -1989,12 +2097,13 @@ export class Cylinder {
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
-		this._map 	= options.map 	|| null;
+		this._map		= options.map		|| null;
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._height 	= options.height 	|| 1;
 		this._radius 	= options.radius 	|| [1,1];
-		this._cap 		= options.cap 	|| false;this._cap = !this._cap;
+		this._cap 		= options.cap		|| false;
+		this._cap = !this._cap;
 		var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, this._cap);
 		this._physics = options.physics || true;
 		this._bounce = options.bounce || 0.8;
@@ -2011,12 +2120,10 @@ export class Cylinder {
 			opacity	: this._opacity,
 			side	: 2,
 			map		: this._map,
-		position:this._position,
-
+			position:this._position,
 		});
 		var materialOuter;
 		var meshOuter = new THREE.Mesh(geometry, material);
-		
 		
 		materialOuter = new THREE.MeshStandardMaterial({
 			//map: new THREE.TextureLoader().load(options.map),
@@ -2067,43 +2174,37 @@ export class Cone {
 		this._height 	= options.height 	|| 1;
 		this._opacity 	= options.opacity 	|| 1;
 		this._map 		= options.map 		|| null;
-
-		var pos = this._position
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._physics	= options.physics	|| true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
+		
 		var p = this._physics;
+		var pos = this._position
+
 		//ConeGeometry(radius : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float)
 		//var thematerial =  getMaterial(this._material,this._color,this._blend)
 		 //material = new thematerial ({color:this._color,side:2});
 		var geometry = new THREE.ConeGeometry(  this._radius, this._height,32 );
 		geometry
 		var	material =  getMaterial({
-			type:this._material,
-			color:this._color,
-			opacity:this._opacity,
-			reflect:1,
-			clearcoat:1,
-			metalness:0,
-			map:this._map,
-		position:this._position,
+			type		:this._material,
+			color		:this._color,
+			opacity		:this._opacity,
+			reflect		:1,
+			clearcoat	:1,
+			metalness	:0,
+			map			:this._map,
+			position	:this._position,
 
 			//anisotropy :29
 		});
 		var cone;
-		if (p){
-			var physmat = Physijs.createMaterial( material, this._bounce, this._friction );
-			cone = new Physijs.ConeMesh( geometry, physmat );
-		} else {
-			cone = new THREE.Mesh( geometry, material );
-		}
+		if (p){ cone = new Physijs.ConeMesh( geometry, Physijs.createMaterial( material, this._bounce, this._friction ) ); }
+		else  { cone = new THREE.Mesh( geometry, material ); }
 		
 		cone.receiveShadow = true;
 //console.log(thematerial)
-		
-		
 		cone.rotation.set(...this._rotation)
-
 		cone.position.set(...pos)
 		
 		cone.castShadow 	= true;
@@ -2127,13 +2228,12 @@ export class Circle {
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
 		this._map 		= options.map 		|| null;
-
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._radius 	= options.radius 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._physics	= options.physics	|| true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
 		var p = this._physics;
 		var r = this._radius;
 		var o = options.opacity || 0;
@@ -2141,22 +2241,17 @@ export class Circle {
 		const geometry = new THREE.CircleGeometry(r, 32 );
 		
 		var thematerial =  getMaterial({
-			side: this._side,
-			type: this._material,
-			color: this._color,
-			map: this._map,
-		position:this._position,
-
+			side		: this._side,
+			type		: this._material,
+			color		: this._color,
+			map			: this._map,
+			position	: this._position,
 		});
 		
 		var circlef;
-		if (p){
-			//var physmat = Physijs.createMaterial( thematerial, this._friction, this._bounce );
-			circlef = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 );
-		} else {
-			circlef = new THREE.Mesh( geometry, thematerial );
-		}
-		
+		if (p){ circlef = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 ); }
+		else  { circlef = new THREE.Mesh( geometry, thematerial ); }
+	
 		circlef.castShadow 	= true;
 		circlef.receiveShadow 	= false;
 		circlef.position.set(...this._position)
@@ -2168,42 +2263,28 @@ export class Circle {
 export class Plane {
 	constructor (options) {
 		if(!options){options={}}
-		this._scale 	= options.scale 	|| [1,1];
-		this._color 	= options.color 	|| 0xffffff;
-		this._side 		= options.side 		|| "both";
-		this._material 	= options.material 	|| "standard";
+		this._scale		= options.scale 	|| [1,1];
+		this._color		= options.color 	|| 0xffffff;
+		this._side		= options.side 		|| "both";
+		this._material	= options.material 	|| "standard";
 		this._position 	= options.position 	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
-		this._action 	= options.action 	|| 1;
-		this._opacity 	= options.opacity 	|| 0.6;
-		this._href 	= options.href 	|| null;
-		this._name 	= options.name 	|| 'myname';
-		this._at = options.at || scene;
-		this._physics = options.physics ||true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._action	= options.action 	|| 1;
+		this._opacity	= options.opacity 	|| 0.6;
+		this._href		= options.href		|| null;
+		this._name		= options.name		|| 'myname';
+		this._at		= options.at		|| scene;
+		this._physics	= options.physics	||true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
 		var p = this._physics;
 		var c = this._color
-	/*	var thematerial =  getMaterial({
-			color:c,
-		   side:2,
-		   // combine: THREE.MixOperation,
-		   // reflectivity: 1
-		   // clearcoat:1,
-		   metalness:0,
-		   // transparent:true,
-		  type:this._material,
-		opacity:this._opacity,
-		wireframe:false,
-		   // flatShading:true
-	   });//]
-		*/
-		var material = new THREE.MeshStandardMaterial( {
-			opacity: this._opacity,
-		transparent: true,
-		color: c,
-		position:this._position,
-
+	
+		var material = getMaterial( {
+			opacity		: this._opacity,
+			transparent	: true,
+			color		: c,
+			position	:this._position,
 		});
 		var width = this._scale[0],
 			height = this._scale[1],
@@ -2226,24 +2307,7 @@ export class Plane {
 		});
 
 		var planeh = new THREE.Mesh(boxGeometry, material) ;
-	//	scene.add(mesh);
-
-		//if (p){
-		//	console.log(p)
-		//	var physmat = Physijs.createMaterial( thematerial, this._friction, this._bounce );
-			//circle = new Physijs.ConvexMesh( geometry, physmat,1 );
-			//circlef = new Physijs.PlaneMesh( geometry, physmat,1 );
-		//	planeh = new Physijs.ConvexMesh( geometry, physmat,1 );
-
-		//} else {
-		//	planeh = mesh;
-		//}
-		
-		// scale the plane
-		//var s = this._scale;
-		//if (s.length){ plane.scale.set(...s ); }
-		//else 		 { plane.scale.set(s,s); }
-		
+	
 		planeh.action = this._action
 
 		planeh.castShadow            = true;
@@ -2265,49 +2329,41 @@ export class Plane {
 export class Ring {
 	constructor (options) {
 		if(!options){options={}}
-		this._scale 	= options.scale 	|| [1,1];
-		this._color 	= options.color 	|| 0xffffff;
-		this._side 		= options.side 		|| "both";
-		this._material 	= options.material 	|| "standard";
-		this._position 	= options.position 	|| [0,0,0];
-		this._opacity 	= options.opacity 	|| 1;
-		this._radius 	= options.radius 	|| [0.5,1];
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._scale		= options.scale		|| [1,1];
+		this._color		= options.color		|| 0xffffff;
+		this._side		= options.side		|| "both";
+		this._material	= options.material	|| "standard";
+		this._position	= options.position	|| [0,0,0];
+		this._opacity	= options.opacity	|| 1;
+		this._radius	= options.radius	|| [0.5,1];
+		this._physics	= options.physics	|| true;
+		this._bounce	= options.bounce	|| 0.8;
+		this._friction	= options.physics	|| 0.3;
 		var p = this._physics;
 		var r = this._radius
 		var c = this._color
 		
 		var thematerial =  getMaterial({
-			color:c,
-			side:2,
+			color		:c,
+			side		:2,
 			reflectivity: 1,
-			clearcoat:1,
-			type:this._material,
-			opacity:this._opacity,
-		position:this._position,
-
+			clearcoat	:1,
+			type		:this._material,
+			opacity		:this._opacity,
+			position	:this._position,
 		});
 	
 		const geometry = new THREE.RingGeometry(r[0],r[1], 32 );
-		var plane;
-		if (p){ plane = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 ); }
-		else { plane = new THREE.Mesh( geometry, thematerial ); }
+		var ring;
+		if (p){ ring = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( thematerial, this._friction, this._bounce ),1 ); }
+		else { ring = new THREE.Mesh( geometry, thematerial ); }
 		
-		
-		// scale the plane
-		//var s = this._scale;
-		//if (s.length){ plane.scale.set(...s ); }
-		//else 		 { plane.scale.set(s,s); }
-		// position
-		//var p = this._position
-		plane.position.set(...this._position)
-		plane.color = c
+		ring.position.set(...this._position)
+		ring.color = c
 		// add to scene
-		scene.add( plane );
-		plane.castShadow            = true;
-		plane.receiveShadow         = false;
+		scene.add( ring );
+		ring.castShadow            = true;
+		ring.receiveShadow         = false;
 	}
 }
 				
@@ -2315,7 +2371,7 @@ export class Ring {
 
 // listen for mouse events
 function onMouseMove( e ) {
-	mouse.x = ( e.clientX   / window.innerWidth  ) * 2 - 1;
+	mouse.x = 	( e.clientX / window.innerWidth  ) * 2 - 1;
 	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
 }
 				 
@@ -2333,7 +2389,6 @@ $(document).on('click', function(e){
 		}
 	}
 });
-				 
 
 // listen for clicks
 $(document).on('mousedown', function(e){
@@ -2406,15 +2461,8 @@ constructor (options) {
 
 	}
 	
-	hand1.addEventListener( 'pinchstart', evt => {
-		//cycleHandModel( evt.handedness );
-		console.log('start')
-	} );
-	
-	hand1.addEventListener( 'pinchend', evt => {
-		//cycleHandModel( evt.handedness );
-		console.log('end')
-	} );
+	hand1.addEventListener( 'pinchstart', evt => { /* cycleHandModel( evt.handedness ); */ console.log('start'); } );
+	hand1.addEventListener( 'pinchend',   evt => { /* cycleHandModel( evt.handedness ); */ console.log('end');   } );
 
 	// Hand 2
 	hand2 = renderer.xr.getHand( 1 );
@@ -2438,31 +2486,25 @@ constructor (options) {
 		var ray = new THREE.Raycaster( hand2.children[9].position );
 		raycaster.ray.direction.set(scene.direction)//.applyMatrix4( tempMatrix );
 		var	intersections = ray.intersectObjects( scene.children);
-
 		// var collision = firstBB.intersectsBox(secondBB);
 		// console.log(intersections)
 		// cycleHandModel( evt.handedness );
 	});
 	window.hands = [ hand1, hand2 ];
 	var mat =  getMaterial({
-		type:'standard',
-	color: 'white',
-	transparent:true,
-	opacity:1,
-	side:2,
-//	map:this._map
-	})
+		type		: 'standard',
+		color		: 'white',
+		transparent	: true,
+		opacity		: 1,
+		side		: 2,
+		//	map:this._map
+	});
 	var geo =  new THREE.PlaneGeometry(0.1,0.02,1,1);
-	 fingermenu = new THREE.Mesh(geo, mat		);
-	
-	
+	fingermenu = new THREE.Mesh(geo, mat		);
 	hand2.children[9].add(fingermenu)
-	
 	fingermenu.position.x = 0.05
 	fingermenu.rotation.x = -Math.PI / 2;
-	
-	
-	
+
 	const font = new THREE.FontLoader();
 	font.load('/assets/fonts/helvetiker_bold.json', function ( font ) {
 		const textGeo = new THREE.TextBufferGeometry( 'main menu', {
@@ -2492,20 +2534,18 @@ constructor (options) {
 	});
 }
 }
-var hit
+var hit;
 function collision() {
- var originPoint = fingermenu.position.clone();
- for (var vertexIndex = 0; vertexIndex <  fingermenu.geometry.vertices.length; vertexIndex++) {
-	 var ray = new THREE.Raycaster( fingermenu.position, fingermenu.geometry.vertices[vertexIndex] );
-	 var collisionResults = ray.intersectObjects(   scene.children );
-	 if ( collisionResults.length > 0)  {
-		hit = true;
-		 console.log(collisionResults)
-	 }
- }
+	var originPoint = fingermenu.position.clone();
+	for (var vertexIndex = 0; vertexIndex <  fingermenu.geometry.vertices.length; vertexIndex++) {
+		var ray = new THREE.Raycaster( fingermenu.position, fingermenu.geometry.vertices[vertexIndex] );
+		var collisionResults = ray.intersectObjects( scene.children );
+		if ( collisionResults.length > 0)  {
+			hit = true;
+			console.log(collisionResults);
+		}
+	}
 }
-
-
 				 
 // Create laser pointer line
 function buildController( data ) {
@@ -2526,7 +2566,6 @@ function buildController( data ) {
 export class Pointer {
 	constructor (options) {
 		if(!options){options={}}
-
 		var c = options.bind || controller[0];
 		console.log(c)
 		c.addEventListener( 'connected', function ( e ) { this.add( buildController( e.data ) ); } );
@@ -2538,7 +2577,6 @@ export class Pointer {
 		//} );
 		pointer = c
 		pointingController = c
-		
 	}
 }
 
@@ -2574,6 +2612,31 @@ var gr = new THREE.Group();
 // DropdownDemo
 export class DropdownDemo {
 	constructor (options) {
+		/*
+			 var geometry1 = new THREE.BoxBufferGeometry( 1, 1, 1 );
+					  var material = new THREE.MeshStandardMaterial( { roughness: 0 } );
+		   menuBox = new THREE.Mesh( geometry1, material );
+			geometry1 = new THREE.SphereBufferGeometry( 1, 35, 35 );
+			menuSphere = new THREE.Mesh( geometry1, material );
+			geometry1 = new THREE.CylinderBufferGeometry( 1, 1, 1,30 );
+			menuCylinder = new THREE.Mesh( geometry1, material );
+			
+			gr.add(menuBox)
+			gr.add(menuSphere)
+			gr.add(menuCylinder)
+			gr.position.x 	= -2;
+	   
+			scene.add(gr)
+			
+	   console.log(e);
+	   //// for demo
+	   // var menuBox, menuSphere, menuCylinder;
+	   switch( e ) {
+	   case 'box':      gr.add( menuBox );      gr.remove(menuCylinder); gr.remove( menuSphere );  break;
+	   case 'sphere':   gr.add( menuSphere );   gr.remove( menuBox );    gr.remove( menuCylinder); break;
+	   case 'cylinder': gr.add( menuCylinder ); gr.remove( menuBox );    gr.remove( menuSphere );  break;
+	   }
+	   }*/
 	}
 }
 																							 
@@ -2614,13 +2677,13 @@ export class Image {
 	
 	var ground_material =  getMaterial({
 		type:this._material,
-	color: 'white',
-	transparent:true,
-	opacity:1,
-	//side:2,
-	map:this._file,
-	side:this._side,
-	//map:this._map
+		color: 'white',
+		transparent:true,
+		opacity:1,
+		//side:2,
+		map:this._file,
+		side:this._side,
+		//map:this._map
 	});
  // var materialOuter = new THREE.MeshBasicMaterial({
 //	map: new THREE.TextureLoader().load(this._file),
@@ -2653,8 +2716,6 @@ export class Car {
 
 		var carspeed = this._speed;
 		
-		
-		
 		loader = new THREE.TextureLoader();
 		car_material   = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._color }),1, .2 );
 		wheel_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._wheel }), 1, .5 );
@@ -2673,7 +2734,7 @@ export class Car {
 		car.wheel_fl_constraint = new Physijs.DOFConstraint( car.wheel_fl, car.body, new THREE.Vector3( -3.5, 6.5, 5 ) );
 		scene.addConstraint( car.wheel_fl_constraint );
 		car.wheel_fl_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y: Math.PI / 8, z: 0 });
+		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
 
 		car.wheel_fr = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
 		car.wheel_fr.rotation.x = Math.PI / 2;
@@ -2683,7 +2744,7 @@ export class Car {
 		car.wheel_fr_constraint = new Physijs.DOFConstraint( car.wheel_fr, car.body, new THREE.Vector3( -3.5, 6.5, -5 ) );
 		scene.addConstraint( car.wheel_fr_constraint );
 		car.wheel_fr_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y: Math.PI / 8, z: 0 });
+		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
 
 		car.wheel_bl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
 		car.wheel_bl.rotation.x = Math.PI / 2;
@@ -2766,8 +2827,8 @@ export class  Light {
 	  this._distance 	= options.distance 	|| 0;
 	  this._angle		= options.angle 	|| 1;
 	  this._penumbra	= options.penumbra 	|| 1;
-	  this._width	= options.width 	|| 1;
-	  this._height	= options.height 	|| 1;
+	  this._width		= options.width 	|| 1;
+	  this._height		= options.height 	|| 1;
 	  var i = this._intensity;
 	  var c = this._color;
 	  var t = this._type;
@@ -2848,6 +2909,7 @@ export class  Lensflare {
 // Ocean
 export class  Ocean {
 	constructor (options) {
+		renderer.outputEncoding = THREE.LinearEncoding;
 		sun = new THREE.Vector3();
 		const waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
 		water = new Water(
@@ -2907,10 +2969,10 @@ export class Sprite {
 // Bowl
 export class Bowl {
 	constructor (options) {
-		var geometry = new THREE.OctahedronGeometry(5, 20, 6, 0, 2*Math.PI, 0, 0.5 * Math.PI);
-		var material = new THREE.MeshStandardMaterial({color:'#222222'} );
-		var mesh1g = new THREE.Mesh( geometry, material );
-		material.side =2;
+		var geometry 	= new THREE.OctahedronGeometry(5, 20, 6, 0, 2*Math.PI, 0, 0.5 * Math.PI);
+		var material 	= new THREE.MeshStandardMaterial({color:'#222222'} );
+		var mesh1g 		= new THREE.Mesh( geometry, material );
+		material.side = 2;
 		var ground_material = Physijs.createMaterial( material, 1, 0 );
 		// add head
 		var mesh1gi = new Physijs.ConvexMesh( geometry, ground_material, 1 );
@@ -2933,39 +2995,22 @@ export class Fog {
 }
 var solderActive = false
 var ticks = 0, throwOld, throwNew, tick = 0
-function render(timeNow, frame ) {
-			tick += 1
-			if(solderActive){
-			// animated soldier
-			idleWeight = idleAction.getEffectiveWeight();
-							walkWeight = walkAction.getEffectiveWeight();
-							runWeight = runAction.getEffectiveWeight();
+function render() {
+			
+	tick += 1;
 
-							// Update the panel values if weights are modified from "outside" (by crossfadings)
+	// animated soldier
+	if(solderActive){
+		idleWeight = idleAction.getEffectiveWeight();
+		walkWeight = walkAction.getEffectiveWeight();
+		runWeight  = runAction.getEffectiveWeight();
 
-							updateWeightSliders();
-
-							// Enable/disable crossfade controls according to current weight values
-
-							updateCrossFadeControls();
-
-							// Get the time elapsed since the last frame, used for mixer update (if not in single step mode)
-
-							let mixerUpdateDelta = clock.getDelta();
-
-							// If in single step mode, make one step and then do nothing (until the user clicks again)
-
-							if ( singleStepMode ) {
-
-								mixerUpdateDelta = sizeOfNextStep;
-								sizeOfNextStep = 0;
-
-							}
-
-							// Update the animation mixer, the stats panel, and render this frame
-
-							mixer.update( mixerUpdateDelta );
-			}
+		updateWeightSliders(); // Update the panel values if weights are modified from "outside" (by crossfadings)
+		updateCrossFadeControls(); // Enable/disable crossfade controls according to current weight values
+		let mixerUpdateDelta = clock.getDelta(); // Get the time elapsed since the last frame, used for mixer update (if not in single step mode)
+		if ( singleStepMode ) { mixerUpdateDelta = sizeOfNextStep; sizeOfNextStep = 0; } // If in single step mode, make one step and then do nothing (until the user clicks again)
+		mixer.update( mixerUpdateDelta ); // Update the animation mixer, the stats panel, and render this frame
+	}
 	if (video && video.currentTime){
 		if (video.currentTime > 1 && videotexture) {videotexture.needsUpdate = true; }
 		// if ( video.readyState >= video.HAVE_CURRENT_DATA ) { videotexture.needsUpdate = true; }
@@ -2988,14 +3033,14 @@ function render(timeNow, frame ) {
 					throwOld = throwNew;
 					throwNew = grabbingController.getWorldPosition(throwEndVector);
 				}
-				//	console.log(totalGrabTime)
-				//console.log(intersectingObjectPosition + controllerGrabPosition)
+				// console.log(totalGrabTime)
+				// console.log(intersectingObjectPosition + controllerGrabPosition)
 				if(intersecto[ 0 ]){
 				//var position1 = intersecto[ 0 ].getWorldPosition(intersectingObjectPosition);
 				//var position2 = grabbingController.getWorldPosition(controllerGrabPosition);
 				}
 				//ar positiong1 = grabbingController.getWorldPosition(controllerGrabStartPosition);
-				var positiong2 = grabbingController.getWorldPosition(controllerGrabPosition);
+				var positiong2  = grabbingController.getWorldPosition(controllerGrabPosition);
 				var positiong21 = grabbingController.getWorldDirection(controllerGrabRotation);
 				// this will return the difference vector between the start position and current position of grab
 				startEndDifference = positionVector1(controllerGrabStartPosition, controllerGrabPosition);
@@ -3043,15 +3088,33 @@ function render(timeNow, frame ) {
 			
 			// Walk Locomotion
 			if (walk){
+				
 				if (controller[0]){
 					if (dolly){
 						if(fullGamepad){
+							
 							// TO DO
-							// add head/controller rotation into calculation
-							if(fullGamepad.joystick.r){
-								var direction = controller[0].getWorldDirection(controllerVec2);
-								dolly.position.x += (direction.x * fullGamepad.joystick.r[0]);
-								dolly.position.z += (direction.z * fullGamepad.joystick.r[1]);
+							// add diagnal movement into calculation
+							// right now, joystick forward/back changes speed, but left/right is not considered
+							if(fullGamepad.joystick.r[0] != undefined){
+								
+								// controller direction
+								var controllerDirection = controller[0].getWorldDirection(controllerVec2);
+							
+								// joystick axes
+								var stickX = fullGamepad.joystick.r[1]; // forward, back
+								var stickZ = fullGamepad.joystick.r[0]; // left, right
+								
+								// joystick forward / backward changes speed
+								var speed = scale(-1,1,1,-1,stickX) * 0.2
+
+								// move dolly along x axis
+								var walkX = (scale(-1,1,1,-1,controllerDirection.x) * speed)
+								dolly.position.x += (walkX);
+								
+								// move dolly along z axis
+								var walkZ = (scale(-1,1,1,-1,controllerDirection.z) * speed)
+								dolly.position.z += (walkZ);
 							}
 						}
 					}
@@ -3072,6 +3135,66 @@ function render(timeNow, frame ) {
 	  sphere.position.z = Math.cos( time ) * 0.2;
 
 	}*/
+			if(touchGamepad){
+				
+						fullGamepad.joystick.l = [parseInt(Joy1.GetX()) * 0.01, parseInt(Joy1.GetY()) * 0.01]
+				fullGamepad.joystick.r = [parseInt(Joy2.GetX()) * 0.01, parseInt(Joy2.GetY()) * 0.01]
+						//	},
+							/*button:{
+								a : 0, // A Button
+								b : 0, // B Button
+								x : 0, // X Button
+								y : 0 // Y Button
+								//r : controller[0].gamepad.buttons[3], // stick button R
+								//l : controller[1].gamepad.buttons[3]  // stick button L
+							},/*
+							trigger:{
+								r : controller[0].gamepad.buttons[0], // trigger R
+								l : controller[1].gamepad.buttons[0]  // trigger L
+							},
+							grip:{
+								r : controller[0].gamepad.buttons[1], // grip R
+								l : controller[1].gamepad.buttons[1]  // grip L
+							},
+							rest:{
+								r : controller[0].gamepad.buttons[6], // thumbrest R
+								l : controller[1].gamepad.buttons[6]  // thumbrest L
+							}*/
+						//}
+			///		}
+			//	}
+				
+				// ===== LEFT JOYSTICK  ===== //
+				
+				if(fullGamepad.joystick.l[0]){
+					var camX = dolly.getWorldPosition(dollyPostion).x;
+					var camZ = dolly.getWorldPosition(dollyPostion).z;
+					
+					dolly.translateX( fullGamepad.joystick.l[0] * 0.1 );
+					dolly.translateZ( scale(-1,1,1,-1,fullGamepad.joystick.l[1]) * 0.1);
+				}
+				
+				// ===== RIGHT JOYSTICK  ===== //
+				
+				if(fullGamepad.joystick.r[0]){
+					
+					// look up/down
+					var newX = camera.rotation.x + fullGamepad.joystick.r[1] * 0.01 ;
+					if(newX <= 0.5 && newX >= -1 ){ camera.rotation.x = newX; }
+					
+					// look left/right
+					var newY = dolly.rotation.y + scale(-1,1,1,-1,fullGamepad.joystick.r[0]) * 0.025;
+				
+					// if rotation is more than a full 360, set back to 0
+					if     (newY >  Math.PI * 2){ newY -= Math.PI * 2 }
+					else if(newY < -Math.PI * 2){ newY += Math.PI * 2 }
+					
+					dolly.rotation.y = newY;
+					
+				}
+				
+				//console.log(fullGamepad.button.a)
+			}
 
 			// gamepad stuff
 			if(controller[0]){
@@ -3079,11 +3202,10 @@ function render(timeNow, frame ) {
 					if(controller[1].gamepad){
 						var axesL = controller[1].gamepad.axes;
 						var axesR = controller[0].gamepad.axes;
-						
 						fullGamepad = {
 							joystick:{
-								l : [axesL[2],axesL[3]],
-								r : [axesR[2],axesR[3]]
+								l : [axesL[2], /*scale(-1,1,1,-1,*/axesL[3]/*)*/],
+								r : [axesR[2], /*scale(-1,1,1,-1,*/axesR[3]/*)*/]
 							},
 							button:{
 								a : controller[0].gamepad.buttons[4], // A Button
@@ -3169,41 +3291,18 @@ function render(timeNow, frame ) {
 		if (mixerFBX) mixerFBX.update(delta);
 		if (mixerDAE) mixerDAE.update(delta);
 	}
-	if (animationOn){
-		TWEEN.update();
-	}
+	if (animationOn){ TWEEN.update(); }
 			
-			// mirror stuff
-			if (mirror){
-				//console.log(mirrorCameras)
-				
-				//console.log(tick)
-				
-				if(tick % 60 == 0){
-				mirrorCameras.forEach( function ( cam,i ) {
-console.log(mirrorCameras);
-					
-					
-					cam.position.copy( mirrorObjects[i].position);
-
-				//	console.log(mirrorObjects[i].position)
-					cam.update( renderer, scene );
-
-					  } );
-				}
-	//			mirrorCube.visible = false;
-	//cam.updateCubeMap( renderer, scene );
-	//mirrorCube.visible = true;
-
-	//mirrorSphere.visible = false;
-	//mirrorSphereCamera.updateCubeMap( renderer, scene );
-	//mirrorSphere.visible = true;
-			}
+	// mirror stuff (update every 60 frames)
+		if(tick % 60 == 0 && mirror){
+			mirrorCameras.forEach( function ( cam,i ) {
+				cam.position.copy( mirrorObjects[i].position);
+				cam.update( renderer, scene );
+			} );
+		}
+	
 			//if(xr)
 			renderer.render( scene, camera );
-		//	renderer.render( scene, camera );
-			//render( scene, camera );
-		//  render();
 	// var seconds = new Date().getTime() / 6000;
 }
 													 //var i = 0;
@@ -3213,9 +3312,30 @@ console.log(mirrorCameras);
 													//	 setTimeout(startRender, 1000/fps);
 													//   }
 													// }
+function limitRange(num, min, max){
+  const MIN = min || 1;
+  const MAX = max || 20;
+  const parsed = parseInt(num)
+  return Math.min(Math.max(parsed, MIN), MAX)
+}
+function scale(oldMin, oldMax, newMin, newMax, oldValue) {
+ 
+			var oldRange = oldMax - oldMin
+			var newRange = newMax - newMin
 
-													
-											
+			var newValue = ((oldValue - oldMin) * newRange / oldRange) + newMin
+					return newValue
+}
+
+function scaleVector(oldMin, oldMax, newMin, newMax, vect) {
+	
+	var newVector = {x:0,y:0,z:0}
+	newVector.x = scale(oldMin,oldMax,newMin,newMax,vect.x)
+	newVector.y = scale(oldMin,oldMax,newMin,newMax,vect.y)
+	newVector.z = scale(oldMin,oldMax,newMin,newMax,vect.z)
+
+	return newVector
+}
 // distance between two vectors
 function distanceVector( v1, v2 ){
     var dx = v1.x - v2.x;
@@ -3224,6 +3344,7 @@ function distanceVector( v1, v2 ){
 
     return Math.sqrt( dx * dx + dy * dy + dz * dz );
 }
+
 // positional difference
 function positionVector( v1, v2 ){
 	var dx = v1.x - v2.x;
@@ -3232,6 +3353,7 @@ function positionVector( v1, v2 ){
 
 	return {x:dx,y:dy,z:dz};
 }
+
 // multiply vector
 function multiplyVector( v, a ){
     var dx = v.x * a;
@@ -3240,10 +3362,9 @@ function multiplyVector( v, a ){
 
 	return {x:dx,y:dy,z:dz};
 }
-													 
+
 // positional difference
-function positionVector1( v1, v2 )
-{
+function positionVector1( v1, v2 ){
     var dx = v1.x - v2.x;
     var dy = v1.y - v2.y;
     var dz = v1.z - v2.z;
@@ -3254,6 +3375,7 @@ function positionVector1( v1, v2 )
 
 	return {x:dx,y:dy,z:dz};
 }
+
 // add two vectors
 function addVector( v1, v2 ){
     var dx = v1.x + v2.x;
@@ -3262,6 +3384,7 @@ function addVector( v1, v2 ){
 
 	return {x:dx,y:dy,z:dz};
 }
+
 // side selector
 const getSide = function(e){
 	switch(e){
@@ -3270,6 +3393,7 @@ const getSide = function(e){
 		case "both":  return 2;
 	}
 }
+
 // blend selector
 const getBlend = function(e){
 	 if (typeof e === 'number'){ return e }
@@ -3307,8 +3431,6 @@ var getMaterial = function(options){
 	//var s = options.side || 2
 	var asdf = options.map
 	
-			// if texture image map
-	
 	params = {
 		color:c,
 		//side:2,
@@ -3327,13 +3449,8 @@ var getMaterial = function(options){
 		// map: p
 		
 	}
-		if (options.side){
-		 params.side = options.side
-	 }
-	 													 
-	 if (options.reflectivity){
-		 params.reflectivity = options.reflectivity
-	 }
+	if (options.side)        { params.side = options.side }
+	if (options.reflectivity){ params.reflectivity = options.reflectivity }
 	 
 	if (options.map){
 		var p = new THREE.TextureLoader().load(asdf) || null
@@ -3345,14 +3462,9 @@ var getMaterial = function(options){
 	}
 	
 	
-	if(bumpMap){
-		params.bumpMap =  new THREE.TextureLoader().load(bumpMap);
-		params.bumpScale = bumpScale;
-	}
-	
-	if(alphaMap){
-		params.alphaMap = new THREE.TextureLoader().load(alphaMap);
-	}
+	if(bumpMap){ params.bumpMap =  new THREE.TextureLoader().load(bumpMap); params.bumpScale = bumpScale; }
+	if(alphaMap){ params.alphaMap = new THREE.TextureLoader().load(alphaMap); }
+			
 	switch(options.type){
 		case "basic"	: return new THREE.MeshBasicMaterial(params);    break;
 		case "depth"	: return new THREE.MeshDepthMaterial(params);    break;
@@ -3504,27 +3616,25 @@ export class Globe {
 		var clouds = new THREE.Mesh(
 		new THREE.SphereGeometry(0.41, 34, 34),
 		new THREE.MeshPhongMaterial({
-		map: new THREE.TextureLoader().load('/assets/textures/earth/fair_clouds_4k.png'),
+			map: new THREE.TextureLoader().load('/assets/textures/earth/fair_clouds_4k.png'),
 			//alphaMap	: new THREE.TextureLoader().load('/assets/textures/earth/earthcloudmaptrans.jpg'),
 			//	bumpScale: bumpScale,
 			//	bumpMap	: bumpMap,
 			//	bumpScale: 0.6,
 			//	alphaMap: THREE.ImageUtils.loadTexture(alphaMap),
-		opacity:0.8,
-		transparent:true
-			
+			opacity:0.8,
+			transparent:true
 		}));
 				
-	// marker object
-		
-	var pointerr = new THREE.Mesh(
+		// marker object
+		var pointerr = new THREE.Mesh(
 		new THREE.CylinderGeometry(.02, 0, .10),
 		new THREE.MeshPhongMaterial({color: 0xcc9900}));
-				pointerr.position.set(0.45, 0, 0); // rotating obj should set (X > 0, 0, 0)
-				pointerr.quaternion.setFromUnitVectors(
+		pointerr.position.set(0.45, 0, 0); // rotating obj should set (X > 0, 0, 0)
+		pointerr.quaternion.setFromUnitVectors(
 		new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
-	var marker = new THREE.Object3D();
-	marker.add(pointerr);
+		var marker = new THREE.Object3D();
+		marker.add(pointerr);
 
 	// setup scene
 	var obje = new THREE.Object3D();
@@ -3550,13 +3660,6 @@ export class Globe {
 	
 }
 
-// Compass
-export class Compass {
-	constructor (options) {
-
-	}
-}
-
 window.addEventListener( 'resize', onWindowResize, false );
 
 function onWindowResize() {
@@ -3572,8 +3675,17 @@ export class Locomotion {
 		if(!options){options={}}
 		var _parent = options.at || scene;
 
-		if (options.type == 'fly' ){ fly  = true }
-		if (options.type == 'walk'){ walk = true }
+		var bindController = options.bind
+		if (options.type == 'fly' 	){ fly  = true }
+		if (options.type == 'walk'	){
+			walk = true;
+			//console.log(walkController);
+			walkController = options.bind
+
+		}
+		if (options.type == 'rotate'){
+			//rotate = true
+		}
 		if (options.type == 'teleport'){
 			guidingController = options.bind
 			var asdf = options.bind;
@@ -3684,118 +3796,100 @@ export class Ball {
 		var bumpMap;
 		var bumpScale;
 		if (options.type == 'basketball'){
-			radius = 0.12;
-			map = '/assets/textures/balls/basketball/basketball.png'
-			bounce = 0.56
+			map			= '/assets/textures/balls/basketball/basketball.png'
 			bumpMap		= '/assets/textures/balls/rugby/bumpmap.jpg';
-			bumpScale		= 0.001;
+			radius		= 0.12;
+			bounce		= 0.56
+			bumpScale	= 0.001;
 		} //  29.5” | 74.9 cm
 		if (options.type == 'volleyball'){
-			radius = 0.105;
-			map = '/assets/textures/balls/volleyball/volleyball.png'
-			bumpMap = '/assets/textures/balls/volleyball/volleyball.png'
+			map			= '/assets/textures/balls/volleyball/volleyball.png'
+			bumpMap		= '/assets/textures/balls/volleyball/volleyball.png'
+			radius		= 0.105;
 			bumpScale	= 0.01;
-bounce = 0.36
+			bounce		= 0.36
 		} // 8.15”-8.39” (20.7-21.3 cm)
 		if (options.type == 'tennis'){
-			radius 		= 0.0343 ;
 			map 		= '/assets/textures/balls/tennis/tennis.jpg'
 			bumpMap		= '/assets/textures/balls/tennis/bumpmap.jpg';
+			radius 		= 0.0343;
 			bumpScale	= 0.01;
-			bounce = 0.79
-
+			bounce		= 0.79
 		} // 6.54–6.86 cm (2.57–2.70 inches). Balls must have masses in the range 56.0–59.4 g (1.98–2.10 ounces)
 		if (options.type == 'beach'){
-			radius = 0.2845;
-			map = '/assets/textures/balls/beachball/beachball.jpg',
-			//bumpMap		= '/assets/textures/balls/beachball/bumbmap1.jpg';
-			//alphaMap		= '/assets/textures/balls/beachball/alphamap.jpg';
+			map			= '/assets/textures/balls/beachball/beachball.jpg',
+			alphaMap	= '/assets/textures/balls/beachball/alphamap.jpg'
+			//bumpMap	= '/assets/textures/balls/beachball/bumbmap1.jpg';
+			//alphaMap	= '/assets/textures/balls/beachball/alphamap.jpg';
+			radius		= 0.2845;
 			//bumpScale	= 0.01;
-			alphaMap = '/assets/textures/balls/beachball/alphamap.jpg'
 		}  //  11.2" (28.45cm)
 		if (options.type == 'baseball'){
-			radius = 0.0375;
 			map 		= '/assets/textures/balls/baseball/baseball.jpg';
 			bumpMap		= '/assets/textures/balls/baseball/bumpmap.jpg';
+			radius		= 0.0375;
 			bumpScale	= 0.01;
-			bounce = 0.32
+			bounce		= 0.32
 		}// (​2 55⁄64–​2 15⁄16 in. or 73–75 mm in diameter), with a mass of 5 to ​5 1⁄4 oz. (142 to 149 g).
 		if (options.type == 'softball'){
-			radius = 0.0375;
-			map 		= '/assets/textures/balls/baseball/baseball.jpg';
+			map		= '/assets/textures/balls/baseball/baseball.jpg';
+			radius 	= 0.0375;
 		}
 		if (options.type == 'soccer'){
-			radius = 0.125;
-			map = '/assets/textures/balls/soccer/soccer.png'
-			bounce = 0.40,
+			map 		= '/assets/textures/balls/soccer/soccer.png'
 			bumpMap		= '/assets/textures/balls/soccer/soccer.png';
+			radius		= 0.125;
+			bounce 		= 0.40,
 			bumpScale	= 0.004;
 		} //diameter of 8.6”-9” (22-23 cm) and circumference of 27”-28” (68-70 cm). The mass of a Size 5 Soccer Ball is between 14-16 oz (400-450 g) with a pressure between 8.5-15.6 psi (58.6-107.6 kPa)
 		
 		//*	if (this.type == 'pool'/*billiards */){ radius = ; } // 5 1⁄2 to 6.0 oz (160–170 g) with a diameter of 2 1⁄4 in (57 mm), plus or minus 0.005 in (0.127 mm).
 		if (options.type == 'golf'){
-			radius = .0214;
-			map		= '/assets/textures/balls/golf/golf.png';
-			bounce = 0.36
-
-			//bumpMap		= '/assets/textures/balls/golf/golf.png';
-			//bumpScale	= 0.01;
+			map			= '/assets/textures/balls/golf/golf.png';
+			bumpMap		= '/assets/textures/balls/golf/golf.png';
+			radius		= .0214;
+			bounce		= 0.36
+			bumpScale	= 0.01;
 			
 		} // 1.620 oz (45.93 grams), has a diameter not less than 1.680 in (42.67 mm),
-	if (options.type == 'cricket'){
-		radius = 0.03645;
-		map		= '/assets/textures/balls/cricket/cricket.png';
-		bounce = 0.16
-	} //DIAMETER  INCHES 2.80 to 2.86	MM 71.3 to 72.9
-if (options.type == 'rugby'){
-	radius = 0.135;
-	map		= '/assets/textures/balls/rugby/rugby.png';
-	bumpMap		= '/assets/textures/balls/rugby/bumpmap.jpg';
-	bumpScale		= 0.001;
-	bounce = 0.79
-}//  27 cm (11 in) long and 60 cm (24 in) in circumference at its widest point. // weighs between 383 and 440 g (13.5 and 15.5 oz)
-	//	*/
-		this._position = options.position || [0,3,0];
+		if (options.type == 'cricket'){
+			map			= '/assets/textures/balls/cricket/cricket.png';
+			radius		= 0.03645;
+			bounce		= 0.16
+		} //DIAMETER  INCHES 2.80 to 2.86	MM 71.3 to 72.9
+		if (options.type == 'rugby'){
+			map			= '/assets/textures/balls/rugby/rugby.png';
+			bumpMap		= '/assets/textures/balls/rugby/bumpmap.jpg';
+			radius		= 0.135;
+			bumpScale	= 0.001;
+			bounce		= 0.79
+		}//  27 cm (11 in) long and 60 cm (24 in) in circumference at its widest point. // weighs between 383 and 440 g (13.5 and 15.5 oz)
+		
+		this._position	= options.position || [0,3,0];
 		this._rotation	= options.rotation	|| [0,0,0];
-		this._material = options.material || 'physical';
-		this._opacity = options.opacity || 1;
-		this._friction = 1;
-		this._bounce = bounce
+		this._material	= options.material || 'physical';
+		this._opacity	= options.opacity || 1;
+		this._friction	= 1;
+		this._bounce	= bounce
 		
 		//if (bumpMap){
-//	var texture	= THREE.ImageUtils.loadTexture(bumpMap)
+		//	var texture	= THREE.ImageUtils.loadTexture(bumpMap)
 		
 		var material =  getMaterial({
 			type:this._material,
 			//color:this._color,
 			//opacity:this._opacity,
 			//side:0,
-			
-			
-			alphaMap		:alphaMap ,
-		map:map,
+			alphaMap:alphaMap ,
+			map:map,
 			bumpMap	: bumpMap,
 			bumpScale: bumpScale,
 		})
-		//}
-		//else {
-		//	var material =  getMaterial({
-		//		type:this._material,
-			
-		//	map:map,
-			
-		//	})
-		
-	//	var m = new THREE.SphereGeometry( radius, 20,  20 )//
+
 		  var messh
-		  if (p){
-			  var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
-			  messh = new Physijs.SphereMesh( new THREE.SphereGeometry( radius, 20, 20 ), physmat,1 )
-			  
-		  } else {
-			  messh = new THREE.Mesh( m, material )
-		  }
-	//  obj.add(messh)
+		  if (p){ messh = new Physijs.SphereMesh( new THREE.SphereGeometry( radius, 20, 20 ), Physijs.createMaterial( material, this._friction, this._bounce ),1 ) }
+		  else  { messh = new THREE.Mesh( m, material ) }
+		//  obj.add(messh)
 		//var s = this._scale;
 		//if (scale.length){ messh.scale.set(...scale ); }
 		//else 		 { messh.scale.set(scale,scale,scale); }
@@ -3895,8 +3989,8 @@ export class Video {
 		if(!options){options={}}
 		this._position 	= options.position 	|| [0,0,0];
 		this._rotation 	= options.rotation 	|| [0,0,0];
-		this._scale 	= options.scale	|| [1,1,1];
-		this._side 	= options.side	||2;
+		this._scale 	= options.scale		|| [1,1,1];
+		this._side		= options.side		|| 2;
 		var po = this._position
 		var ro = this._rotation
 		var sc = this._scale
@@ -3925,9 +4019,8 @@ export class Video {
 					//videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
 					// };
 					}
-			  } catch(err) {
-				console.error("Error: " + err);
 			  }
+			  catch(err) { console.error(err); }
 			  return captureStream;
 			}
 		}
@@ -3935,26 +4028,24 @@ export class Video {
 			navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 			audioSelect.onchange = getStream;
 			videoSelect.onchange = getStream;
-  function gotDevices(deviceInfos) {
-	for (let i = 0; i !== deviceInfos.length; ++i) {
-	  const deviceInfo = deviceInfos[i];
-	  const option = document.createElement("option");
-	  option.value = deviceInfo.deviceId;
-	       if (deviceInfo.kind === "audioinput") { option.text = deviceInfo.label || "microphone " + (audioSelect.length + 1); audioSelect.appendChild(option); }
-	  else if (deviceInfo.kind === "videoinput") { option.text = deviceInfo.label || "camera "     + (videoSelect.length + 1); videoSelect.appendChild(option); }
-	  else {console.log("Found another kind of device: ", deviceInfo);}
-	}
-  }
+		  function gotDevices(deviceInfos) {
+			for (let i = 0; i !== deviceInfos.length; ++i) {
+			  const deviceInfo = deviceInfos[i];
+			  const option = document.createElement("option");
+			  option.value = deviceInfo.deviceId;
+				   if (deviceInfo.kind === "audioinput") { option.text = deviceInfo.label || "microphone " + (audioSelect.length + 1); audioSelect.appendChild(option); }
+			  else if (deviceInfo.kind === "videoinput") { option.text = deviceInfo.label || "camera "     + (videoSelect.length + 1); videoSelect.appendChild(option); }
+			  else {console.log("Found another kind of device: ", deviceInfo);}
+			}
+		  }
 
-  function getStream() {
-	if (window.stream) { window.stream.getTracks().forEach(function (track) { track.stop(); }); }
-	const constraints = { audio: 'true', video: 'true' };
-	navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
-  }
+		  function getStream() {
+			if (window.stream) { window.stream.getTracks().forEach(function (track) { track.stop(); }); }
+			const constraints = { audio: 'true', video: 'true' };
+			navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
+		  }
 
-  function gotStream(stream) { window.stream = stream; videoElement.srcObject = stream; }
-
-  function handleError(error) { console.error("Error: ", error); }
+		  function gotStream(stream) { window.stream = stream; videoElement.srcObject = stream; }
 		}
 		setTimeout(function(){
 		this._type = options.type || '2D';
@@ -3992,8 +4083,6 @@ export class Video {
 			  mesh2.rotation.y = - Math.PI / 2;
 			  mesh2.layers.set( 2 ); // display in right eye only
 			  scene.add( mesh2 );
-						  
-						  
 			mesh1.position.set(0,1,0);
 			videotexture.needsUpdate = true
 		}
@@ -4025,43 +4114,34 @@ export class Video {
 }
 
 function newRatio(q,w){
-//scene.remove(videomesh)
-mainmenu.remove( videotexture );
-mainmenu.remove( videogeo );
-mainmenu.remove( videomesh );
+	//scene.remove(videomesh)
+	mainmenu.remove( videotexture );
+	mainmenu.remove( videogeo );
+	mainmenu.remove( videomesh );
 
-var geometry = new THREE.IcosahedronGeometry(1, 6, 6);
+	var geometry = new THREE.IcosahedronGeometry(1, 6, 6);
+	//object = new Physijs.ConvexMesh( geometry, material );
+	var objectnk = new THREE.Mesh( geometry, material );
 
+	scene.add( objectnk );
+	objectnk.position.z += new THREE.Box3().setFromObject(objectnk).getSize().z * 0.5;
 
-//object = new Physijs.ConvexMesh( geometry, material );
-
-
-var objectnk = new THREE.Mesh( geometry, material );
-
-scene.add( objectnk );
-objectnk.position.z += new THREE.Box3().setFromObject(objectnk).getSize().z * 0.5;
-
-
-var sc = 1
-video = document.getElementById( 'video' );
-//video.play();
-videotexture = new THREE.Texture( video );
-// videotexture.wrapT = 512; videotexture.wrapS = 512;
-videotexture.flipY = true;
-videogeo = new THREE.PlaneGeometry(4,4,1,1)
-
-videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
-
-const material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
-videomesh = new THREE.Mesh( videogeo, material1 );
-//mesh1.rotation.y = - Math.PI / 2;
-// mesh1.layers.set( 1 ); // display in left eye only
-//  mesh1.color = 'white';
-  
-  
-mainmenu.add( videomesh );
-//  videomesh.position.set(...po);
-//videomesh.rotation.set(...ro);
+	var sc = 1
+	video = document.getElementById( 'video' );
+	//video.play();
+	videotexture = new THREE.Texture( video );
+	// videotexture.wrapT = 512; videotexture.wrapS = 512;
+	videotexture.flipY = true;
+	videogeo = new THREE.PlaneGeometry(4,4,1,1)
+	videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
+	const material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
+	videomesh = new THREE.Mesh( videogeo, material1 );
+	// mesh1.rotation.y = - Math.PI / 2;
+	// mesh1.layers.set( 1 ); // display in left eye only
+	// mesh1.color = 'white';
+	mainmenu.add( videomesh );
+	// videomesh.position.set(...po);
+	// videomesh.rotation.set(...ro);
 }
 					  
 export class Button {
@@ -4090,9 +4170,7 @@ export class Button {
 			opacity:this._opacity,
 			hover:this._hover
 		});
-
 		new Text({ size:this._fontSize, color:this._color,position:[ps[0],(ps[1]-(this._fontSize * 0.4)),ps[2]], text:options.text, material:'basic' })
-		
 	}
 }
 
@@ -4104,10 +4182,10 @@ export class Splash {
 		//new Light({position:[3,0,-5]})
 		//delete3DOBJ('floor');
 		if(!options){options={}}
-		this._text 		= options.text 	|| 'hello';
+		this._text 		= options.text		|| 'hello';
 		this._position 	= options.position 	|| [0,0,0];
 		this._rotation 	= options.rotation 	|| [0,0,0];
-		this._scale 	= options.scale	|| 0.01;
+		this._scale 	= options.scale		|| 0.01;
 		var t = this._text
 		var s = this._scale
 		var p = this._position
@@ -4117,15 +4195,15 @@ export class Splash {
 
 		var options = {
 			text:t,size: 1,
-		thickness:thick,
-		font:'/assets/fonts/helvetiker_bold.json',
-		position:p,
-		rotation:r,
+			thickness:thick,
+			font:'/assets/fonts/helvetiker_bold.json',
+			position:p,
+			rotation:r,
 			bevel:true,
-		href:'https://github.com/xrscript',
-		name:'Splash',
-		opacity:0,
-		transparent:true,
+			href:'https://github.com/xrscript',
+			name:'Splash',
+			opacity:0,
+			transparent:true,
 			color:'red'
 			//font:'/assets/fonts/Opus_Regular.json'
 		}
@@ -4134,9 +4212,8 @@ export class Splash {
 		//	var selectedObject = scene.getObjectByName(objName);
 		/////	scene.remove( selectedObject );
 		//}
-		var dfgs = new Text(options);
-		console.log(dfgs)
 		
+		var dfgs = new Text(options);
 		this.object = dfgs
 		
 		
@@ -4152,14 +4229,14 @@ export class Splash {
 			var targetPosition = new THREE.Vector3( -1, 1, 2 );
 			var duration = 10000;
 			tweenCamera( targetPosition, duration );
-		//	new TWEEN.Tween(camera.position).to(t, 6).start();
+			//	new TWEEN.Tween(camera.position).to(t, 6).start();
 			//	new TWEEN.Tween( targetObject.material ).to( t, dur ).start();
-		//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:1,  }, 100).start();
-		//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:0}, 1040).to( {scale:0}, 1000).start();
-			//console.log(scene.getObjectByName('Splash'))
-	//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {scale:0}, 1000).start();
-			//new TWEEN.Tween(scene.getObjectByName('Splash').position).to({scale:0}, 6000).repeat( r ).yoyo(true).start();
-		//new TWEEN.Tween(  scene.getObjectByName('Splash').scale ).to( {  y:   1.5}, 1000 ).easing( TWEEN.Easing.Quadratic.EaseOut).start();
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:1,  }, 100).start();
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:0}, 1040).to( {scale:0}, 1000).start();
+			//  console.log(scene.getObjectByName('Splash'))
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {scale:0}, 1000).start();
+			//  new TWEEN.Tween(scene.getObjectByName('Splash').position).to({scale:0}, 6000).repeat( r ).yoyo(true).start();
+			//  new TWEEN.Tween(  scene.getObjectByName('Splash').scale ).to( {  y:   1.5}, 1000 ).easing( TWEEN.Easing.Quadratic.EaseOut).start();
 			var col = new THREE.Color('#ffffff');
 			//TweenLite.to(dfgs._at.background, 20, { r: col.r, g: col.g, b: col.b, }); }, 3099);
 		},78);
@@ -4174,7 +4251,7 @@ function tweenCamera( targetPosition, duration ) {
 		   camera.position.copy( targetPosition );
 		   camera.lookAt( controls.target );
 		   controls.enabled = true;
-	   } )
+	   })
 	   .start();
 }
 
@@ -4192,22 +4269,7 @@ export class Dropdown {
 		this._opacity = options.opacity || 1
 		var ps =  this._pos
 		// example
-	/*
-		 var geometry1 = new THREE.BoxBufferGeometry( 1, 1, 1 );
-				  var material = new THREE.MeshStandardMaterial( { roughness: 0 } );
-	   menuBox = new THREE.Mesh( geometry1, material );
-		geometry1 = new THREE.SphereBufferGeometry( 1, 35, 35 );
-		menuSphere = new THREE.Mesh( geometry1, material );
-		geometry1 = new THREE.CylinderBufferGeometry( 1, 1, 1,30 );
-		menuCylinder = new THREE.Mesh( geometry1, material );
-		
-		gr.add(menuBox)
-		gr.add(menuSphere)
-		gr.add(menuCylinder)
-		gr.position.x 	= -2;
-   
-		scene.add(gr)
-		*/
+	
 		var menuItems = o;
 		var fontSize = options.fontSize || 0.2
 		var sdfg = this._pos;
@@ -4220,20 +4282,10 @@ export class Dropdown {
 		menuItems.forEach(function(e, i) { createMenu(e,i,sdfg,sdfg1, ps,fontSize,oui); });
 		/*function dropdownAction(e, href){
 		console.log(e)
-		//if(href){
-		// location.href = href;
-		// window.location.replace(href)
-		//}
-		console.log(e);
-		//// for demo
-		// var menuBox, menuSphere, menuCylinder;
-		switch( e ) {
-		case 'box':      gr.add( menuBox );      gr.remove(menuCylinder); gr.remove( menuSphere );  break;
-		case 'sphere':   gr.add( menuSphere );   gr.remove( menuBox );    gr.remove( menuCylinder); break;
-		case 'cylinder': gr.add( menuCylinder ); gr.remove( menuBox );    gr.remove( menuSphere );  break;
-		}
-		}*/
-	}}
+		//if(href){location.href = href; window.location.replace(href)}
+		*/
+	}
+}
 			
 
 export class ScreenRec {
@@ -4256,34 +4308,25 @@ export class ScreenRec {
 		videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
 		const material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
 		videomesh = new THREE.Mesh( videogeo, material1 );
-		// mesh1.rotation.y = - Math.PI / 2;
-		// mesh1.layers.set( 1 ); // display in left eye only
-		// mesh1.color = 'white';
 		scene.add( videomesh );
 		// videomesh.position.set(...po);
 		// videomesh.rotation.set(...ro);
 		}
-
-
-
 	}
-
 }
-var centerOffset1
+var centerOffset1;
 						 
 export class SVG {
 	constructor(options){
 		if(!options){options={}}
 		this._file 		= options.file 		|| '/assets/svg/tiger.svg';
 		this._position 	= options.position 	|| [0,0,0];
-		this._scale 		= options.scale		|| 0.01;
-		// this._shadow 	= options.shadow	|| true;
-		// this._type 	= options.type 		|| "point";
+		this._scale		= options.scale		|| 0.01;
 
-		var file 	= this._file
-		var scale = this._scale;
-		var p 	= this._position
-		var i 	= this._intensity;
+		var file		= this._file
+		var scale		= this._scale;
+		var p			= this._position
+		var i			= this._intensity;
 
 		loadSVG(this._file);
 		
@@ -4294,7 +4337,7 @@ export class SVG {
 				 const paths = data.paths;
 				 const group = new THREE.Group();
 				 group.scale.multiplyScalar( 0.0025 );
-				 //g/roup.position.x = - 1;
+				 // group.position.x = - 1;
 				 // group.position.y = 2;
 				 group.scale.y *= - 1;
 				 for ( let i = 0; i < paths.length; i ++ ) {
@@ -4307,9 +4350,7 @@ export class SVG {
 							 transparent: path.userData.style.fillOpacity < 1,
 							 side: THREE.DoubleSide,
 							 depthWrite: false,
-						//	 wireframe: guiData.fillShapesWireframe
 						 } );
-
 						 const shapes = path.toShapes( true );
 						 for ( let j = 0; j < shapes.length; j ++ ) {
 							 const shape = shapes[ j ];
@@ -4318,29 +4359,21 @@ export class SVG {
 							 geometry.computeBoundingBox();
 							 group.add( mesh );
 						 }
-
 					 }
-
 					 const strokeColor = path.userData.style.stroke;
-
 					 if ( strokeColor !== undefined && strokeColor !== 'none' ) {
-
 						 const material = new THREE.MeshBasicMaterial( {
 							 color: new THREE.Color().setStyle( strokeColor ),
 							 opacity: path.userData.style.strokeOpacity,
 							 transparent: path.userData.style.strokeOpacity < 1,
 							 side: THREE.DoubleSide,
 							 depthWrite: false,
-							 //wireframe: guiData.strokesWireframe
 						 } );
-
 						 for ( let j = 0, jl = path.subPaths.length; j < jl; j ++ ) {
-
 							 const subPath = path.subPaths[ j ];
-
 							 var geometry1 = SVGLoader.pointsToStroke( subPath.getPoints(), path.userData.style );
-				 geometry1.computeBoundingBox();
-						 // const centerOffset1 = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+							 geometry1.computeBoundingBox();
+							 // const centerOffset1 = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
 							 if ( geometry1 ) {
 								 const mesh = new THREE.Mesh( geometry1, material );
 								 group.add( mesh );
@@ -4352,408 +4385,250 @@ export class SVG {
 				 scene.add( group );
 				// centerOffset1 = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
 				 //  group.position.x 	= centerOffset1;
-			
-				  centerOffset1 =   ( geometry.boundingBox.max.y - geometry.boundingBox.min.y ) /10 ;
-					 group.position.y 	= centerOffset1;
-			  
+				 centerOffset1 =   ( geometry.boundingBox.max.y - geometry.boundingBox.min.y ) /10 ;
+				 group.position.y 	= centerOffset1;
 			 } );
-
 		}
 	}
 }
 							  
+var currentAction;
+var characters = []
+export class Character {
+	constructor (options){
+		if(!options){options={}}
+		this._file = options.file || '/assets/models/glb/Soldier.glb';
+		
+		var acts = this._actions
+		var helper = options.helper || false;
 
-							  
-export class Skeleton {
-			constructor (options){
-				// Create a simple "arm"	const container = document.getElementById( 'container' );
+		this._index = characters.length
+		
+		const loader = new GLTFLoader();
+		loader.load(this._file, function ( gltf ) {
 
-				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
+			model = gltf.scene;
+			scene.add( model );
 
-				// ground
+			model.traverse( function ( object ) { if ( object.isMesh ) object.castShadow = true; } );
+			skeleton = new THREE.SkeletonHelper( model );
+			skeleton.visible = helper;
+			scene.add( skeleton );
 
-				const mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-				mesh.rotation.x = - Math.PI / 2;
-				mesh.receiveShadow = true;
-				scene.add( mesh );
+			// creates a GUI panel
+			createPanel(options);
 
-				const loader = new GLTFLoader();
-				loader.load( '/assets/models/glb/Soldier.glb', function ( gltf ) {
+			const animations = gltf.animations;
 
-					model = gltf.scene;
-					scene.add( model );
+			// create animation mixer
+			mixer = new THREE.AnimationMixer( model );
 
-					model.traverse( function ( object ) {
+			idleAction = mixer.clipAction( animations[ 0 ] );
+			walkAction = mixer.clipAction( animations[ 3 ] );
+			runAction  = mixer.clipAction( animations[ 1 ] );
 
-						if ( object.isMesh ) object.castShadow = true;
+			actions = [ idleAction, walkAction, runAction ];
+			acts = [ idleAction, walkAction, runAction ];
 
-					} );
-
-					//
-
-					skeleton = new THREE.SkeletonHelper( model );
-					skeleton.visible = false;
-					scene.add( skeleton );
-
-					//
-
-					createPanel();
-
-				
-
-
-					//
-
-					const animations = gltf.animations;
-
-					mixer = new THREE.AnimationMixer( model );
-
-					idleAction = mixer.clipAction( animations[ 0 ] );
-					walkAction = mixer.clipAction( animations[ 3 ] );
-					runAction = mixer.clipAction( animations[ 1 ] );
-
-					actions = [ idleAction, walkAction, runAction ];
-
-					activateAllActions();
-					solderActive = true
-			//	animate();
-
-				} );
-
+			console.log(acts)
+			activateAllActions();
+			solderActive = true;
+			characters.push([model,actions])
+		} );
+		
+		//characters[this._index].push(this)
+	//this.actions = actions;
+	//	console.log(this.actions)
+	}
 			
-			}
+		pause() {
+			console.log('pause');
+			characters[0][1].forEach( function ( action ) { action.paused = true; } );
 		}
+		idle() {
+			console.log('idle');
+			prepareCrossFade( runAction, idleAction, 0.1 );
+			currentAction = 'idleAction';
+		}
+		walk() {
+			console.log('walk');
+			characters[0][1].forEach( function ( action ) { action.paused = true; } );
+			prepareCrossFade( idleAction, walkAction, 0.1 );
+			currentAction = 'walkAction';
+		}
+		run() {
+			console.log('run');
+			characters[0][1].forEach( function ( action ) { action.paused = true; } );
+			prepareCrossFade( walkAction, runAction, 0.1 );
+			currentAction = 'runAction';
+		}
+		
+		play() {
+			characters[0][1].forEach( function ( action ) { action.paused = false; } );
+		}
+			
+		speed(e) {
+			mixer.timeScale = e;
+		}
+}
 				
-													 function createPanel() {
-
-																	 const panel = new GUI( { width: 310 } );
-
-																	 const folder1 = panel.addFolder( 'Visibility' );
-																	 const folder2 = panel.addFolder( 'Activation/Deactivation' );
-																	 const folder3 = panel.addFolder( 'Pausing/Stepping' );
-																	 const folder4 = panel.addFolder( 'Crossfading' );
-																	 const folder5 = panel.addFolder( 'Blend Weights' );
-																	 const folder6 = panel.addFolder( 'General Speed' );
-
-																	 settings = {
-																		 'show model': true,
-																		 'show skeleton': false,
-																		 'deactivate all': deactivateAllActions,
-																		 'activate all': activateAllActions,
-																		 'pause/continue': pauseContinue,
-																		 'make single step': toSingleStepMode,
-																		 'modify step size': 0.05,
-																		 'from walk to idle': function () {
-
-																			 prepareCrossFade( walkAction, idleAction, 1.0 );
-
-																		 },
-																		 'from idle to walk': function () {
-
-																			 prepareCrossFade( idleAction, walkAction, 0.5 );
-
-																		 },
-																		 'from walk to run': function () {
-
-																			 prepareCrossFade( walkAction, runAction, 2.5 );
-
-																		 },
-																		 'from run to walk': function () {
-
-																			 prepareCrossFade( runAction, walkAction, 5.0 );
-
-																		 },
-																		 'use default duration': true,
-																		 'set custom duration': 3.5,
-																		 'modify idle weight': 0.0,
-																		 'modify walk weight': 1.0,
-																		 'modify run weight': 0.0,
-																		 'modify time scale': 1.0
-																	 };
-
-																	 folder1.add( settings, 'show model' ).onChange( showModel );
-																	 folder1.add( settings, 'show skeleton' ).onChange( showSkeleton );
-																	 folder2.add( settings, 'deactivate all' );
-																	 folder2.add( settings, 'activate all' );
-																	 folder3.add( settings, 'pause/continue' );
-																	 folder3.add( settings, 'make single step' );
-																	 folder3.add( settings, 'modify step size', 0.01, 0.1, 0.001 );
-																	 crossFadeControls.push( folder4.add( settings, 'from walk to idle' ) );
-																	 crossFadeControls.push( folder4.add( settings, 'from idle to walk' ) );
-																	 crossFadeControls.push( folder4.add( settings, 'from walk to run' ) );
-																	 crossFadeControls.push( folder4.add( settings, 'from run to walk' ) );
-																	 folder4.add( settings, 'use default duration' );
-																	 folder4.add( settings, 'set custom duration', 0, 10, 0.01 );
-																	 folder5.add( settings, 'modify idle weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) {
-
-																		 setWeight( idleAction, weight );
-
-																	 } );
-																	 folder5.add( settings, 'modify walk weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) {
-
-																		 setWeight( walkAction, weight );
-
-																	 } );
-																	 folder5.add( settings, 'modify run weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) {
-
-																		 setWeight( runAction, weight );
-
-																	 } );
-																	 folder6.add( settings, 'modify time scale', 0.0, 1.5, 0.01 ).onChange( modifyTimeScale );
-
-																	 folder1.open();
-																	 folder2.open();
-																	 folder3.open();
-																	 folder4.open();
-																	 folder5.open();
-																	 folder6.open();
-
-																	 crossFadeControls.forEach( function ( control ) {
-
-																		 control.classList1 = control.domElement.parentElement.parentElement.classList;
-																		 control.classList2 = control.domElement.previousElementSibling.classList;
-
-																		 control.setDisabled = function () {
-
-																			 control.classList1.add( 'no-pointer-events' );
-																			 control.classList2.add( 'control-disabled' );
-
-																		 };
-
-																		 control.setEnabled = function () {
-
-																			 control.classList1.remove( 'no-pointer-events' );
-																			 control.classList2.remove( 'control-disabled' );
-
-																		 };
-
-																	 } );
-
-																 }
-
-													 function showModel( visibility ) {
-
-						   model.visible = visibility;
-
-					   }
-
-
-					   function showSkeleton( visibility ) {
-
-						   skeleton.visible = visibility;
-
-					   }
-
-
-					   function modifyTimeScale( speed ) {
-
-						   mixer.timeScale = speed;
-
-					   }
-
-
-					   function deactivateAllActions() {
-
-						   actions.forEach( function ( action ) {
-
-							   action.stop();
-
-						   } );
-
-					   }
-
-					   function activateAllActions() {
-
-						   setWeight( idleAction, settings[ 'modify idle weight' ] );
-						   setWeight( walkAction, settings[ 'modify walk weight' ] );
-						   setWeight( runAction, settings[ 'modify run weight' ] );
-
-						   actions.forEach( function ( action ) {
-
-							   action.play();
-
-						   } );
-
-					   }
-
-					   function pauseContinue() {
-
-						   if ( singleStepMode ) {
-
-							   singleStepMode = false;
-							   unPauseAllActions();
-
-						   } else {
-
-							   if ( idleAction.paused ) {
-
-								   unPauseAllActions();
-
-							   } else {
-
-								   pauseAllActions();
-
-							   }
-
-						   }
-
-					   }
-
-					   function pauseAllActions() {
-
-						   actions.forEach( function ( action ) {
-
-							   action.paused = true;
-
-						   } );
-
-					   }
-
-					   function unPauseAllActions() {
-
-						   actions.forEach( function ( action ) {
-
-							   action.paused = false;
-
-						   } );
-
-					   }
-
-					   function toSingleStepMode() {
-
-						   unPauseAllActions();
-
-						   singleStepMode = true;
-						   sizeOfNextStep = settings[ 'modify step size' ];
-
-					   }
-
-					   function prepareCrossFade( startAction, endAction, defaultDuration ) {
-
-						   // Switch default / custom crossfade duration (according to the user's choice)
-
-						   const duration = setCrossFadeDuration( defaultDuration );
-
-						   // Make sure that we don't go on in singleStepMode, and that all actions are unpaused
-
-						   singleStepMode = false;
-						   unPauseAllActions();
-
-						   // If the current action is 'idle' (duration 4 sec), execute the crossfade immediately;
-						   // else wait until the current action has finished its current loop
-
-						   if ( startAction === idleAction ) {
-
-							   executeCrossFade( startAction, endAction, duration );
-
-						   } else {
-
-							   synchronizeCrossFade( startAction, endAction, duration );
-
-						   }
-
-					   }
-
-					   function setCrossFadeDuration( defaultDuration ) {
-
-						   // Switch default crossfade duration <-> custom crossfade duration
-
-						   if ( settings[ 'use default duration' ] ) {
-
-							   return defaultDuration;
-
-						   } else {
-
-							   return settings[ 'set custom duration' ];
-
-						   }
-
-					   }
-
-					   function synchronizeCrossFade( startAction, endAction, duration ) {
-
-						   mixer.addEventListener( 'loop', onLoopFinished );
-
-						   function onLoopFinished( event ) {
-
-							   if ( event.action === startAction ) {
-
-								   mixer.removeEventListener( 'loop', onLoopFinished );
-
-								   executeCrossFade( startAction, endAction, duration );
-
-							   }
-
-						   }
-
-					   }
-
-					   function executeCrossFade( startAction, endAction, duration ) {
-
-						   // Not only the start action, but also the end action must get a weight of 1 before fading
-						   // (concerning the start action this is already guaranteed in this place)
-
-						   setWeight( endAction, 1 );
-						   endAction.time = 0;
-
-						   // Crossfade with warping - you can also try without warping by setting the third parameter to false
-
-						   startAction.crossFadeTo( endAction, duration, true );
-
-					   }
-
-					   // This function is needed, since animationAction.crossFadeTo() disables its start action and sets
-					   // the start action's timeScale to ((start animation's duration) / (end animation's duration))
-
-					   function setWeight( action, weight ) {
-
-						   action.enabled = true;
-						   action.setEffectiveTimeScale( 1 );
-						   action.setEffectiveWeight( weight );
-
-					   }
-
-					   // Called by the render loop
-
-					   function updateWeightSliders() {
-
-						   settings[ 'modify idle weight' ] = idleWeight;
-						   settings[ 'modify walk weight' ] = walkWeight;
-						   settings[ 'modify run weight' ] = runWeight;
-
-					   }
-
-					   // Called by the render loop
-
-					   function updateCrossFadeControls() {
-
-						   crossFadeControls.forEach( function ( control ) {
-
-							   control.setDisabled();
-
-						   } );
-
-						   if ( idleWeight === 1 && walkWeight === 0 && runWeight === 0 ) {
-
-							   crossFadeControls[ 1 ].setEnabled();
-
-						   }
-
-						   if ( idleWeight === 0 && walkWeight === 1 && runWeight === 0 ) {
-
-							   crossFadeControls[ 0 ].setEnabled();
-							   crossFadeControls[ 2 ].setEnabled();
-
-						   }
-
-						   if ( idleWeight === 0 && walkWeight === 0 && runWeight === 1 ) {
-
-							   crossFadeControls[ 3 ].setEnabled();
-
-						   }
-
-					   }
-var manager = null;
+function createPanel(e) {
+console.log(e)
+	 const panel = new GUI( { width: 310 } );
+
+	 const folder1 = panel.addFolder( 'Visibility' );
+	 const folder2 = panel.addFolder( 'Activation/Deactivation' );
+	 const folder3 = panel.addFolder( 'Pausing/Stepping' );
+	 const folder4 = panel.addFolder( 'Crossfading' );
+	 const folder5 = panel.addFolder( 'Blend Weights' );
+	 const folder6 = panel.addFolder( 'General Speed' );
+
+	 settings = {
+		 'show model'	: true,
+		 'show skeleton': e.helper,
+		 'deactivate all': deactivateAllActions,
+		 'activate all': activateAllActions,
+		 'pause/continue': pauseContinue,
+		 'make single step': toSingleStepMode,
+		 'modify step size': 0.05,
+		 'from walk to idle': function () { prepareCrossFade( walkAction, idleAction, 1.0 ); },
+		 'from idle to walk': function () { prepareCrossFade( idleAction, walkAction, 0.5 ); },
+		 'from walk to run':  function () { prepareCrossFade( walkAction, runAction,  2.5 ); },
+		 'from run to walk':  function () { prepareCrossFade( runAction,  walkAction, 5.0 ); },
+		 'use default duration': true,
+		 'set custom duration': 3.5,
+		 'modify idle weight': 0.0,
+		 'modify walk weight': 1.0,
+		 'modify run weight': 0.0,
+		 'modify time scale': 1.0
+	 };
+
+	 folder1.add( settings, 'show model' ).onChange( showModel );
+	 folder1.add( settings, 'show skeleton' ).onChange( showSkeleton );
+	 folder2.add( settings, 'deactivate all' );
+	 folder2.add( settings, 'activate all' );
+	 folder3.add( settings, 'pause/continue' );
+	 folder3.add( settings, 'make single step' );
+	 folder3.add( settings, 'modify step size', 0.01, 0.1, 0.001 );
+	 crossFadeControls.push( folder4.add( settings, 'from walk to idle' ) );
+	 crossFadeControls.push( folder4.add( settings, 'from idle to walk' ) );
+	 crossFadeControls.push( folder4.add( settings, 'from walk to run' ) );
+	 crossFadeControls.push( folder4.add( settings, 'from run to walk' ) );
+	 folder4.add( settings, 'use default duration' );
+	 folder4.add( settings, 'set custom duration',  0,  10, 0.01 );
+	 folder5.add( settings, 'modify idle weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( idleAction, weight ); } );
+	 folder5.add( settings, 'modify walk weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( walkAction, weight ); } );
+	 folder5.add( settings, 'modify run weight',  0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( runAction,  weight ); } );
+	 folder6.add( settings, 'modify time scale',  0.0, 1.5, 0.01 ).onChange( modifyTimeScale );
+
+	 /* folder1.open(); folder2.open(); folder3.open(); folder4.open(); folder5.open(); folder6.open(); */
+
+	 crossFadeControls.forEach( function ( control ) {
+		 control.classList1 = control.domElement.parentElement.parentElement.classList;
+		 control.classList2 = control.domElement.previousElementSibling.classList;
+		 control.setDisabled = function () { control.classList1.add( 'no-pointer-events' );    control.classList2.add(    'control-disabled' ); };
+		 control.setEnabled  = function () { control.classList1.remove( 'no-pointer-events' ); control.classList2.remove( 'control-disabled' ); };
+	 } );
+
+ }
+
+function showModel( visibility )    { model.visible = visibility; }
+function showSkeleton( visibility ) { skeleton.visible = visibility; }
+function modifyTimeScale( speed )   { mixer.timeScale = speed; }
+
+
+function deactivateAllActions() { actions.forEach( function ( action ) { action.stop(); } ); }
+
+   function activateAllActions() {
+	   setWeight( idleAction, settings[ 'modify idle weight' ] );
+	   setWeight( walkAction, settings[ 'modify walk weight' ] );
+	   setWeight( runAction, settings[ 'modify run weight' ] );
+	   actions.forEach( function ( action ) { action.play(); } );
+
+   }
+
+   function pauseContinue() {
+	   if ( singleStepMode ) { singleStepMode = false; unPauseAllActions(); }
+	   else {
+		   if ( idleAction.paused ) { unPauseAllActions(); }
+		   else 					{ pauseAllActions();   }
+	   }
+   }
+
+   function pauseAllActions() {
+	   actions.forEach( function ( action ) { action.paused = true; } );
+   }
+
+   function unPauseAllActions() {
+	   actions.forEach( function ( action ) { action.paused = false; } );
+   }
+
+   function toSingleStepMode() {
+	   unPauseAllActions();
+	   singleStepMode = true;
+	   sizeOfNextStep = settings[ 'modify step size' ];
+   }
+
+   function prepareCrossFade( startAction, endAction, defaultDuration ) {
+	   // Switch default / custom crossfade duration (according to the user's choice)
+	   const duration = setCrossFadeDuration( defaultDuration );
+	   // Make sure that we don't go on in singleStepMode, and that all actions are unpaused
+	   singleStepMode = false;
+	   unPauseAllActions();
+	   // If the current action is 'idle' (duration 4 sec), execute the crossfade immediately; else wait until the current action has finished its current loop
+	   if ( startAction === idleAction ) { executeCrossFade    ( startAction, endAction, duration ); }
+	   else 							 { synchronizeCrossFade( startAction, endAction, duration ); }
+   }
+
+   function setCrossFadeDuration( defaultDuration ) {
+	   // Switch default crossfade duration <-> custom crossfade duration
+	   if ( settings[ 'use default duration' ] ) { return defaultDuration; }
+	   else 									 { return settings[ 'set custom duration' ]; }
+   }
+
+   function synchronizeCrossFade( startAction, endAction, duration ) {
+	   mixer.addEventListener( 'loop', onLoopFinished );
+	   function onLoopFinished( event ) {
+		   if ( event.action === startAction ) {
+			   mixer.removeEventListener( 'loop', onLoopFinished );
+			   executeCrossFade( startAction, endAction, duration );
+		   }
+	   }
+   }
+
+   function executeCrossFade( startAction, endAction, duration ) {
+	   // Not only the start action, but also the end action must get a weight of 1 before fading
+	   // (concerning the start action this is already guaranteed in this place)
+	   setWeight( endAction, 1 );
+	   endAction.time = 0;
+	   // Crossfade with warping - you can also try without warping by setting the third parameter to false
+	   startAction.crossFadeTo( endAction, duration, true );
+   }
+
+   // This function is needed, since animationAction.crossFadeTo() disables its start action and sets
+   // the start action's timeScale to ((start animation's duration) / (end animation's duration))
+
+   function setWeight( action, weight ) {
+	   action.enabled = true;
+	   action.setEffectiveTimeScale( 1 );
+	   action.setEffectiveWeight( weight );
+   }
+
+   // Called by the render loop
+   function updateWeightSliders() {
+	   settings[ 'modify idle weight' ] = idleWeight;
+	   settings[ 'modify walk weight' ] = walkWeight;
+	   settings[ 'modify run weight' ]  = runWeight;
+   }
+
+   // Called by the render loop
+   function updateCrossFadeControls() {
+	   crossFadeControls.forEach( function ( control ) { control.setDisabled(); } );
+	   if ( idleWeight === 1 && walkWeight === 0 && runWeight === 0 ) { crossFadeControls[ 1 ].setEnabled(); }
+	   if ( idleWeight === 0 && walkWeight === 1 && runWeight === 0 ) { crossFadeControls[ 0 ].setEnabled(); crossFadeControls[ 2 ].setEnabled(); }
+	   if ( idleWeight === 0 && walkWeight === 0 && runWeight === 1 ) { crossFadeControls[ 3 ].setEnabled(); }
+   }
+	var manager = null;
 
 		let skeletonHelper = null;
 		const animates = [];
@@ -4808,7 +4683,6 @@ export class Model {
 				mtlLoader.load(options.mtl, onLoadMtl );
 			} else {
 				let loader = new OBJLoader2();
-				//function callback (e){ scene.add(e); }
 				loader.load(file, callback, null, null, null );
 			}
 		}
@@ -4817,28 +4691,17 @@ export class Model {
 			loader.load(file, callback, null, null, null );
 		}
 		else if (ext == 'md2'){
-			//let loader = new FBXLoader();
-			//loader.load(file, callback, null, null, null );
+			let loader = new FBXLoader();
+			loader.load(file, callback, null, null, null );
 		}
 		else if (ext == 'ply'){
-		
-			
 			const loader = new PLYLoader();
-			   loader.load( '/assets/models/ply/Lucy.ply', function ( geometry ) {
-
-				   geometry.computeVertexNormals();
-
-				   const material = new THREE.MeshStandardMaterial( { color:c, flatShading: true } );
-				   const mesh = new THREE.Mesh( geometry, material );
-
-				   mesh.castShadow = true;
-				   mesh.receiveShadow = true;
-
-				   scene.add( mesh );
-callback(mesh)
-			   } );
-
-
+			loader.load( file, function ( geometry ) {
+				geometry.computeVertexNormals();
+				const material = new THREE.MeshStandardMaterial( { color:c, flatShading: true } );
+				const mesh = new THREE.Mesh( geometry, material );
+				callback(mesh)
+			} );
 		}
 		else if (ext == 'nrrd'){
 			const loader = new NRRDLoader();
@@ -4867,22 +4730,6 @@ callback(mesh)
 				   scene.add( sliceX.mesh );
 
 			   } );
-/*
-			   const vtkmaterial = new THREE.MeshLambertMaterial( { wireframe: false, morphTargets: false, side: THREE.DoubleSide, color: 0xff0000 } );
-
-			   const vtkloader = new VTKLoader();
-			   vtkloader.load( "/assets/models/vtk/liver.vtk", function ( geometry ) {
-
-				   geometry.computeVertexNormals();
-
-				   const mesh = new THREE.Mesh( geometry, vtkmaterial );
-				   scene.add( mesh );
-				   const visibilityControl = {
-					   visible: true
-				   };
-				  
-
-			   } );*/
 		}
 		else if (ext == '3ds'){
 			//3ds files dont store normal maps
@@ -4890,460 +4737,395 @@ callback(mesh)
 			const loader = new TDSLoader();
 			loader.setResourcePath(tex);
 			loader.load(file, function (object) {
-				object.traverse( function (child) {
-					if (child.isMesh) {
-						child.material.specular.setScalar( 0.1 );
-						// child.material.normalMap = normal;
-					}
-				});
+				object.traverse( function (child) { if (child.isMesh) { child.material.specular.setScalar( 0.1 ); /* child.material.normalMap = normal; */ } });
 				scene.add( object );
 				model.object = object
 			});
 		}
 		
 		else if (ext == 'vrm'){//model.object = 'popo'
-			// model
-			   const loader = new VRMLoader();
-			   loader.load( file, function ( vrm ) {
-				   // VRMLoader doesn't support VRM Unlit extension yet so
-				   // converting all materials to THREE.MeshBasicMaterial here as workaround so far.
-				   vrm.scene.traverse( function ( object ) {
-					   if ( object.material ) {
-						   if ( Array.isArray( object.material ) ) {
-							   for ( let i = 0, il = object.material.length; i < il; i ++ ) {
-								   const material = new THREE.MeshStandardMaterial();
-								   THREE.Material.prototype.copy.call( material, object.material[ i ] );
-								   material.color.copy( object.material[ i ].color );
-								   material.map = object.material[ i ].map;
-								   material.skinning = object.material[ i ].skinning;
-								   material.morphTargets = object.material[ i ].morphTargets;
-								   material.morphNormals = object.material[ i ].morphNormals;
-								   object.material[ i ] = material;
-							   }
-						   } else {
+		// model
+		   const loader = new VRMLoader();
+		   loader.load( file, function ( vrm ) {
+			   // VRMLoader doesn't support VRM Unlit extension yet so converting all materials to THREE.MeshBasicMaterial here as workaround so far.
+			   vrm.scene.traverse( function ( object ) {
+				   if ( object.material ) {
+					   if ( Array.isArray( object.material ) ) {
+						   for ( let i = 0, il = object.material.length; i < il; i ++ ) {
 							   const material = new THREE.MeshStandardMaterial();
-							   THREE.Material.prototype.copy.call( material, object.material );
-							   material.color.copy( object.material.color );
-							   material.map = object.material.map;
-							   material.skinning = object.material.skinning;
-							   material.morphTargets = object.material.morphTargets;
-							   material.morphNormals = object.material.morphNormals;
-							   object.material = material;
+							   THREE.Material.prototype.copy.call( material, object.material[ i ] );
+							   material.color.copy( object.material[ i ].color );
+							   material.map				= object.material[ i ].map;
+							   material.skinning		= object.material[ i ].skinning;
+							   material.morphTargets	= object.material[ i ].morphTargets;
+							   material.morphNormals	= object.material[ i ].morphNormals;
+							   object.material[ i ] = material;
 						   }
+					   } else {
+						   const material = new THREE.MeshStandardMaterial();
+						   THREE.Material.prototype.copy.call( material, object.material );
+						   material.color.copy( object.material.color );
+						   material.map				= object.material.map;
+						   material.skinning		= object.material.skinning;
+						   material.morphTargets	= object.material.morphTargets;
+						   material.morphNormals	= object.material.morphNormals;
+						   object.material = material;
 					   }
-					   
-					   object.castShadow 	= castShadow;
-					   object.receiveShadow = receiveShadow;
-
-				   } );
-			
-
-				   sf = vrm.scene
-				   scene.add(sf);
-				   sf.scale.x = scale[0];
-				   sf.scale.y = scale[1];
-				   sf.scale.z = scale[2];
-				   sf.rotation.set( r[0],r[1], r[2] );
-				   model.object = sf
+				   }
+				   object.castShadow 	= castShadow;
+				   object.receiveShadow = receiveShadow;
 			   } );
+			   sf = vrm.scene
+			   scene.add(sf);
+			   sf.scale.x = scale[0];
+			   sf.scale.y = scale[1];
+			   sf.scale.z = scale[2];
+			   sf.rotation.set( r[0],r[1], r[2] );
+			   model.object = sf
+		   } );
+		}
 			
-			
-}
-		
-// XYZ loader
-else if (ext == 'xyz'){
-	const loader = new XYZLoader();
-	var points
-	loader.load( file, function ( geometry ) {
-		geometry.center();
-		const material = new THREE.PointsMaterial( { size: 0.1 } );
-		points = new THREE.Points( geometry, material );
-		points.material.size = 0.2
-		scene.add( points );
-		points.position.set( p[0],  p[1], p[2] );
-		points.rotation.set( r[0],  r[1], r[2]);
-		points.scale.set( scale[0], scale[1],scale[2] );
-		points.castShadow = true;
-		points.receiveShadow = false;
-		model.object = points
-	});
-}
-// X loader
-else if (ext == 'x'){
-	manager = new THREE.LoadingManager();
-	manager.onProgress = function ( item, loaded, total ) { /* console.log( item, loaded, total ); */ };
-	var loader = new XLoader( manager );
-	actions[ 0 ] = {};
-	loader.load( [ file ], function ( object ) {
-		for ( let i = 0; i < object.models.length; i ++ ) {
-			const modelx = object.models[ i ];
-			//model.scale.x *= - 1;
-			modelx.position.set( p[0],  p[1], p[2] );
-			modelx.rotation.set( r[0],  r[1], r[2]);
-			modelx.scale.set( scale[0], scale[1],scale[2] );
-			Models.push( modelx );
-			model.object =  modelx
+		// XYZ loader
+		else if (ext == 'xyz'){
+			const loader = new XYZLoader();
+			var points
+			loader.load( file, function ( geometry ) {
+				geometry.center();
+				const material = new THREE.PointsMaterial( { size: 0.1 } );
+				points = new THREE.Points( geometry, material );
+				points.material.size = 0.2
+				scene.add( points );
+				points.position.set( p[0],  p[1], p[2] );
+				points.rotation.set( r[0],  r[1], r[2]);
+				points.scale.set( scale[0], scale[1],scale[2] );
+				points.castShadow = true;
+				points.receiveShadow = false;
+				model.object = points
+			});
 		}
-		loadAnimation( 'stand', 0, () => {
-			scene.add( Models[ 0 ] );
-			if (Models[ 0 ] instanceof THREE.SkinnedMesh ) {
-				skeletonHelper = new THREE.SkeletonHelper( Models[ 0 ] ); scene.add( skeletonHelper );
-			}
-			actions[ 0 ][ 'stand' ].play();
-		});
-		object = null;
-		
-	
-	}, onProgress, onError);
-	const animationSelection = document.getElementById( 'mech1_anime' );
-	animationSelection.addEventListener( 'change', mech1_changeAnime );
-}
-
-// AMF loader
-else if (ext == 'amf'){
-	const loader = new AMFLoader();
-	loader.load( file, callback );
-}
-
-// 3DM loader
-else if (ext == '3dm'){
-	const loader = new Rhino3dmLoader();
-//	loader.setLibraryPath( '/assets/models/3dm/Rhino_Logo.3dm' );
-
-loader.load( file, function ( object ) {
-
-	scene.add( object );
-	callback(object)
-//initGUI( object.userData.layers );
-
-} );
-}
-// 3MF loader
-else if (ext == '3mf'){
-	manager = new THREE.LoadingManager();
-	const loader = new ThreeMFLoader( manager );
-	loader.load( file,callback);
-}
-// PCD File
-else if (ext == 'pcd'){
-	
-	// instantiate a loader
-	const loader = new PCDLoader();
-
-	// load a resource
-	loader.load( file, function ( points ) {
-							scene.add( points );
-				//			const center = points.geometry.boundingSphere.center;
-				//			controls.target.set( center.x, center.y, center.z );
-				//			controls.update();
-		console.log(points)
-		points.scale.set( 10,10,10)
-		points.position.set( -4,-5,-5)
-		points.material.needsUpdate = true;
-		},
-		// called when loading is in progresses
-		function ( xhr ) {
-
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-		},
-		// called when loading has errors
-		function ( error ) {
-
-			console.log( 'An error happened' );
-
-		}
-	);
-
-}
-		// PDB File
-else if (ext == 'pdb'){
-	// instantiate a loader
-	const loader = new PDBLoader();
-	const offset = new THREE.Vector3();
-	let root;
-	// load a PDB resource
-	root = new THREE.Group();
-					scene.add( root );
-	loader.load(
-		// resource URL
-		file,
-		// called when the resource is loaded
-		function ( pdb ) {
-
-			const geometryAtoms = pdb.geometryAtoms;
-			const geometryBonds = pdb.geometryBonds;
-			const json = pdb.json;
-
-			console.log( 'This molecule has ' + json.atoms.length + ' atoms' );
-		
-		
-		var boxGeometry = new THREE.BoxBufferGeometry( 0.2, 0.2, 0.5 );
-		var sphereGeometry = new THREE.IcosahedronBufferGeometry( 0.5, 3 );
-
-				 geometryAtoms.computeBoundingBox();
-				 geometryAtoms.boundingBox.getCenter( offset ).negate();
-
-				 geometryAtoms.translate( offset.x, offset.y, offset.z );
-				 geometryBonds.translate( offset.x, offset.y, offset.z );
-
-				 let positions = geometryAtoms.getAttribute( 'position' );
-				 const colors = geometryAtoms.getAttribute( 'color' );
-
-				 const position = new THREE.Vector3();
-				 const color = new THREE.Color();
-
-				 for ( let i = 0; i < positions.count; i ++ ) {
-
-					 position.x = positions.getX( i );
-					 position.y = positions.getY( i );
-					 position.z = positions.getZ( i );
-
-					 color.r = colors.getX( i );
-					 color.g = colors.getY( i );
-					 color.b = colors.getZ( i );
-console.log(positions)
-					 const material = new THREE.MeshPhongMaterial( { color: color } );
-
-					 const object = new THREE.Mesh( sphereGeometry, material );
-					 object.position.copy( position );
-					 object.position.multiplyScalar( 1 );
-					 object.scale.multiplyScalar( 1 );
-					 root.add( object );
-
-					 const atom = json.atoms[ i ];
-
-					 const text = document.createElement( 'div' );
-					 text.className = 'label';
-					 text.style.color = 'rgb(' + atom[ 3 ][ 0 ] + ',' + atom[ 3 ][ 1 ] + ',' + atom[ 3 ][ 2 ] + ')';
-					 text.textContent = atom[ 4 ];
-
-					 const label = new CSS2DObject( text );
-					 label.position.copy( object.position );
-					 root.add( label );
-
-				 }
-
-				 positions = geometryBonds.getAttribute( 'position' );
-
-				 const start = new THREE.Vector3();
-				 const end = new THREE.Vector3();
-
-				 for ( let i = 0; i < positions.count; i += 2 ) {
-
-					 start.x = positions.getX( i );
-					 start.y = positions.getY( i );
-					 start.z = positions.getZ( i );
-
-					 end.x = positions.getX( i + 1 );
-					 end.y = positions.getY( i + 1 );
-					 end.z = positions.getZ( i + 1 );
-
-					 start.multiplyScalar( 1 );
-					 end.multiplyScalar( 1 );
-
-					 const object = new THREE.Mesh( boxGeometry, new THREE.MeshPhongMaterial( 0xffffff ) );
-					 object.position.copy( start );
-					 object.position.lerp( end, 0.5 );
-					 object.scale.set( 1, 1, start.distanceTo( end ) );
-					 object.lookAt( end );
-					 scene.add( object );
-
-				 }
-	
-
-		},
-		// called when loading is in progresses
-		function ( xhr ) {
-
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-		},
-		// called when loading has errors
-		function ( error ) {
-console.log(error)
-			console.log( 'An error happened' );
-
-		}
-	);
-}
-else if (ext == 'prwm'){
-	// instantiate a loader
-	let loader = new PRWMLoader();
-
-	// load a resource
-	loader.load( file,
-		// called when resource is loaded
-		function ( bufferGeometry ) {
-
-			var math =  getMaterial({
-				type:mat,
-			color: c,
-			//	transparent:true,
-				opacity:o,
-				side: THREE.FrontSide,
-				//map:this._map,
-				//repeat: options.repeat
-			})
-			const object = new THREE.Mesh( bufferGeometry, math );
-		model.object =object
-			scene.add( object );
-		object.castShadow = castShadow;
-		//object.receiveShadow = receiveShadow;
-		object.position.set( p[0],  p[1], p[2] );
-		object.rotation.set( r[0],  r[1], r[2]);
-		object.scale.set( scale[0], scale[1],scale[2] );
-		},
-		// called when loading is in progresses
-		function ( xhr ) {
-
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-		},
-		// called when loading has errors
-		function ( error ) {
-
-			console.log( 'An error happened' );
-
-		}
-	);
-}
-else if (ext == 'stl'){
-	// ASCII file
-	const loader = new STLLoader();
-	loader.load(file, function ( geometry ) {
-	var material
-		console.log(geometry)
-		if ( geometry.hasColors ) {
-			material = new THREE.MeshPhongMaterial( { opacity: geometry.alpha, vertexColors: true } );	}
-		else {
-			material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
-		}
-
-	const mesh = new THREE.Mesh( geometry, material );
-	
-		mesh.castShadow = castShadow;
-		mesh.receiveShadow = receiveShadow;
-		scene.add( mesh );
-		model.object = mesh
-		mesh.scale.x = scale[0]
-		mesh.scale.y = scale[1]
-		mesh.scale.z = scale[2]
-		mesh.position.set(p[0], p[1],p[2])
-		mesh.rotation.set(r[0],r[1],r[2])
-	});
-
-}
-				
-// GLTF loader
-else if (ext == 'gltf'){
-	const loader = new GLTFLoader();
-	loader.load(
-		file,
-		function ( gltf ) {
-			scene.add( gltf.scene );
-			gltf.animations; // Array<THREE.AnimationClip>
-			var theGLFT = gltf.scene;
-			gltf.scene;   // THREE.Group
-			gltf.scenes;  // Array<THREE.Group>
-			gltf.cameras; // Array<THREE.Camera>
-			gltf.asset;   // Object
-			theGLFT.scale.x = scale[0];
-			theGLFT.scale.y = scale[1];
-			theGLFT.scale.z = scale[2];
-		
-		callback(theGLFT)
-		},
-		function (xhr)   { /* console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); */ },
-		function (error) { /*	console.log( 'An error happened' ); */ }
-	);
-}
-// GLB loader
-else if (ext == 'glb'){
-		const gltfLoader = new GLTFLoader();
-		gltfLoader.load( file, function ( gltf ) {
-			const boomBox = gltf.scene;
-
-			boomBox.scale.set( scale[0], scale[1], scale[2] );
-			boomBox.traverse( function ( object ) {
-				if ( object.isMesh ) {
-					object.castShadow = castShadow;
-					object.receiveShadow = receiveShadow;
+		// X loader
+		else if (ext == 'x'){
+			manager = new THREE.LoadingManager();
+			manager.onProgress = function ( item, loaded, total ) { /* console.log( item, loaded, total ); */ };
+			var loader = new XLoader( manager );
+			actions[ 0 ] = {};
+			loader.load( [ file ], function ( object ) {
+				for ( let i = 0; i < object.models.length; i ++ ) {
+					const modelx = object.models[ i ];
+					//model.scale.x *= - 1;
+					modelx.position.set( p[0],  p[1], p[2] );
+					modelx.rotation.set( r[0],  r[1], r[2]);
+					modelx.scale.set( scale[0], scale[1],scale[2] );
+					Models.push( modelx );
+					model.object =  modelx
 				}
-			} );
-			scene.add(boomBox)
-			//callback(boomBox)
-			model.object = boomBox
-			//animate();
-		} );
-}
-// DAE loader
-else if (ext == 'dae'){
-	const loader = new ColladaLoader( loadingManager );
-	loader.load( file, function ( collada ) {
-		sf = collada.scene;
-		var avatar = collada.scene;
-		let boxes = [];
-		if(collada.animations[0]){
-			var animations = collada.animations;
-			clock = new THREE.Clock();
-			mixerDAE = new THREE.AnimationMixer( avatar );
-			mixerDAE.clipAction( animations[ 0 ] ).play();
+				loadAnimation( 'stand', 0, () => {
+					scene.add( Models[ 0 ] );
+					if (Models[ 0 ] instanceof THREE.SkinnedMesh ) {
+						skeletonHelper = new THREE.SkeletonHelper( Models[ 0 ] ); scene.add( skeletonHelper );
+					}
+					actions[ 0 ][ 'stand' ].play();
+				});
+				object = null;
+				
+			
+			}, onProgress, onError);
+			const animationSelection = document.getElementById( 'mech1_anime' );
+			animationSelection.addEventListener( 'change', mech1_changeAnime );
 		}
-		//console.log(sf);
-		sf.scale.x = scale[0]
-		sf.scale.y = scale[1]
-		sf.scale.z = scale[2]
-		sf.position.set(p[0], p[1],p[2])
-		sf.rotation.set(r[0],r[1],r[2])
-		sf.traverse( function ( child ) {
-			if ( child.isMesh ) {
-				child.castShadow = castShadow;
-				child.receiveShadow = receiveShadow;
-			}
-		} );
-		model.object = sf
-	
-	});
-}
-function callback (e){
-	sf = e;
-	sf.position.set(p[0], p[1],p[2])
-	sf.rotation.set(r[0],r[1],r[2])
-	scene.add(sf);
-	if (scale.length)	{ sf.scale.set(...scale) }
-	else 				{ sf.scale.set(scale,scale,scale) }
 
-	// change color, add shadow
-	if(e.traverse){
-		e.traverse( function ( child ) {
-			child.castShadow = castShadow;
-			child.receiveShadow = receiveShadow;
-			if(child.material){
-				// console.log(child.material);
-				// if(child.material.color.r)
-				if(	child.material.color){child.material.color.set = c;}
-			}
-			if ( child instanceof THREE.Mesh ) {
-				//		child.material.map = texture;
-				//child.castShadow = castShadow;
+		// AMF loader
+		else if (ext == 'amf'){
+			const loader = new AMFLoader();
+			loader.load( file, callback );
+		}
 
+		// 3DM loader
+		else if (ext == '3dm'){
+			const loader = new Rhino3dmLoader();
+			//	loader.setLibraryPath( '/assets/models/3dm/Rhino_Logo.3dm' );
+			loader.load( file, function ( object ) {
+				scene.add( object );
+				callback(object)
+			} );
+		}
+		// 3MF loader
+		else if (ext == '3mf'){
+			manager = new THREE.LoadingManager();
+			const loader = new ThreeMFLoader( manager );
+			loader.load( file,callback);
+		}
+		// PCD File
+		else if (ext == 'pcd'){
+			const loader = new PCDLoader();
+			// load a resource
+			loader.load( file, function ( points ) {
+				scene.add( points );
+				// const center = points.geometry.boundingSphere.center;
+				// controls.target.set( center.x, center.y, center.z );
+				// controls.update();
+				console.log(points)
+				points.scale.set( 10,10,10)
+				points.position.set( -4,-5,-5)
+				points.material.needsUpdate = true;
+			},
+				// called when loading is in progresses
+				function ( xhr ) 	{ console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+				function ( error ) 	{ console.log( 'An error happened' ); }
+			);
+
+		}
+				// PDB File
+		else if (ext == 'pdb'){
+			// instantiate a loader
+			const loader = new PDBLoader();
+			const offset = new THREE.Vector3();
+			let root;
+			// load a PDB resource
+			root = new THREE.Group();
+			scene.add( root );
+			loader.load( file, function ( pdb ) {
+
+					const geometryAtoms = pdb.geometryAtoms;
+					const geometryBonds = pdb.geometryBonds;
+					const json = pdb.json;
+					console.log( 'This molecule has ' + json.atoms.length + ' atoms' );
+					var boxGeometry = new THREE.BoxBufferGeometry( 0.2, 0.2, 0.5 );
+					var sphereGeometry = new THREE.IcosahedronBufferGeometry( 0.5, 3 );
+					 geometryAtoms.computeBoundingBox();
+					 geometryAtoms.boundingBox.getCenter( offset ).negate();
+					 geometryAtoms.translate( offset.x, offset.y, offset.z );
+					 geometryBonds.translate( offset.x, offset.y, offset.z );
+
+					 let positions = geometryAtoms.getAttribute( 'position' );
+					 const colors = geometryAtoms.getAttribute( 'color' );
+
+					 const position = new THREE.Vector3();
+					 const color = new THREE.Color();
+
+					 for ( let i = 0; i < positions.count; i ++ ) {
+
+						 position.x = positions.getX( i );
+						 position.y = positions.getY( i );
+						 position.z = positions.getZ( i );
+
+						 color.r = colors.getX( i );
+						 color.g = colors.getY( i );
+						 color.b = colors.getZ( i );
+						 // console.log(positions)
+						 const material = new THREE.MeshPhongMaterial( { color: color } );
+
+						 const object = new THREE.Mesh( sphereGeometry, material );
+						 object.position.copy( position );
+						 object.position.multiplyScalar( 1 );
+						 object.scale.multiplyScalar( 1 );
+						 root.add( object );
+
+						 const atom = json.atoms[ i ];
+
+						 const text = document.createElement( 'div' );
+						 text.className = 'label';
+						 text.style.color = 'rgb(' + atom[ 3 ][ 0 ] + ',' + atom[ 3 ][ 1 ] + ',' + atom[ 3 ][ 2 ] + ')';
+						 text.textContent = atom[ 4 ];
+
+						 const label = new CSS2DObject( text );
+						 label.position.copy( object.position );
+						 root.add( label );
+
+					 }
+
+					 positions = geometryBonds.getAttribute( 'position' );
+
+					 const start = new THREE.Vector3();
+					 const end = new THREE.Vector3();
+
+					 for ( let i = 0; i < positions.count; i += 2 ) {
+
+						 start.x = positions.getX( i );
+						 start.y = positions.getY( i );
+						 start.z = positions.getZ( i );
+
+						 end.x = positions.getX( i + 1 );
+						 end.y = positions.getY( i + 1 );
+						 end.z = positions.getZ( i + 1 );
+
+						 start.multiplyScalar( 1 );
+						 end.multiplyScalar( 1 );
+
+						 const object = new THREE.Mesh( boxGeometry, new THREE.MeshPhongMaterial( 0xffffff ) );
+						 object.position.copy( start );
+						 object.position.lerp( end, 0.5 );
+						 object.scale.set( 1, 1, start.distanceTo( end ) );
+						 object.lookAt( end );
+						 scene.add( object );
+					 }
+				},
+				function ( xhr )   { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+				function ( error ) { console.log(error); }
+			);
+		}
+		else if (ext == 'prwm'){
+			// instantiate a loader
+			let loader = new PRWMLoader();
+
+			// load a resource
+			loader.load( file,
+				// called when resource is loaded
+				function ( bufferGeometry ) {
+
+					var math =  getMaterial({
+						type:mat,
+						color: c,
+						//	transparent:true,
+						opacity:o,
+						side: THREE.FrontSide,
+						//map:this._map,
+						//repeat: options.repeat
+					})
+					const object = new THREE.Mesh( bufferGeometry, math );
+					model.object = object
+					scene.add( object );
+					object.castShadow = castShadow;
+					//object.receiveShadow = receiveShadow;
+					object.position.set( p[0],  p[1], p[2] );
+					object.rotation.set( r[0],  r[1], r[2]);
+					object.scale.set( scale[0], scale[1],scale[2] );
+				},
+				function ( xhr ) { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+				function ( error ) { console.log( 'An error happened' ); }
+			);
+		}
+		else if (ext == 'stl'){
+			// ASCII file
+			const loader = new STLLoader();
+			loader.load(file, function ( geometry ) {
+			var material
+				console.log(geometry)
+				if ( geometry.hasColors )	{ material = new THREE.MeshPhongMaterial( { opacity: geometry.alpha, vertexColors: true } );	}
+				else 						{ material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } ); }
+
+			const mesh = new THREE.Mesh( geometry, material );
+			
+				mesh.castShadow = castShadow;
+				mesh.receiveShadow = receiveShadow;
+				scene.add( mesh );
+				model.object = mesh
+				mesh.scale.x = scale[0]
+				mesh.scale.y = scale[1]
+				mesh.scale.z = scale[2]
+				mesh.position.set(p[0], p[1],p[2])
+				mesh.rotation.set(r[0],r[1],r[2])
+			});
+
+		}
+						
+		// GLTF loader
+		else if (ext == 'gltf'){
+			const loader = new GLTFLoader();
+			loader.load(
+				file,
+				function ( gltf ) {
+					scene.add( gltf.scene );
+					gltf.animations; // Array<THREE.AnimationClip>
+					var theGLFT = gltf.scene;
+					gltf.scene;   // THREE.Group
+					gltf.scenes;  // Array<THREE.Group>
+					gltf.cameras; // Array<THREE.Camera>
+					gltf.asset;   // Object
+					theGLFT.scale.x = scale[0];
+					theGLFT.scale.y = scale[1];
+					theGLFT.scale.z = scale[2];
+				
+					callback(theGLFT)
+				},
+				function (xhr)   { /* console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); */ },
+				function (error) { /*	console.log( 'An error happened' ); */ }
+			);
+		}
+		// GLB loader
+		else if (ext == 'glb'){
+				const gltfLoader = new GLTFLoader();
+				gltfLoader.load( file, function ( gltf ) {
+					const boomBox = gltf.scene;
+
+					boomBox.scale.set( scale[0], scale[1], scale[2] );
+					boomBox.traverse( function ( object ) {
+						if ( object.isMesh ) {
+							object.castShadow = castShadow;
+							object.receiveShadow = receiveShadow;
+						}
+					} );
+					scene.add(boomBox)
+					//callback(boomBox)
+					model.object = boomBox
+				} );
+		}
+		// DAE loader
+		else if (ext == 'dae'){
+			const loader = new ColladaLoader( loadingManager );
+			loader.load( file, function ( collada ) {
+				sf = collada.scene;
+				var avatar = collada.scene;
+				let boxes = [];
+				if(collada.animations[0]){
+					var animations = collada.animations;
+					clock = new THREE.Clock();
+					mixerDAE = new THREE.AnimationMixer( avatar );
+					mixerDAE.clipAction( animations[ 0 ] ).play();
+				}
+				//console.log(sf);
+				sf.scale.x = scale[0]
+				sf.scale.y = scale[1]
+				sf.scale.z = scale[2]
+				sf.position.set(p[0], p[1],p[2])
+				sf.rotation.set(r[0],r[1],r[2])
+				sf.traverse( function ( child ) {
+					if ( child.isMesh ) {
+						child.castShadow = castShadow;
+						child.receiveShadow = receiveShadow;
+					}
+				} );
+				model.object = sf
+			
+			});
+		}
+		function callback (e){
+			sf = e;
+			sf.position.set(p[0], p[1],p[2])
+			sf.rotation.set(r[0],r[1],r[2])
+			scene.add(sf);
+			if (scale.length)	{ sf.scale.set(...scale) }
+			else 				{ sf.scale.set(scale,scale,scale) }
+
+			// change color, add shadow
+			if(e.traverse){
+				e.traverse( function ( child ) {
+					child.castShadow = castShadow;
+					child.receiveShadow = receiveShadow;
+					if(child.material){
+						// console.log(child.material);
+						// if(child.material.color.r)
+						if(	child.material.color){child.material.color.set = c;}
+					}
+					if ( child instanceof THREE.Mesh ) {
+						//		child.material.map = texture;
+						//child.castShadow = castShadow;
+					}
+				});
 			}
-		});
+			if (sf.animations){
+				mixerFBX = new THREE.AnimationMixer( sf );
+				const action = mixerFBX.clipAction( sf.animations[ 0 ] );
+				action.play();
+			}
+			//position
+			sf.position.set(p[0], p[1],p[2])
+			sf.rotation.set(r[0],r[1],r[2])
+
+
+			model.object = sf
+		}
 	}
-	if (sf.animations){
-		mixerFBX = new THREE.AnimationMixer( sf );
-		const action = mixerFBX.clipAction( sf.animations[ 0 ] );
-		action.play();
-	}
-	//position
-	sf.position.set(p[0], p[1],p[2])
-	sf.rotation.set(r[0],r[1],r[2])
-	
-
-	model.object = sf
-}
-}
 }
 /////////////////////////////////////////////////////////////////////////////////
 function loadAnimation( animeName, modelId, _callback ) {
@@ -5451,9 +5233,6 @@ export class Text {
 	}
 }
 
-// expload
-								
-
 // Expload
 export class Expload {
 	constructor (options) {
@@ -5485,8 +5264,8 @@ export class Hinge {
 		scene.add( hing );
 		
 		hing1 = new Physijs.BoxMesh( bullet, material,1);
-		hing1.position.set(0,35,3)
-		hing.position.set(0,35,-3)
+		hing1.position.set(0,35,3);
+		hing.position.set(0,35,-3);
 		scene.add( hing1 );
 		
 		var constrainty = new Physijs.HingeConstraint(
@@ -5517,7 +5296,6 @@ export class Hinge {
 		 var constraint = new Physijs.SliderConstraint(
 			 physijs_mesh_a, // First object to be constrained
 		//	 physijs_mesh_b, // OPTIONAL second object - if omitted then physijs_mesh_1
-							 //will be constrained to the scene
 			 new THREE.Vector3( 0, 10, 0 ), // point in the scene to apply the constraint
 			 new THREE.Vector3( 10, 0, 0 ) // Axis along which the hinge lies -
 										  // in this case it is the X axis
@@ -5537,12 +5315,9 @@ export class Hinge {
 		// constraint.disableLinearMotor();
 		// constraint.enableAngularMotor( target_velocity, acceration_force );
 		// constraint.disableAngularMotor();
-		 
-		 
 	 }
 			 
  }
-					
 					
 					
 var soundPlayer;
@@ -5595,34 +5370,30 @@ var audioContext = new AudioContext();
 	// navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 	//	audioSelect.onchange = getStream;
 	//	videoSelect.onchange = getStream;
- function gotDevices(deviceInfos) {
-   for (let i = 0; i !== deviceInfos.length; ++i) {
-	 const deviceInfo = deviceInfos[i];
-	 const option = document.createElement("option");
-	 option.value = deviceInfo.deviceId;
-	        if (deviceInfo.kind === "audioinput") { option.text = deviceInfo.label || "microphone " + (audioSelect.length + 1); audioSelect.appendChild(option);
-	 } else if (deviceInfo.kind === "videoinput") { option.text = deviceInfo.label || "camera "     + (videoSelect.length + 1); videoSelect.appendChild(option);
-	 } else { console.log("Found another kind of device: ", deviceInfo);
-	 }
-   }
- }
+function gotDevices(deviceInfos) {
+	for (let i = 0; i !== deviceInfos.length; ++i) {
+		const deviceInfo = deviceInfos[i];
+		const option = document.createElement("option");
+		option.value = deviceInfo.deviceId;
+		     if (deviceInfo.kind === "audioinput") { option.text = deviceInfo.label || "microphone " + (audioSelect.length + 1); audioSelect.appendChild(option);}
+		else if (deviceInfo.kind === "videoinput") { option.text = deviceInfo.label || "camera "     + (videoSelect.length + 1); videoSelect.appendChild(option);}
+		else { console.log("Found another kind of device: ", deviceInfo);
+		}
+	}
+}
 
- function getStream() {
-   if (window.stream) {
-	 window.stream.getTracks().forEach(function (track) { track.stop(); });
-   }
-
-   const constraints = { audio: 'true' };
-  // navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
- }
+function getStream() {
+	if (window.stream) {window.stream.getTracks().forEach(function (track) { track.stop(); });}
+	const constraints = { audio: 'true' };
+	// navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
+}
 	
- function gotStream(stream) {
-	 window.stream = stream;
+function gotStream(stream) {
+	window.stream = stream;
 	audioElement.srcObject = stream;
-	 mediaIn = audioContext.setMediaElementSource(audioElement);
-	 // var aufioin = mediaIn
-	 // soundPlayer.setMediaElementSource( audioElement );
-	 // soundPlayer.play()
+	mediaIn = audioContext.setMediaElementSource(audioElement);
+	// var aufioin = mediaIn
+	// soundPlayer.play()
 	 
 	 audioElement.play()
 	 var mybuffer = stream;
@@ -5634,11 +5405,7 @@ var audioContext = new AudioContext();
 	 // audiosrc.connect(micGain);
 	 soundPlayer.setBuffer( audioBuffer );
 	// soundPlayer.play()
- }
-
- function handleError(error) {
-   console.error("Error: ", error);
- }
+}
 	//} else {
 		/*
 		// load a soundPlayer and set it as the PositionalAudio object's buffer
@@ -5652,43 +5419,24 @@ var audioContext = new AudioContext();
 			soundPlayer.setRolloffFactor( 60 );
 
 			setTimeout(function(){
-		
 				soundPlayer.play();
 			   }, 3020);
-
-		
 		});*/
 	//}
 }
 
-
 // listen for key presses
 $(document).on('keydown', function(e){
-   // ESC key
-   if(e.keyCode == 27){
-	   if((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) { document.exitFullscreen(); } else { }
-   }
-   // ALT Key
-   else if(e.altKey){
-	   // Toggle Fullscreen (⌘ F)
-	   if (e.keyCode == 70) { e.stopPropagation(); e.preventDefault(); toggleFullscreen(); }
-	}
+   /* ESC key */ if(e.keyCode == 27){ if((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) { document.exitFullscreen(); } else { } }
+   /* ALT Key */ else if(e.altKey){ /* Toggle Fullscreen (⌘ F) */ if (e.keyCode == 70) { e.stopPropagation(); e.preventDefault(); toggleFullscreen(); } }
 });
-
 
 function setupAudioListener(f) {
 	document.removeEventListener("click", setupAudioListener);
 	const reflectionCube = new THREE.CubeTextureLoader().setPath( '/assets/img/cube/castle/' ).load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
 	const grid = new THREE.GridHelper( 50, 50, 0x888888, 0x888888 );
 	scene.add( grid );
-	//	console.log(audioFile)
-	// create an AudioListener and add it to the camera
-	
-	// create the PositionalAudio object (passing in the listener)
 	soundPlayer = new THREE.PositionalAudio( listener );
-	// load a soundPlayer and set it as the PositionalAudio object's buffer
-	
-				
 	audioLoader.load( audioFile, function( buffer ) {
 		soundPlayer.setBuffer( buffer );
 		soundPlayer.setLoop( true );
@@ -5711,40 +5459,24 @@ function setupAudioListener(f) {
 					object.material.envMap = reflectionCube;
 					object.geometry.rotateY( - Math.PI );
 					object.castShadow = true;
-					
 				}
 			} );
 			boomBox.add( soundPlayer );
 			scene.add( boomBox );
 			//animate();
 		} );
-// soundPlayer is damped behind this wall
-const wallGeometry = new THREE.BoxBufferGeometry( 2, 1, 0.1 );
-const wallMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5 } );
+		// soundPlayer is damped behind this wall
+		const wallGeometry = new THREE.BoxBufferGeometry( 2, 1, 0.1 );
+		const wallMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5 } );
 
-const wall = new THREE.Mesh( wallGeometry, wallMaterial );
-wall.position.set( 0, 0.5, - 0.5 );
-scene.add( wall );
+		const wall = new THREE.Mesh( wallGeometry, wallMaterial );
+		wall.position.set( 0, 0.5, - 0.5 );
+		scene.add( wall );
+		//	setTimeout(function(){ }, 1020);
+		//	soundPlayer.play();
+	});
 
-
-//	setTimeout(function(){ }, 1020);
-//	soundPlayer.play();
-});
-
-// create an object for the sound to play from
-/*const spherea = new THREE.IcosahedronGeometry( 2);
-//var	 material = getMaterial("physical");
-
-const material = new THREE.MeshStandardMaterial();
-var mesh = new THREE.Mesh(spherea, material);
-scene.add( mesh );
-mesh.position.set(0,2,0)
-// add sound to the mesh
-mesh.add( sound );*/
-//mesh.scale.set( 0.1 ,0.1 ,0.1 );
 }
-
-
 
 // Shapes
 export class Shapes {
@@ -5760,11 +5492,11 @@ export class Shapes {
 		scene.add( group );
 
 		const geometries = [
-		//  new THREE.BoxBufferGeometry( 0.2, 0.2, 0.2 ),
-		//  new THREE.ConeBufferGeometry( 0.2, 0.2, 64 ),
-		new THREE.SphereBufferGeometry( 2, 64,64, 64 ),
-		//   new THREE.IcosahedronBufferGeometry( 0.2, 8 ),
-		//   new THREE.TorusBufferGeometry( 0.2, 0.04, 64, 32 )
+			//  new THREE.BoxBufferGeometry( 0.2, 0.2, 0.2 ),
+			//  new THREE.ConeBufferGeometry( 0.2, 0.2, 64 ),
+			new THREE.SphereBufferGeometry( 2, 64,64, 64 ),
+			//   new THREE.IcosahedronBufferGeometry( 0.2, 8 ),
+			//   new THREE.TorusBufferGeometry( 0.2, 0.04, 64, 32 )
 		];
 
 		for ( let i = 0; i <300; i ++ ) {
@@ -5772,22 +5504,19 @@ export class Shapes {
 
 		const geometry = geometries[ Math.floor( Math.random() * geometries.length ) ];
 		var material = new THREE.MeshStandardMaterial( {
-		color: 0xffffff,
-		//roughness: Math.random() * 1,
-		roughness: 0,
-
-		} );
-		// var   material = new THREE.MeshBasicMaterial({
-		// map: new THREE.TextureLoader().load("/assets/img/equirectangular/earth.jpg")
-		//});
+			color: 0xffffff,
+			//roughness: Math.random() * 1,
+			roughness: 0,
+		});
+		
 		const object = new THREE.Mesh( geometry, material );
 		object.position.x = Math.random() * 80 - 40;
 		object.position.y = Math.random() * 80 - 40;
 		object.position.z = Math.random() * 80 - 40;
 		// object.rotation.x = Math.random() * 2 * Math.PI;
-		//object.rotation.y = Math.random() * 2 * Math.PI;
+		// object.rotation.y = Math.random() * 2 * Math.PI;
 		// object.rotation.z = Math.random() * 2 * Math.PI;
-		//object.scale.setScalar( Math.random() + 0.01 );
+		// object.scale.setScalar( Math.random() + 0.01 );
 		object.castShadow    = false;
 		object.receiveShadow = false;
 		group.add( object );
@@ -5798,47 +5527,119 @@ export class Shapes {
 
 
 function changeVideo() {
-				video = document.getElementById( 'video' );
-
-	video.pause()
-	video = false
-
+	video = document.getElementById( 'video' );
+	video.pause();
+	video = false;
 	var chosenFile = document.getElementById("myFile").files[0];
-
 	document.getElementById("video").setAttribute("src", URL.createObjectURL(chosenFile));
-
-
-		var sc = 2;
-
+	var sc = 2;
 	document.getElementById("video").onloadeddata = function() {
+		if(videomesh){
+			var sc =  1;
+			// video.play()
+			// videotexture.needsUpdate = true
 			if(videomesh){
-				var sc =  1;
-				// video.play()
-				// videotexture.needsUpdate = true
-				if(videomesh){
-					videomesh.scale.set(7,6,1 );
-					videogeo = new THREE.PlaneGeometry(4,4,1,1)
-					newRatio(video.videoHeight, video.videoWidth)
-					console.log(video.videoHeight, video.videoWidth)
-					videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
-				}
-				
-				videotexture.flipY = true;
+				videomesh.scale.set(7,6,1 );
 				videogeo = new THREE.PlaneGeometry(4,4,1,1)
-				var material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
-				var mesh1 = new THREE.Mesh( videogeo, material1 );
-				scene.add(mesh1)
-
+				newRatio(video.videoHeight, video.videoWidth)
+				console.log(video.videoHeight, video.videoWidth)
+				videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
 			}
 			
+			videotexture.flipY = true;
+			videogeo		= new THREE.PlaneGeometry(4,4,1,1)
+			var material1	= new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
+			var mesh1		= new THREE.Mesh( videogeo, material1 );
+			scene.add(mesh1)
+		}
 	}
-						  
+}
+// Accelerometer
+var acelFunction;
+
+export class Accelerometer{
+	constructor (options){
+		if(!options){options={}}
+		acelFunction = options;
+		gyroFunction.scale = options.scale || [-1,1]
+
+		document.addEventListener("click", this.start, {once: true});
+	}
+	
+	start(){
+		DeviceOrientationEvent.requestPermission().then(response => {
+			if (response == 'granted') {
+				window.addEventListener('devicemotion', (e) => {
+					acelFunction.action(scaleVector(-9.81,9.81,acelFunction.scale[0],acelFunction.scale[1],e.accelerationIncludingGravity));
+					//console.log(e.rotationRate); // provided in °/sec // data specifying the device’s rate of rotation around three axes. The value of this property contains a measurement of gyroscope data whose bias has been removed by Core Motion algorithms.
+				});
+			}
+		}).catch(handleError)
+		
+	}
+}
+
+// Gyroscope
+var gyroFunction;
+export class Gyroscope{
+	constructor (options){
+		if(!options){options={}}
+		gyroFunction = options;
+		gyroFunction.scale = options.scale || [-1,1];
+		document.addEventListener("click", this.start , {once: true});
+	}
+	
+	start(){
+		//document.removeEventListener("click", this.start);
+		DeviceOrientationEvent.requestPermission().then(response => {
+			if (response == 'granted') {
+				window.addEventListener('devicemotion', (e) => {
+					//gyroFunction.action(scaleVector(-15,15,gyroFunction.scale[0],gyroFunction.scale[1],e.acceleration)); // returns meters per second squared (m/s2).
+					gyroFunction.action(e.acceleration); // returns meters per second squared (m/s2).
+					//console.log(e.rotationRate); // provided in °/sec // data specifying the device’s rate of rotation around three axes. The value of this property contains a measurement of gyroscope data whose bias has been removed by Core Motion algorithms.
+			  })
+		  }
+	  }).catch(handleError)
+
+	}
 }
 
 
 
-								  
-		
+// Compass
+var compassFunction;
+export class Compass{
+	constructor (options){
+		if(!options){options={}}
+		compassFunction = options
+		document.addEventListener("click", this.start, {once: true});
+	}
+	
+	start(){
+	  DeviceOrientationEvent.requestPermission().then(response => {
+		  if (response == 'granted') {
+			  // orientation of the device as compared to the Earth coordinate frame.
+			  window.addEventListener('deviceorientation', (e) => {
+				  console.log(e)
+				  compassFunction.action(e);
+				//	var rotateDegrees	= e.alpha; //  rotation around z-axis
+				//	var leftToRight		= e.gamma; // [ -90, 90] left to right
+				//	var frontToBack		= e.beta;  // [-180,180] front to back
+				//  console.log(e)
+			  })
+		  }
+	  }).catch(handleError)
+
+  }
+}
+
+
+
+function handleError(error) { console.log(error); }
+			
+// ========== MISC ========== //
+
+// Pendulum
 export class Pendulum{
 	constructor (options){
 		if(!options){options={}}
@@ -5852,35 +5653,32 @@ export class Pendulum{
 	   const meshes = []
 	   const matcap = new THREE.TextureLoader().load('/assets/textures/matcap.png')
 	   const init = () => {
-	   for (let i = 0; i < balls; i++) {
-		   const group = new THREE.Group()
-		   scene.add(group)
-		   const ballGeo = new THREE.SphereBufferGeometry(radius, 32, 32)
-		   const ballMat = new THREE.MeshMatcapMaterial( { matcap: matcap })
-		   const ball = new THREE.Mesh( ballGeo, ballMat )
-		   ball.position.y = -6 - length
-		   ball.castShadow = true
-		   ball.receiveShadow = true
-		   group.add( ball )
+		   for (let i = 0; i < balls; i++) {
+			   const group = new THREE.Group()
+			   scene.add(group)
+			   const ballGeo = new THREE.SphereBufferGeometry(radius, 32, 32)
+			   const ballMat = new THREE.MeshMatcapMaterial( { matcap: matcap })
+			   const ball = new THREE.Mesh( ballGeo, ballMat )
+			   ball.position.y = -6 - length
+			   ball.castShadow = true
+			   ball.receiveShadow = true
+			   group.add( ball )
 
-		   const hairGeo = new THREE.CylinderBufferGeometry(.006, .006, 8 + length,  32)
-		   const hairMat = new THREE.MeshPhongMaterial( { color: 0xcccccc })
-		   const hair = new THREE.Mesh( hairGeo, hairMat )
-		   hair.position.y = -2
-		   group.add( hair )
-		   group.position.x = -3. + i * distance
-		   group.position.y = 6
-		   gsap.fromTo(group.rotation, { x: -1 * power, }, { duration: speed, x: power, repeat: -1, ease: 'power1.inOut', yoyo: true, delay: i * 0.1 })
-		   meshes.push(group)
+			   const hairGeo = new THREE.CylinderBufferGeometry(.006, .006, 8 + length,  32)
+			   const hairMat = new THREE.MeshPhongMaterial( { color: 0xcccccc })
+			   const hair = new THREE.Mesh( hairGeo, hairMat )
+			   hair.position.y = -2
+			   group.add( hair )
+			   group.position.x = -3. + i * distance
+			   group.position.y = 6
+			   gsap.fromTo(group.rotation, { x: -1 * power, }, { duration: speed, x: power, repeat: -1, ease: 'power1.inOut', yoyo: true, delay: i * 0.1 })
+			   meshes.push(group)
+		   }
 	   }
-
-	  
-	   }
-	   init()
-		 }
-	 }
+	   init();
+	}
+}
 var multiplayerHead;
-
 
 var initEventHandling, createTower, jengaOptions = {}, loader, table, blocks = [], table_material, block_material, intersect_plane, selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, _i, _v3 = new THREE.Vector3;
 
@@ -5896,18 +5694,17 @@ export class Jenga {
 			block:this.block,
 		}
 		//jengaRows = this.rows
-	//scene = new Physijs.Scene({ fixedTimeStep: 1 / 120 });
-	//scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
-	scene.addEventListener('update',function() {
-		if ( selected_block !== null ) {
-			_v3.copy( mouse_position ).add( block_offset ).sub( selected_block.position ).multiplyScalar( 5 );
-			_v3.y = 0;
-			selected_block.setLinearVelocity( _v3 );
-			// Reactivate all of the blocks
-			_v3.set( 0, 0, 0 ); for ( _i = 0; _i < blocks.length; _i++ ) {blocks[_i].applyCentralImpulse( _v3 );}
-		}
-	}
-	);
+		//scene = new Physijs.Scene({ fixedTimeStep: 1 / 120 });
+		//scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
+		scene.addEventListener('update',function() {
+			if ( selected_block !== null ) {
+				_v3.copy( mouse_position ).add( block_offset ).sub( selected_block.position ).multiplyScalar( 5 );
+				_v3.y = 0;
+				selected_block.setLinearVelocity( _v3 );
+				// Reactivate all of the blocks
+				_v3.set( 0, 0, 0 ); for ( _i = 0; _i < blocks.length; _i++ ) {blocks[_i].applyCentralImpulse( _v3 );}
+			}
+		});
 
 		table_material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), .9, .2 );
 		block_material = Physijs.createMaterial(new THREE.MeshLambertMaterial(), .4, .4 );
@@ -5919,57 +5716,52 @@ export class Jenga {
 		scene.add( table );
 		//camera.position.set( 25, 20, 25 );
 		//camera.lookAt(new THREE.Vector3( 0, 7, 0 ));
-		setTimeout(function () {
-			createTower();
-		}, 1000);
+		setTimeout(function () { createTower(); }, 1000);
 
-   intersect_plane = new THREE.Mesh(
-	   new THREE.PlaneGeometry( 150, 150 , 150 , 150 ),
-	   new THREE.MeshBasicMaterial({ opacity: 0.1, transparent: true,wireframe:true })
-   );
-   intersect_plane.rotation.x = Math.PI / -2;
-   scene.add( intersect_plane );
+	   intersect_plane = new THREE.Mesh(
+		   new THREE.PlaneGeometry( 150, 150 , 150 , 150 ),
+		   new THREE.MeshBasicMaterial({ opacity: 0.1, transparent: true,wireframe:true })
+	   );
+	   intersect_plane.rotation.x = Math.PI / -2;
+	   scene.add( intersect_plane );
 
-   initEventHandling();
-   
-  // requestAnimationFrame( render );
-  // scene.simulate();
-		
-		var createTower = (function() {console.log(jengaOptions.block)
-		 var block_length = jengaOptions.block[2],
-			 block_height =  jengaOptions.block[1],
-			 block_width =  jengaOptions.block[0],
-			 block_offset = 2,
-			 block_geometry = new THREE.BoxGeometry( block_length, block_height, block_width );
-	 //	var erty = o.rows
-						 
-						 
-						 
-		 return function() {
-			 var i, j, rows = jengaOptions.rows, block;
-		 //	console.log(erty)
-			 for ( i = 0; i < rows; i++ ) {
-				 for ( j = 0; j < 3; j++ ) {
-					 block = new Physijs.BoxMesh( block_geometry, block_material );
-					 block.position.y = (block_height / 2) + block_height * i;
-					 if ( i % 2 === 0 ) {
-						 block.rotation.y = Math.PI / 2.01; // #TODO: There's a bug somewhere when this is to close to 2
-						 block.position.x = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 );
-					 } else {
-						 block.position.z = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 );
-					 }
-					 block.receiveShadow = true;
-					 block.castShadow = true;
-					 scene.add( block );
-					 blocks.push( block );
-				 }
-			 }
-		 }
+	   initEventHandling();
+	   
+	  // requestAnimationFrame( render );
+	  // scene.simulate();
+			
+		var createTower = (function() {
+			//console.log(jengaOptions.block)
+			var block_length = jengaOptions.block[2],
+			block_height =  jengaOptions.block[1],
+			block_width =  jengaOptions.block[0],
+			block_offset = 2,
+			block_geometry = new THREE.BoxGeometry( block_length, block_height, block_width );
+			// var erty = o.rows
+			
+			return function() {
+				var i, j, rows = jengaOptions.rows, block;
+				//	console.log(erty)
+				for ( i = 0; i < rows; i++ ) {
+					for ( j = 0; j < 3; j++ ) {
+						block = new Physijs.BoxMesh( block_geometry, block_material );
+						block.position.y = (block_height / 2) + block_height * i;
+						if ( i % 2 === 0 ) {
+							block.rotation.y = Math.PI / 2.01; // #TODO: There's a bug somewhere when this is to close to 2
+							block.position.x = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 );
+						}
+						else { block.position.z = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 ); }
+						block.receiveShadow = true;
+						block.castShadow = true;
+						scene.add( block );
+						blocks.push( block );
+					}
+				}
+			}
 	 })();
-	 
-	
-   }
-} initEventHandling = (function() {//console.log('sdf')
+}
+}
+initEventHandling = (function() {//console.log('sdf')
 	var _vector = new THREE.Vector3, handleMouseDown, handleMouseMove, handleMouseUp;
 	   handleMouseDown = function( e ) {e.preventDefault();console.log('sdf')
 		   var ray, intersections;
@@ -5985,26 +5777,25 @@ export class Jenga {
 			   selected_block.setLinearFactor( _vector );
 			   selected_block.setLinearVelocity( _vector );
 			   if (intersections[0]){
-			   mouse_position.copy( intersections[0].point );
-			   block_offset.subVectors( selected_block.position, mouse_position );
+				   mouse_position.copy( intersections[0].point );
+				   block_offset.subVectors( selected_block.position, mouse_position );
 			   }
 			   intersect_plane.position.y = mouse_position.y;
 		   }
 	   };
 	   
 	   handleMouseMove = function( e ) {
-		   
 		   var ray, intersection, i, scalar;
 		   if ( selected_block !== null ) {
 			   _vector.set(
-				   (e.clientX / window.innerWidth ) * 2 - 1,
-				   -( e.clientY / window.innerHeight ) * 2 + 1,
+				    (e.clientX / window.innerWidth  ) * 2 - 1,
+				   -(e.clientY / window.innerHeight ) * 2 + 1,
 				   1
 			   );
 			   _vector.unproject( camera );
 			   ray = new THREE.Raycaster( camera.position, _vector.sub( camera.position ).normalize() );
 			   intersection = ray.intersectObject( intersect_plane );
-					if( intersection[0]){ mouse_position.copy( intersection[0].point ); }
+				if( intersection[0]){ mouse_position.copy( intersection[0].point ); }
 		   }
 		   
 	   };
@@ -6017,16 +5808,15 @@ export class Jenga {
 			   selected_block.setLinearFactor(_vector);
 			   selected_block = null;
 		   }
-		   
 	   };
 	   
 	   return function() {
-		document.addEventListener( 'mousedown', handleMouseDown );
-		document.addEventListener( 'mousemove', handleMouseMove );
-		document.addEventListener( 'mouseup', handleMouseUp );
+			document.addEventListener( 'mousedown', handleMouseDown );
+			document.addEventListener( 'mousemove', handleMouseMove );
+			document.addEventListener( 'mouseup',   handleMouseUp );
 	   };
    })();
- var messh
+ //var messh
 
 // Mixer
 export class Mixer {
