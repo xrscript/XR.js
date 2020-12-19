@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>XR.js | Light</title>
+		<title>XR.js | Spot Light</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<link rel="stylesheet" href="/css/main.css" />
@@ -12,24 +12,29 @@
 			<a href="/examples">Examples</a>
 			<a href="/examples/objects/">Objects</a>
 			<a href="/examples/objects/light/">Light</a>
+			<a href="/examples/objects/light/spot.html">Spot</a>
 			<p>
 				<a href="/examples/objects/light/index.html">Basic</a>
 				<a href="/examples/objects/light/color.html">Color</a>
 				<a href="/examples/objects/light/lensflare.html">Lensflare</a>
+				<a href="/examples/objects/light/spot.html">Spot</a>
 			</p>
-
 		</header>
-
 <script type="module">import * as XR from '/XR.js';
+
 new XR.Reality();
 new XR.Floor();
 
+new XR.Box();
+
 new XR.Light({
-	helper: true,
+	type:'spot',
+	position:[5,3,5],
+	penumbra:0.5,
+	angle:0.5,
+	helper:true
 });
 
-
 </script>
-	 
 	</body>
 </html>

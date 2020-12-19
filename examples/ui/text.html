@@ -24,29 +24,29 @@
 				<a href="./radial.html">Radial</a>
 			</p>
 		</header>
-<script type="module">
-import * as XR from '/XR.js';
+<script type="module">import * as XR from '/XR.js';
+
 new XR.Reality();
-new XR.Floor();
+new XR.Floor({color:'black'});
 new XR.Light();
 
 new XR.Text({
 	text:'hello world',
-	size: 0.6,
-	thickness: 0.3,
-	color: 0xff0000,
-	segments:1,   position:[0,0,0],
-	font:'/assets/fonts/Prisma.json'
+	font:'/assets/fonts/Prisma.json',
+	color: 'red',
+	size: 0.5,
+	thickness: 0.2,
+	position:[0,0,-3]
+
 });
 
 new XR.Text({
 	text:'It is easy to display virtual text!',
+	color: 'white',
 	size: 0.3,
-	thickness: 0,
-	color: 'black',
 	segments:4,
+	position:[0,1,-3]
 });
-
 </script>
 	</body>
 </html>

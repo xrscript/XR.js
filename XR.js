@@ -1,15 +1,14 @@
 // XR.js
-import '/js/three/build/three.js';
-import '/js/physi.js';
-//import gsap from "/node_modules/gsap";
-import '/lib/tween.js/dist/tween.umd.js';
-import '/js/tween.js';
+import '/lib/three/build/three.js';	// three.js
+import '/lib/tween/tween.umd.js';	// tween.js
+import '/lib/physijs/physi.js';		// physi.js
+Physijs.scripts.worker = '/lib/physijs/physijs_worker.js';
+Physijs.scripts.ammo = '/lib/physijs/ammo.js';
+
 import basketball from '/assets/json/basketball.js';
-//import  '/js/TweenLite.min.js';
+//import gasp from "/node_modules/gasp";
 //import  '/js/TimelineMax.min.js';
 
-Physijs.scripts.worker = '/js/physijs_worker.js';
-Physijs.scripts.ammo = '/js/ammo.js';
 import '/node_modules/simplex-noise/simplex-noise.js';
 import { GUI } from './node_modules/three/examples/jsm/libs/dat.gui.module.js';
 import { VRButton } 					from './node_modules/three/examples/jsm/webxr/VRButton.js';
@@ -594,7 +593,7 @@ export class Floor {
 		//var side = THREE.FrontSide;
 		var mat =  getMaterial({
 			type:this._material,
-		//	color: c,
+			color: this._color,
 		//	transparent:true,
 			opacity:this._opacity,
 			side: THREE.FrontSide,
@@ -734,52 +733,85 @@ export class Player {
 	}
 }
 
-
+var overlaytext;
+								  
+								  var overlays = []
 // Overlay
 export class Overlay {
 	constructor (options) {
-		
+		//newText(options)
 		this._font 	=  '/assets/fonts/helvetiker_bold.json';
-		var text 	=  options.text;
-		var size 	=  options.size || 0.3;
-
-		const font = new THREE.FontLoader();
-		font.load( '/assets/fonts/helvetiker_bold.json', function ( font ) {
-			const textGeo = new THREE.TextBufferGeometry( text, {
-				font: font,
-				size: size,
-				height: 0.1,
-				//curveSegments: segments,
-				//bevelEnabled: b,
-				bevelThickness: 0.1,
-				bevelSize: 0.02,
-				bevelOffset:0.01,
-				bevelSegments:3,
-			});
-			textGeo.computeBoundingBox();
-			const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
-			material = new THREE.MeshPhongMaterial({
-				//specular: specular,
-				color:'black',
-				transparent:true,
-				opacity:1
-			});
-			text = new THREE.Mesh( textGeo, material );
-			//text.castShadow 	= true;
-			//text.receiveShadow 	= false;
-			
-			
-			// if 'href' exists, make it clickable
-			if (text.href){ mainmenu.add(text); }
-			else          { scene.add(text);    }
-			//text.rotation.set(r[0],r[1],r[2])
-			text.position.set(centerOffset + 0 , 0,-3)
-			//
-			camera.add(text)
-		});
+		 this._text 	=  options.text;
+		 this._size 	=  options.size || 0.3;
+		
+	var sdfg =	newText(this._font, this._text, this._size)
+		console.log(sdfg)
+var thisOverlay = this;
+		thisOverlay.object = overlaytext
+		
+		
+		
 	}
+			
+			text(e){
+				
+				//console.log(this.object)
+				//console.log(e)
+				console.log(this)
+				console.log(overlays)
+	camera.remove(this.object)
+				overlays.forEach(function(model, i) {
+console.log(model,i)
+					
+					camera.remove(overlays[i])
+				})
+				newText(this._font, e, this._size)
+
+
+			}
 }
- 
+function newText(thefont,text,size){
+			
+			var thetextobj;
+			const font = new THREE.FontLoader();
+			font.load( '/assets/fonts/helvetiker_bold.json', function ( font ) {
+				const textGeo = new THREE.TextBufferGeometry( text, {
+					font: font,
+					size: size,
+					height: 0.1,
+					//curveSegments: segments,
+					//bevelEnabled: b,
+					bevelThickness: 0.1,
+					bevelSize: 0.02,
+					bevelOffset:0.01,
+					bevelSegments:3,
+				});
+				textGeo.computeBoundingBox();
+				const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
+				material = new THREE.MeshPhongMaterial({
+					//specular: specular,
+					color:'black',
+					transparent:true,
+					opacity:1
+				});
+				overlaytext = new THREE.Mesh( textGeo, material );
+				//text.castShadow 	= true;
+				//text.receiveShadow 	= false;
+				
+				// if 'href' exists, make it clickable
+				if (overlaytext.href){ mainmenu.add(overlaytext); }
+				else          { scene.add(overlaytext);    }
+				//text.rotation.set(r[0],r[1],r[2])
+				overlaytext.position.set(centerOffset + 0 , 0,-3)
+				//
+				
+				
+				camera.add(overlaytext)
+				overlays.push(overlaytext)
+
+			});
+			return thetextobj;
+		}
 var	chair_material,ground_material,ground
 var spawnChair
 // Chairs
@@ -1004,10 +1036,10 @@ export class Camera {
 export class Radial {
 	constructor (options) {
 		if(!options){options={}}
-		this._scale 		= options.scale 	|| 1;
-		this._color 		= options.color 	|| 0xff0000;
+		this._scale 		= options.scale || 1;
+		this._color 		= options.color || 0xff0000;
 		this._side 		= options.side 		|| 2;
-		this._blend 		= options.blend		|| "normal";
+		this._blend 		= options.blend	|| "normal";
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1017,27 +1049,24 @@ export class Radial {
 		this._physics 	= options.physics 	|| true;
 		this._bounce 	= options.bounce 	|| 0.8;
 		this._friction 	= options.physics 	|| 0.3;
-		   var p = this._physics;
-		var numberOfOptions = 8
-		
+		var numberOfOptions = options.options.length
+		var rot = this._rotation
 		
 		// thetaStart,thetaLength
 		for (let i = 0; i < numberOfOptions; i ++) {
-			
-			
 			var thematerial =  getMaterial({
 				side: this._side,
 				type: this._material,
-			color: Math.random() * 0xffffff,
-			map: options.map,
-				
+				color: Math.random() * 0xffffff,
+				map: options.map,
 			});
-		//	animates[ i ].update( delta * 1000 );
 		
-		const geometry = new THREE.CircleGeometry(4, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
+		const geometry = new THREE.CircleGeometry(1, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
 
 		var circlePart = new THREE.Mesh( geometry, thematerial );
-		scene.add(circlePart)
+		// circlePart.rotation.set(rot[0],rot[1],rot[2])
+										  
+		mainmenu.add(circlePart)
 		}
   }
 }
@@ -1162,26 +1191,369 @@ export class Sphere {
 }
 
 
-// Box
-export class Box {
+								  function loadSound(src) {
+		//	var mydata = JSON.parse(basketball);
+		//
+			//console.log(basketball.sounds[0])
+									this.sound = document.createElement("audio");
+									this.sound.src = src;
+									this.sound.setAttribute("preload", "auto");
+									this.sound.setAttribute("controls", "none");
+									this.sound.style.display = "none";
+									document.body.appendChild(this.sound);
+									this.play = function(){
+									  this.sound.play();
+									}
+									this.stop = function(){
+									  this.sound.pause();
+									}
+								  }
+
+// Collisions
+export class Collisions {
+			
+	constructor (options) {
+		
+		basketball.sounds.forEach(element => console.log(element));
+
+		var sound0 =	new loadSound('/assets/audio/basketball/bounce_0.mp3')
+		var sound1 =	new loadSound('/assets/audio/basketball/bounce_1.mp3')
+		var sound2 =	new loadSound('/assets/audio/basketball/bounce_2.mp3')
+		var sound3 =	new loadSound('/assets/audio/basketball/bounce_3.mp3')
+		var sound4 =	new loadSound('/assets/audio/basketball/bounce_4.mp3')
+		var sound5 =	new loadSound('/assets/audio/basketball/bounce_5.mp3')
+		var sound6 =	new loadSound('/assets/audio/basketball/bounce_6.mp3')
+		// Loader
+		loader = new THREE.TextureLoader();
+	
+		spawnBox();
+		// requestAnimationFrame( render );
+		scene.simulate();
+		spawnBox = (function() {
+			var box_geometry = new THREE.BoxGeometry( 1,1,1 ),
+				handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
+				//	console.log(collided_with, linearVelocity, angularVelocity)
+					switch ( ++this.collisions ) {
+						case 1:this.material.color.setHex(0xcc8855);console.log('first'); sound0.play(); break;
+						case 2:this.material.color.setHex(0xbb9955); sound1.play(); break;
+						case 3:this.material.color.setHex(0xaaaa55); sound2.play(); break;
+						case 4:this.material.color.setHex(0x99bb55); sound3.play(); break;
+						case 5:this.material.color.setHex(0x88cc55); sound4.play(); break;
+						case 6:this.material.color.setHex(0x77dd55); sound5.play(); break;
+					}
+				},
+				createBox = function() {
+					var box, material;
+					material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }), .6, .9 );
+					//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
+					box = new Physijs.BoxMesh( box_geometry, material );
+					box.collisions = 0;
+					box.castShadow = true;
+					box.addEventListener( 'collision', handleCollision );
+					box.addEventListener( 'ready', spawnBox );
+					box.position.set(0,5,0)
+
+					scene.add( box );
+				};
+			return function() { setTimeout( createBox, 1000 ); };
+		})();
+		
+	}
+
+}
+
+// ===== animation ===== //
+
+var targetPosition = new THREE.Vector3();
+
+// Animate
+export class Animate {
+			
+	constructor (options) {
+		// console.log(options.at)
+		animationOn = true;
+		var targetObject = options.at.object;
+		var y		= options.yoyo;
+		var r		= options.repeat	|| 0;
+		var del		= options.delay		|| 0;
+		var p		= options.position;
+		var dur		= options.duration;
+		var col		= options.color		|| null;
+		var type	= options.type		|| 'absolute';
+		
+		// easing
+		var dir 	= options.direction	|| 'inout';
+		var ease 	= options.ease 		|| 'linear';
+		var e		= getEase(ease, dir);
+		
+		
+		var linearVelocity  = new THREE.Vector3();
+		var angularVelocity = new THREE.Vector3();
+
+		var anim;
+	// create animation
+		var shad = options.at.shadow
+		var shad1 = options.at.shadowblack
+	//console.log(options.at.shadow)
+		//targetPosition = new THREE.Vector3( t[0], t[1], t[2] );
+		//	new TWEEN.Tween( targetObject.material ).to( { opacity: 0 }, 1 ).start();
+		// console.log(shad)
+		//console.log(shad1)
+		// opacity
+		if (options.opacity != undefined){
+			//new TWEEN.Tween( targetObject.material ).to( options.opacity, dur ).start();
+			//var col = new THREE.Color(Math.random() * 0xffffff);
+			//TweenLite.to(targetObject.material, dur, {opacity:0});
+			new TWEEN.Tween(targetObject.material).to({
+				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
+			if(shad){
+			new TWEEN.Tween(shad).to({
+				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
+			}
+			if(shad1){
+				new TWEEN.Tween(shad1)
+				.to({ opacity:options.opacity }, dur)
+				.repeat(r)
+				.easing(e)
+				.yoyo(y)
+				.delay(del)
+				.start();
+				// console.log(shad)
+				//shad.visible = true
+				//shad.color = 'green'
+			}
+		}
+		// color
+		if (options.color  != null){
+			var col = new THREE.Color(options.color);
+			
+			new TWEEN.Tween(targetObject.material.color)
+			.to({r:col.r,g:col.g,b:col.b,},dur)
+			.repeat(r)
+			.easing(e)
+			.yoyo(y)
+			.start();
+		
+			// for custom shadows...
+			if(shad){
+			new TWEEN.Tween(shad.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
+			//new TWEEN.Tween(shad1.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
+			}
+			
+			//	TweenLite.to(targetObject.material.color, dur, {r:col.r,g:col.g,b:col.b,});
+		}
+		// position
+		 if (options.position != null) {
+		
+			 var newPos;
+			 
+			 if (type == 'absolute'){
+				 newPos = {
+					x: options.position.x,// || targetObject.position.x,
+					y: options.position.y,// || targetObject.position.y,
+					z: options.position.z,// || targetObject.position.z
+				 }
+			 }
+			 else if (type == 'relative'){
+				 newPos = {
+					x:targetObject.position.x + options.position.x || 0,
+					y:targetObject.position.y + options.position.y || 0,
+					z:targetObject.position.z + options.position.z || 0
+				 }
+			 }
+			 
+			 // create animation
+			 new TWEEN.Tween(targetObject.position)
+			 .to(newPos, dur)
+			 .repeat(r)
+			 .easing(e)
+			 .yoyo(y)
+			 .onStart(updatePosition)
+			 .onComplete(callbackPosition)
+			 .start()
+		}
+	
+		// rotation
+		 if (options.rotation != undefined){
+			 new TWEEN.Tween( targetObject.rotation ).to( {
+				 x: targetObject.rotation.x + options.rotation.x,
+				 y: targetObject.rotation.y + options.rotation.y,
+				 z: targetObject.rotation.z + options.rotation.z
+			 }, dur )
+			 .repeat(r)
+			 .easing(e)
+			 .yoyo(y)
+			 .onStart(updateRotation)
+			 .onUpdate()
+			 .onComplete(callbackRotation)
+			 .delay(del)
+			 .start()
+		}
+		
+		// scale
+		if (options.scale != undefined){
+			new TWEEN.Tween( targetObject.scale ).to( {
+				x:targetObject.scale.x + options.scale.x,
+				y:targetObject.scale.y + options.scale.y,
+				z:targetObject.scale.z + options.scale.z
+			}, dur )
+			.repeat(r)
+			.easing(e)
+			.yoyo(y)
+			//.onStart(updateRotation)
+			.onUpdate()
+			//.onComplete(callbackRotation)
+			.start()
+		}
+		
+		// update position
+		function updatePosition(e){
+			
+			if(options.velocity){
+				// console.log(e)
+				
+				if (type == 'absolute'){
+					var calculate = positionVector1(e, options.position)/* = {
+						x:((e.x + options.position.x) - e.x) / 1,
+						y:((e.y + options.position.y) - e.y) / 1,//(e.y + options.position.y) + options.position.y,
+						z:((e.z + options.position.z) - e.z) / 1 //((e.z + options.position.z) - e.y)  / 1//(e.z + options.position.z) + options.position.z,
+					}*/
+					console.log(calculate)
+					linearVelocity = calculate;
+				}
+				
+				else if (type == 'relative'){
+					var calculate = {
+						x:options.position.x,
+						y:options.position.y,//(e.y + options.position.y) + options.position.y,
+						z:options.position.z //((e.z + options.position.z) - e.y)  / 1//(e.z + options.position.z) + options.position.z,
+					}
+					// console.log(calculate)
+					linearVelocity = calculate;
+				   }
+			}
+		}
+		
+		// update rotation
+		function updateRotation(e){
+			var calculate = {
+				x:((e.x + options.rotation.x) - e.x) / 1,
+				y:((e.y + options.rotation.y) - e.y) / 1,//(e.y + options.position.y) + options.position.y,
+				z:((e.z + options.rotation.z) - e.z) / 1//(e.z + options.position.z) + options.position.z,
+			}
+			angularVelocity = calculate;
+		}
+		
+		// position callback (apply linear velocity)
+		function callbackPosition(e){
+			targetObject.position.x = e.x;
+			targetObject.position.y = e.y;
+			targetObject.position.z = e.z;
+			targetObject.__dirtyPosition = true;
+			if (targetObject.setLinearVelocity){
+				targetObject.setLinearVelocity(linearVelocity);
+			}
+		}
+				
+		// rotation callback (apply angular velocity)
+		function callbackRotation(e){
+			targetObject.rotation.x = e.x;
+			targetObject.rotation.y = e.y;
+			targetObject.rotation.z = e.z;
+			targetObject.__dirtyRotation = true;
+			if (targetObject.setAngularVelocity){
+				targetObject.setAngularVelocity(angularVelocity);
+			}
+		}
+			
+	}
+}
+// ===== Polyhedrons ===== //
+
+// Tetrahedron
+export class Tetrahedron {
 			
 	constructor (options) {
 		if(!options){options={}}
 		this._scale 	= options.scale 	|| 1;
-		this._color 	= options.color 	|| 0xffffff;
+		this._color 	= options.color 	|| 0xff0000;
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
+		this._opacity 	= options.opacity 	|| 1;
+		this._map 	= options.map 	|| null;
+
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
+		this._physics = options.physics || true;
+		this._bounce = options.bounce || 0.8;
+		this._friction = options.physics || 0.3;
+		var p = this._physics;
+		
+		material =  getMaterial({
+			type	: this._material,
+			combine: 		THREE.MixOperation,
+			reflectivity: 	this.reflect,
+			color: 			this._color,
+			side:			this._side,
+			clearcoat:		1,
+			metalness:		0,
+			transparent:	true,
+			opacity:		this._opacity,
+			wireframe:		false,
+			flatShading:	true,
+			map		: this._map
+
+		});
+		
+		var geometry = new THREE.TetrahedronGeometry(s, s, s);
+		
+		var box
+		if (p){
+			var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
+			box = new Physijs.ConvexMesh( geometry, physmat );
+		} else {
+			box = new THREE.Mesh( geometry, material );
+		}
+		box.receiveShadow = false;
+		box.castShadow = true;
+		
+		this.object = box;
+		var pos = this._position;
+		box.position.set(...pos);
+		var s = this._scale;
+		if (s.length){ box.scale.set(...s ); }
+		else 		 { box.scale.set(s,s,s); }
+		objects.push(this.object);
+		scene.add(box);
+		
+	}
+		  
+}
+
+// Box
+export class Box {
+			
+	constructor (options) {
+		if(!options){options={}}
+		this._blend 	= options.blend		|| "normal";
+		this._bounce	= options.bounce 	|| 0.5;
+		this._color 	= options.color 	|| 0xffffff;
+		this._friction 	= options.physics 	|| 0.3;
+		this._helper 	= options.helper 	|| false;
+		this._material 	= options.material 	|| "standard";
+		this._map 		= options.map 		|| null;
+		this._name 		= options.name 		|| null;
 		this._opacity	= options.opacity 	|| 1;
 		this._physics 	= options.physics	|| true;
-		this._bounce	= options.bounce 	|| 0.5;
-		this._friction 	= options.physics 	|| 0.3;
-		this._map 		= options.map 		|| null;
+		this._position	= options.position	|| [0,0,0];
+		this._reflect 	= options.reflect 	|| 1;
+		this._rotation	= options.rotation	|| [0,0,0];
+		this._scale 	= options.scale 	|| 1;
+		this._side 		= options.side 		|| 2;
 		var p = this._physics;
 
 		var	material =  getMaterial({
@@ -1276,299 +1648,64 @@ export class Box {
 
 }
 
-								  function loadSound(src) {
-		//	var mydata = JSON.parse(basketball);
-		//
-			//console.log(basketball.sounds[0])
-									this.sound = document.createElement("audio");
-									this.sound.src = src;
-									this.sound.setAttribute("preload", "auto");
-									this.sound.setAttribute("controls", "none");
-									this.sound.style.display = "none";
-									document.body.appendChild(this.sound);
-									this.play = function(){
-									  this.sound.play();
-									}
-									this.stop = function(){
-									  this.sound.pause();
-									}
-								  }
-
-// Collisions
-export class Collisions {
+// Octahedron
+export class Octahedron {
 			
 	constructor (options) {
-		
-		basketball.sounds.forEach(element => console.log(element));
+		if(!options){options={}}
+		this._scale 	= options.scale 	|| 1;
+		this._color 	= options.color 	|| 0xff0000;
+		this._side 		= options.side 		|| 2;
+		this._blend 	= options.blend		|| "normal";
+		this._opacity 	= options.opacity 	|| 1;
+		this._map 	= options.map 	|| null;
 
-		var sound0 =	new loadSound('/assets/audio/basketball/bounce_0.mp3')
-		var sound1 =	new loadSound('/assets/audio/basketball/bounce_1.mp3')
-		var sound2 =	new loadSound('/assets/audio/basketball/bounce_2.mp3')
-		var sound3 =	new loadSound('/assets/audio/basketball/bounce_3.mp3')
-		var sound4 =	new loadSound('/assets/audio/basketball/bounce_4.mp3')
-		var sound5 =	new loadSound('/assets/audio/basketball/bounce_5.mp3')
-		var sound6 =	new loadSound('/assets/audio/basketball/bounce_6.mp3')
-		// Loader
-		loader = new THREE.TextureLoader();
-	
-		spawnBox();
-		// requestAnimationFrame( render );
-		scene.simulate();
-		spawnBox = (function() {
-			var box_geometry = new THREE.BoxGeometry( 1,1,1 ),
-				handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
-				//	console.log(collided_with, linearVelocity, angularVelocity)
-					switch ( ++this.collisions ) {
-						case 1:this.material.color.setHex(0xcc8855);console.log('first'); sound0.play(); break;
-						case 2:this.material.color.setHex(0xbb9955); sound1.play(); break;
-						case 3:this.material.color.setHex(0xaaaa55); sound2.play(); break;
-						case 4:this.material.color.setHex(0x99bb55); sound3.play(); break;
-						case 5:this.material.color.setHex(0x88cc55); sound4.play(); break;
-						case 6:this.material.color.setHex(0x77dd55); sound5.play(); break;
-					}
-				},
-				createBox = function() {
-					var box, material;
-					material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }), .6, .9 );
-					//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
-					box = new Physijs.BoxMesh( box_geometry, material );
-					box.collisions = 0;
-					box.castShadow = true;
-					box.addEventListener( 'collision', handleCollision );
-					box.addEventListener( 'ready', spawnBox );
-					box.position.set(0,5,0)
-
-					scene.add( box );
-				};
-			return function() { setTimeout( createBox, 1000 ); };
-		})();
+		this._position	= options.position	|| [0,0,0];
+		this._rotation	= options.rotation	|| [0,0,0];
+		this._name 		= options.name 		|| null;
+		this._material 	= options.material 	|| "standard";
+		this._reflect 	= options.reflect 	|| 1;
+		this._helper 	= options.helper 	|| false;
+		this._physics = options.physics || true;
+		this._bounce = options.bounce || 0.8;
+		this._friction = options.physics || 0.3;
+		var p = this._physics;
 		
+		material =  getMaterial({
+			type	: this._material,
+			combine: 		THREE.MixOperation,
+			reflectivity: 	this.reflect,
+			color: 			this._color,
+			side:			this._side,
+			clearcoat:		1,
+			metalness:		0,
+			transparent:	true,
+			opacity:		this._opacity,
+			wireframe:		false,
+			flatShading:	true,
+			map		: this._map
+
+		});
+		var geometry = new THREE.OctahedronGeometry(s, s, s);
+		
+		var box;
+		if (p){ box = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( material, this._friction, this._bounce ) ); }
+		else  { box = new THREE.Mesh( geometry, material ); }
+		box.receiveShadow = false;
+		box.castShadow = true;
+		
+		box.rotation.set(...this._rotation)
+
+		this.object = box;
+		var pos = this._position;
+		box.position.set(...pos);
+		var s = this._scale;
+		if (s.length){ box.scale.set(...s ); }
+		else 		 { box.scale.set(s,s,s); }
+		objects.push(this.object);
+		scene.add(box);
 	}
-
-}
-
-// ===== animation ===== //
-
-var targetPosition = new THREE.Vector3( 0, 8, 0 );
-
-// Animate
-export class Animate {
-			
-	constructor (options) {console.log(options.at)
-		animationOn = true;
-		var targetObject = options.at.object;
-		var e	= TWEEN.Easing.Cubic.InOut//options.ease
-		var y	= options.yoyo
-		var r	= options.repeat || 0
-		var d	= options.delay
-		var p	= options.position
-		var dur	= options.duration
-		var col	= options.color || null
-		var type = options.type || 'absolute'
-		
-		var dgfs = options.at.object;
-		
-		
-		var linearVelocity  = new THREE.Vector3()
-		var angularVelocity = new THREE.Vector3()
-
-		var anim;
-	// create animation
-		var shad = options.at.shadow
-		var shad1 = options.at.shadowblack
-	//console.log(options.at.shadow)
-		//targetPosition = new THREE.Vector3( t[0], t[1], t[2] );
-		//	new TWEEN.Tween( targetObject.material ).to( { opacity: 0 }, 1 ).start();
-		console.log(shad)
-		//console.log(shad1)
-		// opacity
-		if (options.opacity != undefined){
-			//new TWEEN.Tween( targetObject.material ).to( options.opacity, dur ).start();
-			//var col = new THREE.Color(Math.random() * 0xffffff);
-			//TweenLite.to(targetObject.material, dur, {opacity:0});
-			new TWEEN.Tween(targetObject.material).to({
-				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
-			if(shad){
-			new TWEEN.Tween(shad).to({
-				opacity:options.opacity	}, dur).repeat(r).yoyo(y).start();
-			}
-			if(shad1){
-		new TWEEN.Tween(shad1).to({
-			opacity:options.opacity 	}, dur).repeat(r).yoyo(y).start();
-			console.log(shad)
-			//shad.visible = true
-			//shad.color = 'green'
-
-			}}
-		// color
-		if (options.color  != null){
-			var col = new THREE.Color(options.color);
-			
-			new TWEEN.Tween(targetObject.material.color).to({r:col.r,g:col.g,b:col.b,},dur).repeat(r).yoyo(y).start();
-		
-			if(shad){
-			new TWEEN.Tween(shad.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
-			//new TWEEN.Tween(shad1.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
-			}
-			
-			//	TweenLite.to(targetObject.material.color, dur, {r:col.r,g:col.g,b:col.b,});
-		}
-		// position
-		 if (options.position != null) {
-		
-			 var newPos
-			 
-		
-			 if (type == 'absolute'){
-				 newPos = {
-				 x: options.position.x,// || targetObject.position.x,
-				 y: options.position.y,// || targetObject.position.y,
-				 z: options.position.z,// || targetObject.position.z
-				 }
-			 } else  if (type == 'relative'){
-					 newPos = {
-					 x:targetObject.position.x + options.position.x || 0,
-					 y:targetObject.position.y + options.position.y || 0,
-					 z:targetObject.position.z + options.position.z || 0
-					 }
-				}
-				 console.log(type)
-			 
-			 console.log(newPos)
-			 
-			 
-			 new TWEEN.Tween(targetObject.position).to(newPos, dur).repeat(r).yoyo(y)
-			.onStart(updatePosition)
-			.onComplete(callbackPosition)
-			// .onComplete(callbackk/*('position',targetObject,options.position)*/)
-			 .start()
-			 
-			 
-			// anim.pos = 34
-			
-		}
-	
-		// rotation
-		 if (options.rotation != undefined){
-			 var amount = Math.PI
-			 new TWEEN.Tween( dgfs.rotation ).to( {
-				 x:targetObject.rotation.x + options.rotation.x,
-				 y:targetObject.rotation.y + options.rotation.y,
-				 z:targetObject.rotation.z + options.rotation.z
-			 }, dur )
-			 .repeat(r)
-			 .yoyo(y)
-			 .onStart(updateRotation)
-			 .onUpdate()
-			 .onComplete(callbackRotation)
-			 .start() // Start the tween immediately..start();
-		}
-		
-			// scale
-			 if (options.scale != undefined){
-				// var amount = Math.PI
-				 new TWEEN.Tween( targetObject.scale ).to( {
-					 x:targetObject.scale.x + options.scale.x,
-					 y:targetObject.scale.y + options.scale.y,
-					 z:targetObject.scale.z + options.scale.z
-				 }, dur )
-				 .repeat(r)
-				 .yoyo(y)
-				 //.onStart(updateRotation)
-				 .onUpdate()
-				 //.onComplete(callbackRotation)
-				 .start() // Start the tween immediately..start();
-			}
-		function updatePosition(e){
-			if(options.velocity){
-				// console.log(e)
-				if (type == 'absolute'){
-					
-					console.log(positionVector1(e, options.position))
-					var calculate = positionVector1(e, options.position)/* = {
-						x:((e.x + options.position.x) - e.x) / 1,
-						y:((e.y + options.position.y) - e.y) / 1,//(e.y + options.position.y) + options.position.y,
-						z:((e.z + options.position.z) - e.z) / 1 //((e.z + options.position.z) - e.y)  / 1//(e.z + options.position.z) + options.position.z,
-					}*/
-					console.log(calculate)
-					linearVelocity = calculate
-				} else  if (type == 'relative'){
-					var calculate = {
-						x:options.position.x,
-						y:options.position.y,//(e.y + options.position.y) + options.position.y,
-						z:options.position.z //((e.z + options.position.z) - e.y)  / 1//(e.z + options.position.z) + options.position.z,
-					}
-					// console.log(calculate)
-					linearVelocity = calculate
-				   }
-			}
-		}
-		
-		function updateRotation(e){
-		//	targetObject.rotation.set(e);
-		//	targetObject.__dirtyRotation = true;
-			//console.log(e)
-			//anim = e;
-			
-			
-			var calculate = {
-				x:((e.x + options.rotation.x) - e.x) / 1,
-				y:((e.y + options.rotation.y) - e.y) / 1,//(e.y + options.position.y) + options.position.y,
-				z:((e.z + options.rotation.z) - e.z) / 1//(e.z + options.position.z) + options.position.z,
-			}
-			console.log(calculate)
-			angularVelocity = calculate
-			
-			
-		}
-function callbackPosition(e){
-	//targetObject.position.set(e);
-	//targetObject.__dirtyPosition = true;
-	console.log(e)
-	console.log(e.x)
-	
-	
-	// tempVec.set(0,0,0)
-	//var poss = new THREE.Vector3()
-	//console.log(new THREE.Vector3(e))
-	//console.log('asdf')
-	targetObject.position.x = e.x;
-	targetObject.position.y = e.y;
-	targetObject.position.z = e.z;
-	targetObject.__dirtyPosition = true;
-	//targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
-	
-	if (targetObject.setLinearVelocity){
-	targetObject.setLinearVelocity(linearVelocity);
-	}
-	//targetObject.setLinearVelocity(new THREE.Vector3(e.x, e.y, e.z));
-	//targetObject.setAngularVelocity(new THREE.Vector3(e.x, e.y, e.z));
-	//console.log(e)
-	//anim = e;
-	
-	
-}
-		
-		function callbackRotation(e){
-console.log(e)
-	//targetObject.rotation.set( e);
-			targetObject.rotation.x = e.x;
-			targetObject.rotation.y = e.y;
-			targetObject.rotation.z = e.z;
-	targetObject.__dirtyRotation = true;
-			
-			targetObject.setAngularVelocity(angularVelocity);
-		
-	}
-			
-		/*
-		setTimeout(function(){
-		 targetObject.position.set( 0, 0, 0 );
-		 targetObject.__dirtyPosition = true;
-		}, 2020);
-		*/
-	}
-
+		  
 }
 
 // Dodecahedron
@@ -1589,6 +1726,7 @@ export class Dodecahedron {
 	   this._physics 	= options.physics 	|| true;
 	   this._bounce 	= options.bounce 	|| 0.8;
 	   this._friction 	= options.physics 	|| 0.3;
+	   
 		  var p = this._physics;
 	   
 	   //var thematerial =  getMaterial(this._material,this._color,this._blend)
@@ -1596,11 +1734,14 @@ export class Dodecahedron {
 	   // geometry = new THREE.ConeGeometry( this._height, this._radius, 32 );
 	 // var thematerial =  getMaterial(this._material)
 
-	   material = new THREE.MeshPhysicalMaterial ({
+	   material =  getMaterial({
+		   type	: this._material,
 		   combine: 		THREE.MixOperation,
 		   reflectivity: this.reflect,
 		   color: 		this._color,
-		   side:this._side
+		   side:this._side,
+		   map		: this._map
+
 	   });
 	   var geometry = new THREE.DodecahedronGeometry();
 	   
@@ -1635,6 +1776,8 @@ export class Icosahedron {
 		this._color 	= options.color 	|| 0xff0000;
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
+		this._opacity 	= options.opacity 	|| 1;
+
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1646,7 +1789,9 @@ export class Icosahedron {
 		this._friction 	= options.physics 	|| 0.3;
 		var p = this._physics;
 		
-		material = new THREE.MeshLambertMaterial ({
+		material =  getMaterial({
+			type	: this._material,
+
 			combine: 		THREE.MixOperation,
 			reflectivity: 	this.reflect,
 			color: 			this._color,
@@ -1654,8 +1799,10 @@ export class Icosahedron {
 			clearcoat:		1,
 			metalness:		0,
 			transparent:	true,
-			opacity:		0.8,
+			opacity:		this._opacity,
 			wireframe:		false,
+			map		: this._map
+
 			//flatShading:	true
 		});
 		var geometry = new THREE.IcosahedronGeometry(s, s, s);
@@ -1696,6 +1843,8 @@ export class Torus {
 		this._color 	= options.color 	|| 0xff0000;
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
+		this._opacity 	= options.opacity 	|| 1;
+
 		this._position	= options.position	|| [0,0,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1748,6 +1897,8 @@ export class TorusKnot {
 		this._color 	= options.color 	|| 0xff0000;
 		this._side 		= options.side 		|| 2;
 		this._blend 	= options.blend		|| "normal";
+		this._opacity 	= options.opacity 	|| 1;
+
 		this._position	= options.position	|| [0,6,0];
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -1768,7 +1919,7 @@ export class TorusKnot {
 			clearcoat:		1,
 			metalness:		0,
 			transparent:	true,
-			opacity:		0.8,
+			opacity:		this._opacity,
 			wireframe:		false,
 			flatShading:	true
 		});
@@ -1798,117 +1949,7 @@ export class TorusKnot {
 	}
 		  
 }
-// Octahedron
-export class Octahedron {
-			
-	constructor (options) {
-		if(!options){options={}}
-		this._scale 	= options.scale 	|| 1;
-		this._color 	= options.color 	|| 0xff0000;
-		this._side 		= options.side 		|| 2;
-		this._blend 	= options.blend		|| "normal";
-		this._position	= options.position	|| [0,0,0];
-		this._rotation	= options.rotation	|| [0,0,0];
-		this._name 		= options.name 		|| null;
-		this._material 	= options.material 	|| "standard";
-		this._reflect 	= options.reflect 	|| 1;
-		this._helper 	= options.helper 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
-		var p = this._physics;
-		
-		material = new THREE.MeshLambertMaterial ({
-			combine: 		THREE.MixOperation,
-			reflectivity: 	this.reflect,
-			color: 			this._color,
-			side:			this._side,
-			clearcoat:		1,
-			metalness:		0,
-			transparent:	true,
-			opacity:		0.8,
-			wireframe:		false,
-			flatShading:	true
-		});
-		var geometry = new THREE.OctahedronGeometry(s, s, s);
-		
-		var box;
-		if (p){ box = new Physijs.ConvexMesh( geometry, Physijs.createMaterial( material, this._friction, this._bounce ) ); }
-		else  { box = new THREE.Mesh( geometry, material ); }
-		box.receiveShadow = false;
-		box.castShadow = true;
-		
-		box.rotation.set(...this._rotation)
 
-		this.object = box;
-		var pos = this._position;
-		box.position.set(...pos);
-		var s = this._scale;
-		if (s.length){ box.scale.set(...s ); }
-		else 		 { box.scale.set(s,s,s); }
-		objects.push(this.object);
-		scene.add(box);
-	}
-		  
-}
-
-// Tetrahedron
-export class Tetrahedron {
-			
-	constructor (options) {
-		if(!options){options={}}
-		this._scale 	= options.scale 	|| 1;
-		this._color 	= options.color 	|| 0xff0000;
-		this._side 		= options.side 		|| 2;
-		this._blend 	= options.blend		|| "normal";
-		this._position	= options.position	|| [0,0,0];
-		this._rotation	= options.rotation	|| [0,0,0];
-		this._name 		= options.name 		|| null;
-		this._material 	= options.material 	|| "standard";
-		this._reflect 	= options.reflect 	|| 1;
-		this._helper 	= options.helper 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
-		var p = this._physics;
-		
-		material = new THREE.MeshLambertMaterial ({
-			combine: 		THREE.MixOperation,
-			reflectivity: 	this.reflect,
-			color: 			this._color,
-			side:			this._side,
-			clearcoat:		1,
-			metalness:		0,
-			transparent:	true,
-			opacity:		0.8,
-			wireframe:		false,
-			flatShading:	true
-		});
-		
-		var geometry = new THREE.TetrahedronGeometry(s, s, s);
-		
-		var box
-		if (p){
-			var physmat = Physijs.createMaterial( material, this._friction, this._bounce );
-			box = new Physijs.ConvexMesh( geometry, physmat );
-		} else {
-			box = new THREE.Mesh( geometry, material );
-		}
-		box.receiveShadow = false;
-		box.castShadow = true;
-		
-		this.object = box;
-		var pos = this._position;
-		box.position.set(...pos);
-		var s = this._scale;
-		if (s.length){ box.scale.set(...s ); }
-		else 		 { box.scale.set(s,s,s); }
-		objects.push(this.object);
-		scene.add(box);
-		
-	}
-		  
-}
 // Cylinder
 export class Cylinder {
 	constructor (options) {
@@ -1921,11 +1962,13 @@ export class Cylinder {
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._material 	= options.material 	|| "standard";
+		this._map 	= options.map 	|| null;
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._height 	= options.height 	|| 1;
 		this._radius 	= options.radius 	|| [1,1];
-		var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, true);
+		this._cap 		= options.cap 	|| false;this._cap = !this._cap;
+		var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, this._cap);
 		this._physics = options.physics || true;
 		this._bounce = options.bounce || 0.8;
 		this._friction = options.physics || 0.3;
@@ -1948,11 +1991,16 @@ export class Cylinder {
 		
 		materialOuter = new THREE.MeshStandardMaterial({
 			//map: new THREE.TextureLoader().load(options.map),
-			side: this._side,openEnded:false
+			//side: this._side,openEnded:false
+			type	: this._material,
+			color	: this._color,
+			opacity	: this._opacity,
+			side	: 2,
+			map		: this._map
 		});
 		var materialInner = new THREE.MeshPhysicalMaterial({
 			//map: new THREE.TextureLoader().load(options.map),
-			side:THREE.DoubleSide,
+			//side:THREE.DoubleSide,
 			reflect:1,
 			clearcoat:1,
 			color:'#222222',
@@ -1964,8 +2012,11 @@ export class Cylinder {
 var meshInner = new THREE.Mesh(geometry, materialInner);
 meshOuter.add(meshInner);
 		meshOuter.position.set(...this._position)
+		meshOuter.rotation.set(...this._rotation)
 		meshOuter.castShadow 	= true;
 		meshInner.castShadow 	= true;
+		
+
 		scene.add(meshOuter);
 		//meshOuter.receiveShadow 	= false;
 		//spawnBox()
@@ -2673,14 +2724,22 @@ export class  Light {
 	  this._intensity 	= options.intensity	|| 1;
 	  this._shadow 		= options.shadow	|| true;
 	  this._type 		= options.type 		|| "point";
-	  this._decay 		= options.decay		|| 1;
+	  this._decay 		= options.decay		|| 0;
 	  this._distance 	= options.distance 	|| 0;
+	  this._angle		= options.angle 	|| 1;
+	  this._penumbra	= options.penumbra 	|| 1;
+	  this._width	= options.width 	|| 1;
+	  this._height	= options.height 	|| 1;
 	  var i = this._intensity;
 	  var c = this._color;
-	  var t = this._type
+	  var t = this._type;
+	  var a = this._angle;
+	  var w = this._width;
+	  var h = this._height;
 	  var o = options;
 	  var dis = this._distance;
 	  var dec = this._decay;
+	  var p = this._penumbra;
 
 	  if (t === "hemisphere"){
 		  if(o.color){ c = [o.color[0],o.color[1]]; }
@@ -2689,14 +2748,13 @@ export class  Light {
 	  
 	  var light;
 	  switch(t){
-		  case "ambient"    : light = new THREE.AmbientLight		(c, i); 			  break;
-		  case "directional": light = new THREE.DirectionalLight	(c, i);				  break;
-		  case "hemisphere" : light = new THREE.HemisphereLight		(c[0], c[1], i);      break; // skyColor, groundColor, intensity
-		  case "point"      : light = new THREE.PointLight			(c, i, 20, 2);		  break; // color, intensity, distance, decay
-		  case "rectArea"   : light = new THREE.RectAreaLight		(c, i, 10, 1);		  break;
-		  case "spotlight"  : light = new THREE.SpotLight			(c, i, 0,0.07,0.3,0); break; // color, intensity, distance, angle, penumbra, decay
-		 // default:light = new THREE.Light()
-	 }
+		  case "ambient"	: light = new THREE.AmbientLight		(c, i);				break;
+		  case "directional": light = new THREE.DirectionalLight	(c, i);				break;
+		  case "hemisphere"	: light = new THREE.HemisphereLight		(c[0], c[1], i);	break;
+		  case "point"		: light = new THREE.PointLight			(c, i, dis, dec);	break;
+		  case "rect"		: light = new THREE.RectAreaLight		(c, i, w, h);		break;
+		  case "spot"  		: light = new THREE.SpotLight			(c, i, dis,a,p,dec);break;
+	  }
 	  
 	  if (t != 'ambient'){
 		  // set up shadows
@@ -2715,10 +2773,12 @@ export class  Light {
 	  // add to scene
 	  scene.add( light );
 	  
+	  // light helper
 	  if (options.helper){
-	  var shadowHelper = new THREE.CameraHelper( light.shadow.camera );
-	  scene.add( shadowHelper );
+		  var shadowHelper = new THREE.CameraHelper( light.shadow.camera );
+		  scene.add( shadowHelper );
 	  }
+	  
 	  // set position
 	  light.position.set(...this._position);
 	  
@@ -3172,11 +3232,11 @@ var getMaterial = function(options){
 	var m 		= options.metalness || 1;
 	var asdf 	= options.map;
 	var repeat 	= options.repeat || [1,1];
-var bumpScale = options.bumpScale || 0
+	var bumpScale = options.bumpScale || 0
 	var bumpMap = options.bumpMap || null
 	var alphaMap = options.alphaMap || null
-	var params
-console.log(bumpMap)
+	var params;
+	// console.log(bumpMap)
 	var clearcoat = options.clearcoat || 1
 	//var s = options.side || 2
 	var asdf = options.map
@@ -3237,6 +3297,55 @@ console.log(bumpMap)
 		 case "physical": return new THREE.MeshPhysicalMaterial(params); break;
 		 case "standard": return new THREE.MeshStandardMaterial(params); break;
 	 }
+}
+				 
+// Ease selector
+var getEase = function(e,d){
+	if(d == 'inout'){
+		switch(e){
+			case "back"			: return TWEEN.Easing.Back.InOut;		break;
+			case "bounce"		: return TWEEN.Easing.Bounce.InOut;		break;
+			case "circ"			: return TWEEN.Easing.Circular.InOut;	break;
+			case "cubic"		: return TWEEN.Easing.Cubic.InOut;		break;
+			case "elastic"		: return TWEEN.Easing.Elastic.InOut;	break;
+			case "exponential"	: return TWEEN.Easing.Exponential.InOut;break;
+			case "linear"		: return TWEEN.Easing.Linear.InOut;		break;
+			case "quad"			: return TWEEN.Easing.Quadratic.InOut;	break;
+			case "quart"		: return TWEEN.Easing.Quartic.InOut;	break;
+			case "quint"		: return TWEEN.Easing.Quintic.InOut;	break;
+			case "sine"			: return TWEEN.Easing.Sinusoidal.InOut;	break;
+		}
+	}
+	else if(d == 'in'){
+		switch(e){
+			case "back"			: return TWEEN.Easing.Back.In;			break;
+			case "bounce"		: return TWEEN.Easing.Bounce.In;		break;
+			case "circ"			: return TWEEN.Easing.Circular.In;		break;
+			case "cubic"		: return TWEEN.Easing.Cubic.In;			break;
+			case "elastic"		: return TWEEN.Easing.Elastic.In;		break;
+			case "exponential"	: return TWEEN.Easing.Exponential.In;	break;
+			case "linear"		: return TWEEN.Easing.Linear.In;		break;
+			case "quad"			: return TWEEN.Easing.Quadratic.In;		break;
+			case "quart"		: return TWEEN.Easing.Quartic.In;		break;
+			case "quint"		: return TWEEN.Easing.Quintic.In;		break;
+			case "sine"			: return TWEEN.Easing.Sinusoidal.In;	break;
+		}
+	}
+	else if(d == 'out'){
+		switch(e){
+			case "back"			: return TWEEN.Easing.Back.Out;			break;
+			case "bounce"		: return TWEEN.Easing.Bounce.Out;		break;
+			case "circ"			: return TWEEN.Easing.Circular.Out;		break;
+			case "cubic"		: return TWEEN.Easing.Cubic.Out;		break;
+			case "elastic"		: return TWEEN.Easing.Elastic.Out;		break;
+			case "exponential"	: return TWEEN.Easing.Exponential.Out;	break;
+			case "linear"		: return TWEEN.Easing.Linear.Out;		break;
+			case "quad"			: return TWEEN.Easing.Quadratic.Out;	break;
+			case "quart"		: return TWEEN.Easing.Quartic.Out;		break;
+			case "quint"		: return TWEEN.Easing.Quintic.Out;		break;
+			case "sine"			: return TWEEN.Easing.Sinusoidal.Out;	break;
+		}
+	}
 }
 
 function positionAtT(inVec,t,p,v,g) {
@@ -5203,7 +5312,7 @@ export class Text {
 		if (this._opacity != undefined){ this._opacity = 1 }
 		this._font 	= options.font	|| '/assets/fonts/helvetiker_bold.json';
 		this._segments 	= options.segments	|| 12;
-		this._position 	= options.position	|| [0,1,0];
+		this._position 	= options.position	|| [0,0,0];
 		this._name 		= options.name 		|| null;
 		this._href 		= options.href 		|| null;
 		this._rotation	= options.rotation	|| [0,0,0];

@@ -23,18 +23,11 @@
 <script type="module">import * as XR from '/XR.js';
 
 new XR.Reality();
-
-var options = {
-	type: 'cubemap',
-	file: '/assets/img/cube/sky',
-}
-
-new XR.Sky(options);
+new XR.Sky();
 
 new XR.Lensflare({
 	position:[-40,1,-60]
 });
-
-		</script>
+</script>
 	</body>
 </html>

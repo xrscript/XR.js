@@ -5,9 +5,7 @@
 		<link rel="stylesheet" href="/css/main.css" />
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-			<script src="/lib/tween.js/dist/tween.umd.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script></head>
+	</head>
 	<body>
 		<header>
 			<h1><a href="/">XR.js</a> 🥽</h1>
@@ -25,7 +23,7 @@
 		<script type="module">
 import * as XR from  '/XR.js';
 
-new XR.Reality();
+new XR.Reality({physics:false});
 new XR.Light();
 new XR.Floor();
 
@@ -41,13 +39,13 @@ new XR.Animate({
 		y:Math.PI,
 		z:0
 	},
-	position: {x: -3, y: 3, z: -3},
+	//position: {x: -3, y: 3, z: -3},
 
 	repeat: Infinity,
 	yoyo: false,
-	ease: ['cubic','inout'],
-	delay:12,
-	duration: 1
+	ease: 'exponential',	 // ease type
+	direction: 'inout', // ease direction
+	duration: 3000
 });
 </script>
 	

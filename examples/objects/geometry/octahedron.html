@@ -30,16 +30,19 @@
 		</header>
 
 <script type="module">import * as XR from '/XR.js';
+	
 new XR.Reality();
 new XR.Light();
 new XR.Floor();
+
 new XR.Octahedron({
+	map:'/assets/textures/cokecan.jpg',
+
 	radius: 0.5,
 	detail: 0,
 	color: 0xFFFFFF,
-	position: [0,3,0],
+	position: [0,3,-2],
 	rotation: [0,0.1,3],
-	physics:true
 });
 </script>
 	  </body>

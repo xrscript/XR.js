@@ -15,7 +15,6 @@
 				<a href="./text.html">Text</a>
 				<a href="./button.html">Button</a>
 				<a href="./icons.html">Icons</a>
-				<a href="./menu.html">Menu</a>
 				<a href="./splash.html">Splash</a>
 				<a href="./dropdown.html">Dropdown</a>
 				<a href="./slider.html">Slider</a>
@@ -23,23 +22,17 @@
 				<a href="./radial.html">Radial</a>
 			</p>
 		</header>
-		<script type="module">
-		 import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 		 
-		 var myReality = new XR.Reality();
+new XR.Reality();
+new XR.Floor();
+new XR.Gamepad();
+new XR.Controls();
 
-		 new XR.Floor();
-		 
-		 new XR.Gamepad();
-		 
-		 new XR.Controls();
+new XR.Light();
+new XR.Floor({map:'/assets/textures/plywood.jpg'});
 
-		 var light = new XR.Light();
-		 var oyutio = new XR.Reality();
-		 //new XR.Menu();
-		 new XR.Light({intensity:0.1});
-		 new XR.Floor({map:'/assets/textures/plywood.jpg'});
-		 new XR.Dropdown({
+new XR.Dropdown({
 			 position:[1.5,2,0],
 			 rotation:[0,0,0],
 			 color:['blue','pink'],

@@ -27,48 +27,37 @@
 				<span><a href="./torusknot.html">TorusKnot</a></span>
 			</p>
 		</header>
-	<script type="module">
-		
-		import * as XR from  '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 		
 new XR.Reality();
 new XR.Light()
-		
-	
-		//var fog = new XR.Fog({});
+new XR.Floor();
 
 new XR.Box({
 	color: 'green',
-	position:[0,0.5,0],
-	transparent:true,
-	opacity:1,
-	scale:1
+	position:[-4,1,0],
 });
 	
 new XR.Cone({
 	color: 'blue',
-	position:[0,2,0.1],
+	position:[-2,1,0],
 });
+
 new XR.Sphere({
 	color: 'red',
-	position:[0,0.5,0],
+	position:[2,1,0],
 });
 
 new XR.Cylinder({
-	color: 'red',
-	position:[0,0.5,0],
-	size:1
+	color: 'yellow',
+	position:[4,1,0],
 });
-//new XR.GuideLine({})
-new XR.Floor();
 
-
-//setTimeout(function(){ mybox.scale([1,2,1]);gamepad.hapticActuators[ 0 ].pulse( intensity, 600 ); }, 1000);
-//console.log(new XR.B("asdfasdfasdf"))
-//mybox.sayName();
-//		var posi = new XR.Locomotion();
-//new XR.Shapes()
-	</script>
+new XR.Dodecahedron({
+	color: 'purple',
+	position:[0,1,0],
+});
+</script>
 	
 	
 	

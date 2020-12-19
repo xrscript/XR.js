@@ -24,30 +24,26 @@
 				<a href="./radial.html">Radial</a>
 			</p>
 		</header>
-	<script type="text/javascript" src="/js/three.min.js"></script>
-	<script type="text/javascript" src="/js/physi.js"></script>
-	
-	<script type="module">
-	
-	import * as XR from  '/XR.js';
+		
+<script type="module">import * as XR from '/XR.js';
 
-	new XR.Reality({gravity:-50});
-	new XR.Light();
-	//	new XR.Floor();
-	//new XR.Collisions()
-	var controller = new XR.Gamepad();
+new XR.Reality({gravity:-50});
+new XR.Light();
+//	new XR.Floor();
+//new XR.Collisions()
+var controller = new XR.Gamepad();
 
-	new XR.Locomotion({
-		type:'teleport',
-		bind: controller.right
-	});
-	new XR.Slider();
-	//new XR.Pointer({ bind: controller.right });
+new XR.Locomotion({
+	type:'teleport',
+	bind: controller.right
+});
+new XR.Slider();
+//new XR.Pointer({ bind: controller.right });
 
-	new XR.Grab({
-		bind:controller.left
-	})
-	</script>
+new XR.Grab({
+	bind:controller.left
+})
+</script>
 </head>
 
 </html>

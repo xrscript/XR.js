@@ -27,9 +27,8 @@
 		
 <script type="module">import * as XR from  '/XR.js';
 
-new XR.Reality({
-});
-new XR.Floor({color:'purple', opacity:0.3});
+new XR.Reality();
+new XR.Floor({color:'purple'});
 new XR.Light({position:[0,2,5]});
 
 new XR.Menu();
@@ -67,7 +66,7 @@ new XR.Text({
 	size: 0.3,
 	position:[0,0.2,2],
 	rotation:[-0.3,0,0],
-	href:'https://github.com/xrscript',
+	href:'https://github.com/xrscript/XR.js',
 	name:'GitHub Repository'
 });
 new XR.Text({
@@ -78,7 +77,6 @@ new XR.Text({
 	rotation:[-0.3,-0.2,0],
 	href:'https://discord.com',
 	name:'Discord',
-	//at:mainmenu
  });
 
 new XR.Text({

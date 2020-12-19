@@ -3,9 +3,8 @@
 	<head>
 		<title>XR.js | Animate</title>
 		<link rel="stylesheet" href="/css/main.css" />
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-			<script src="/lib/tween.js/dist/tween.umd.js"></script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 	</head>
 	<body>
 		<header>
@@ -21,33 +20,27 @@
 				<a href="./position.html">Position</a>
 			</p>
 		</header>
-		<script type="module">
-import * as XR from '/XR.js';
+<script type="module">import * as XR from '/XR.js';
 
 new XR.Reality();
 new XR.Light();
 new XR.Floor();
-//new XR.Light({position:[6,0,6],color:'pink',intensity:1});
 
-var boxy = new XR.Box({
+var myBox = new XR.Box({
 	position:[0,3,-5],
-color:0xff0000,
-side:2
-
+	color:0xff0000,
+	side:2
 });
+
 new XR.Animate({
-at:boxy,
-opacity: 0,
-repeat: 2,//
-yoyo: true,
-//ease: 'Cubic.InOut',
-delay:12,
-duration:2186
-
-
+	at: myBox,		// object to animate
+	opacity: 0.1,	// animate the opacity
+	repeat: 2,		// repeat 2 times
+	yoyo: true,	// yoyo mode on
+	duration: 4000,	// animation duration
+	delay: 1200,
 });
-
-	 </script>
+</script>
 	
 	</body>
 </html>

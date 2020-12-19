@@ -29,11 +29,19 @@
 new XR.Reality();
 new XR.Sky();
 
-new XR.Overlay({
+var myOverlay = new XR.Overlay({
 	text:'yo wazzup',
 	size: 0.1
-})
+});
 
+function updateTime(){
+	var now = new Date();
+	var str = now.getHours() +":" + now.getMinutes() + ":" + now.getSeconds();
+	myOverlay.text(str)
+
+}
+
+setInterval(updateTime, 1000);
 </script>
 	
 	</body>
