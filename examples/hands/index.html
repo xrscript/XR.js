@@ -19,11 +19,19 @@
 		</header>
 <script type="module">import * as XR from '/XR.js';
 
-new XR.Reality();
+var myReality = new XR.Reality();
 new XR.Light();
 new XR.Floor();
 
-new XR.Hands();
+var hand = new XR.Hands();
+
+	
+	setTimeout(function(){
+	//console.log(hand);
+	
+	myReality.jump()
+	
+	},5000);
 </script>
 	</body>
 </html>

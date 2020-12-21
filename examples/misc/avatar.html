@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Avatar</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+		<link type="text/css" rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples/">Examples</a>
+			<a href="/examples/misc/avatar.html">Avatar</a>
+			<p>
+				<a href="/examples/misc/ocean.html">Ocean</a>
+				<a href="/examples/misc/theater.html">Theater</a>
+				<a href="/examples/misc/pendulum.html">Pendulum</a>
+				<a href="/examples/misc/globe.html">Globe</a>
+				<a href="/examples/misc/mirror.html">Mirror</a>
+			</p>
+		</header>
+	</header>
+	
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality({
+	physics:false
+});
+new XR.Light();
+
+var avatar = new XR.Avatar({
+	file:'/assets/models/glb/Soldier.glb'
+});
+
+var hand = new XR.Hands();
+
+	
+	var thumb 	= new XR.Cube({ scale:0.05});
+	var index 	= new XR.Cube({ scale:0.05});
+	var middle 	= new XR.Cube({ scale:0.05});
+	var ring 	= new XR.Cube({ scale:0.05});
+	var pinky 	= new XR.Cube({ scale:0.05});
+
+	var rightArm1
+function update() {
+	
+	
+	thumb .setPosition	( hand.left.thumb.tip.position  )
+	index .setPosition	( hand.left.index.tip.position  )
+	middle.setPosition	( hand.left.middle.tip.position )
+	ring  .setPosition	( hand.left.ring.tip.position   )
+	pinky .setPosition	( hand.left.pinky.tip.position  )
+}
+	
+
+// update every 100 milliseconds
+setInterval(update,100);
+
+
+</script>
+			
+	</body>
+</html>

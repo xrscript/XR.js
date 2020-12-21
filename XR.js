@@ -2,13 +2,9 @@
 import '/lib/three/build/three.js';	// three.js
 import '/lib/tween/tween.umd.js';	// tween.js
 import '/lib/physijs/physi.js';		// physi.js
-import  { JoyStick } from '/lib/joy/joy.js';		// joy.js
-
 Physijs.scripts.worker = '/lib/physijs/physijs_worker.js';
 Physijs.scripts.ammo = '/lib/physijs/ammo.js';
-
-//import gasp from "/node_modules/gasp";
-//import  '/js/TimelineMax.min.js';
+import  { JoyStick } from '/lib/joy/joy.js';		// joy.js
 
 import '/node_modules/simplex-noise/simplex-noise.js';
 import { GUI } from './node_modules/three/examples/jsm/libs/dat.gui.module.js';
@@ -43,8 +39,6 @@ import { XYZLoader		}				from './node_modules/three/examples/jsm/loaders/XYZLoad
 import { MtlObjBridge	} 				from './node_modules/three/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
 import { Lensflaree,LensflareElement }	from '/node_modules/three/examples/jsm/objects/Lensflare.js';
 import { CSS2DRenderer, CSS2DObject }	from '/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js';
-//import { Bolt } 						from '/js/handy/third-party/SpaceRocks/Bolt.js'
-//import { Handy } 						from '/js/handy/Handy.js'
 import { Water } 						from './node_modules/three/examples/jsm/objects/Water.js';
 import { Skyy } 						from '/node_modules/three/examples/jsm/objects/Sky.js';
 
@@ -62,12 +56,12 @@ import basketball from '/assets/json/basketball.js';
 
 let singleStepMode = false;
 let sizeOfNextStep = 0;
-var currentTime, totalGrabTime, throwTime
-var objectNewPosition
-var objectNewRotation
-var grabber		= false
-var grabbing	= false
-var grabbingObject
+var currentTime, totalGrabTime, throwTime;
+var objectNewPosition;
+var objectNewRotation;
+var grabber		= false;
+var grabbing	= false;
+var grabbingObject;
 var grabStartTime	= 0;
 var grabEndTime		= 0;
 var grabTime		= 0;
@@ -90,36 +84,36 @@ var controllerGrabEndPosition	=  new THREE.Vector3();
 var controllerGrabEndRotation	=  new THREE.Vector3();
 var intersectingObjectPosition	=  new THREE.Vector3();
 var intersectingObjectDirection	=  new THREE.Vector3();
-var fps
-var head
+var fps;
+var head;
 // for demo
 var menuBox, menuSphere, menuCylinder;
 var fullGamepad = {
-					  joystick:{
-						  l : [0,0],
-						  r : [0,0]
-					  },
-					  button:{
-						  a : 0, // A Button
-						  b : 0, // B Button
-						  x : 0, // X Button
-						  y : 0 // Y Button
-						  //r : controller[0].gamepad.buttons[3], // stick button R
-						  //l : controller[1].gamepad.buttons[3]  // stick button L
-					  }/*
-					  trigger:{
-						  r : controller[0].gamepad.buttons[0], // trigger R
-						  l : controller[1].gamepad.buttons[0]  // trigger L
-					  },
-					  grip:{
-						  r : controller[0].gamepad.buttons[1], // grip R
-						  l : controller[1].gamepad.buttons[1]  // grip L
-					  },
-					  rest:{
-						  r : controller[0].gamepad.buttons[6], // thumbrest R
-						  l : controller[1].gamepad.buttons[6]  // thumbrest L
-					  }*/
-				  //},
+	  joystick:{
+		  l : [0,0],
+		  r : [0,0]
+	  },
+	  button:{
+		  a : 0, // A Button
+		  b : 0, // B Button
+		  x : 0, // X Button
+		  y : 0 // Y Button
+		  //r : controller[0].gamepad.buttons[3], // stick button R
+		  //l : controller[1].gamepad.buttons[3]  // stick button L
+	  }/*
+	  trigger:{
+		  r : controller[0].gamepad.buttons[0], // trigger R
+		  l : controller[1].gamepad.buttons[0]  // trigger L
+	  },
+	  grip:{
+		  r : controller[0].gamepad.buttons[1], // grip R
+		  l : controller[1].gamepad.buttons[1]  // grip L
+	  },
+	  rest:{
+		  r : controller[0].gamepad.buttons[6], // thumbrest R
+		  l : controller[1].gamepad.buttons[6]  // thumbrest L
+	  }*/
+  //},
 }
 
 var touchGamepad;
@@ -127,7 +121,6 @@ var animationOn = false;
 var joystick;
 var fingermenu
 var video,videotexture
-let timePrevious
 var _boxes = [], spawnBox, loader,NoiseGen,ground_geometry, ground_material, ground;
 let water, sun, watermesh;
 let mixerFBX;
@@ -157,7 +150,7 @@ let controller2;
 let controllerGrip1, controllerGrip2;
 var pointer = false;
 var hovering = [];
-var videoImage,videoImageContext,videoTexture,vid;
+var videoTexture,vid;
 var intersects=[];
 var renderer;
 var scene;
@@ -210,34 +203,32 @@ export class Reality {
 	   scene.add( light );
 		
 		//TWEEN.start();
-		var look = options.lookAt || [0,0,0]// || null
+		var look = options.lookAt || [0,2,1]// || null
 		if(look.length){
 			camera.lookAt(new THREE.Vector3(...look));
 			//	controls.target.set( ...options.lookAt);
 		}
 		//camera.position.set( 0, 2, 5 );
-		//camera.position.set( 0, 0, 5 );
 		//camera.lookAt(new THREE.Vector3(0,1,0));
 		
-		
-	/*
-	 clock = new THREE.Clock();
-	 // model
-	 const loader = new GLTFLoader();
-	 loader.load( 'https://threejs.org/examples/models/gltf/Soldier.glb', function ( gltf ) {
-		 const model = gltf.scene;
-		 rightArm = model.getObjectByName( 'mixamorigRightArm' );
-		 scene.add( model );
-	 } );
-	 */
 		//camera.lookAt(new THREE.Vector3(...look));
-		return scene
+		//return scene
 	}
 	lookAt(e){
 	//	camera.position.set( 25, 20, 250 );
 		//camera.lookAt(new THREE.Vector3( 0, 7, 0 ));
 		camera.lookAt(...e);
 		//controls.target.set( ...e);
+	}
+	
+	jump(e){
+		new Animate({
+		at: dolly,
+		position: {x:0,y: 5,z:0},
+		duration: 700,
+		velocity:true,
+		type:'relative'
+		});
 	}
 }
 
@@ -346,18 +337,12 @@ export class Grab {
 	
 		grabber = true
 		grabbingController = options.bind
-		
 		//console.log('grab')
 		//console.log(options)
-		
 		const panoSphereGeo = new THREE.SphereBufferGeometry( 0.05, 25, 25 );
-		// Create the panoramic sphere material
 		const panoSphereMat = new THREE.MeshStandardMaterial( { wireframe:true });
-		
-		// Create the panoramic sphere mesh
 		var sphere = new THREE.Mesh( panoSphereGeo, panoSphereMat );
 		grabbingController.add( sphere );
-		
 		var GrabRaycaster = new THREE.Raycaster();
 		//scene.add(GrabRaycaster)
 		grabbingController.addEventListener( 'squeezestart', function ( event ) {
@@ -366,14 +351,13 @@ export class Grab {
 			grabbing = true
 		//	console.log('grrraab')
 			panoSphereMat.wireframe = false
-			
 			//const p = guidingController.getWorldPosition(tempVecP);  // controller position
 			//const v = guidingController.getWorldDirection(tempVecV); // controller direction
 			
 			// update the picking ray with the camera and mouse position
 			var direction = sphere.getWorldDirection(controllerGrabStartRotation);
 			var position = sphere.getWorldPosition(controllerGrabStartPosition);
-//console.log(direction)
+			//console.log(direction)
 			GrabRaycaster.set( position, direction );
 			// Draw a line from pointA in the given direction at distance 100
 		/*	   var pointA = new THREE.Vector3(controllerGrabPosition );
@@ -638,9 +622,7 @@ spawnBox = (function() {
 			box.addEventListener( 'collision', handleCollision );
 			box.addEventListener( 'ready', spawnBox );
 			box.position.set(0,5,0)
-			
 			scene.add( box );
-			
 		};
 	return function() {setTimeout( createBox, 1000 );	};
 })();
@@ -694,8 +676,12 @@ export class Player {
 	constructor (options) {
 		if(!options){options={}}
 		
-		dolly = new THREE.Group();
-		dolly.position.set( 0, 0, 3 );
+		var  thematerial = Physijs.createMaterial( new THREE.MeshBasicMaterial({ color:'white', opacity:0.0, transparent:true}), 1, 0, 1000)
+		//dolly = new THREE.Group();
+		
+		if(floor){ dolly = new Physijs.BoxMesh(new THREE.BoxGeometry( 2, 0.01, 2 ),thematerial ); }
+		else     { dolly = new THREE.Mesh(new THREE.BoxGeometry( 2, 0.01, 2 ),thematerial ); }
+		dolly.position.set( 0, 0.01, 1 );
 
 		if(options.position){
 			var p = options.position
@@ -712,7 +698,7 @@ export class Player {
 			0 // low restitution
 		);
 		// add head
-		 head = new Physijs.ConvexMesh( new THREE.OctahedronGeometry( 0.1, 2 ), ground_material, 1 );
+		 head = new THREE.Mesh( new THREE.OctahedronGeometry( 0.1, 2 ), ground_material, 1 );
 		//head.castShadow = true;
 		camera.add( head );
 		
@@ -850,8 +836,6 @@ export class Gamepad {
 		if (this.type == 'touch'){
 			controls.enabled = false;
 			// joysticks
-			
-			
 			if (this.style == 'xbox'){
 
 			// create html elements
@@ -901,7 +885,7 @@ export class Gamepad {
 
 				
 				
-				
+				/*
 				// create html elements
 			 var dpadRow = document.createElement("div");
 				dpadRow.setAttribute("class", "dpadRow");
@@ -935,14 +919,12 @@ export class Gamepad {
 				dpad_down.setAttribute("id", "dpad_down"); dpad_down.innerHTML = '<i class="fas fa-caret-down"></i>';
 				dpad.appendChild(dpad_down);
 
-				
+				*/
 			// event listeners
 			$(Abutton).on('touchstart mousedown', function(e){ console.log('clicked A'); fullGamepad.button.a = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release A'); fullGamepad.button.a = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
 			$(Bbutton).on('touchstart mousedown', function(e){ console.log('clicked B'); fullGamepad.button.b = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release B'); fullGamepad.button.b = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
 			$(Xbutton).on('touchstart mousedown', function(e){ console.log('clicked X'); fullGamepad.button.x = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release X'); fullGamepad.button.x = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
 			$(Ybutton).on('touchstart mousedown', function(e){ console.log('clicked Y'); fullGamepad.button.y = 1;  $(this).css('box-shadow','0px 0px 10px #222') }).on('touchend mouseup', function(e){ console.log('release Y'); fullGamepad.button.y = 0; $(this).css('box-shadow', 'none') }).on('touchmove scroll', function(e){ e.preventDefault(); e.stopPropagation()});
-
-			
 			
 			//Joy2 = new JoyStick('joy2Div', { "title": "joystick2",/* "autoReturnToCenter": false */});
 
@@ -1002,14 +984,17 @@ export class Gamepad {
 
 
 function handleCollisions(e){
+			//console.log(e)
+			
 	intersecting = []
 // find what user is pointing at
 tempMatrix.identity().extractRotation( e.matrixWorld );
 raycaster.ray.origin.setFromMatrixPosition( e.matrixWorld );
 raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
 	var intersects = raycaster.intersectObjects( mainmenu.children );
+			//console.log(intersects)
 //console.log(mainmenu.children )
-	
+			
 	
 	
 //	mainmenu.children.forEach( model => {
@@ -1034,7 +1019,7 @@ raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
 	
 	
 	
-	
+			
 //var intersects = raycaster.intersectObjects( scene.children );
 if ( intersects.length > 0 ) {
 	
@@ -1045,13 +1030,13 @@ if ( intersects.length > 0 ) {
 	if(hovering.length > 1){
 		hovering[0].scale.y = 1;
 		mainmenu.children.forEach(element => element.scale.y = 1);
-		mainmenu.children.forEach(element => element.material.emissive = {b: 1, g: 1, r: 1});
-		//hovering[0].material.color = {b: 1, g: 1, r: 1}
+	//	mainmenu.children.forEach(element => element.material.emissive = {b: 1, g: 1, r: 1});
+		hovering[0].material.color = {b: 1, g: 1, r: 1}
 		hovering = [];
 	}
 	if (hovering.indexOf(intersecting) === -1) {
 		intersectedObject.scale.y = 1.1;
-		intersectedObject.material.emissive = {b: 1, g: 0, r: 0}
+	//	intersectedObject.material.emissive = {b: 1, g: 0, r: 0}
 		intersectedObject.material.color = {b: 0, g: 0, r: 1};
 		if (pointingController.gamepad){
 			pointingController.gamepad.hapticActuators[ 0 ].pulse(0.3, 30 )
@@ -1065,7 +1050,7 @@ if ( intersects.length > 0 ) {
 else {
 	if(hovering.length > 0){
 		hovering[0].scale.y = 1;
-		hovering[0].material.emissive = {b: 0, g: 0, r: 0};
+	//	hovering[0].material.emissive = {b: 0, g: 0, r: 0};
 		// controller[0].gamepad.hapticActuators[ 0 ].pulse( 1, 100 )
 	}
 	//mainmenu.children.forEach(function(model, i) {
@@ -1075,6 +1060,7 @@ else {
 	intersectedObject = undefined;
 }
 	//console.log(intersecting)
+			 
 }
 // Camera
 export class Camera {
@@ -1090,9 +1076,6 @@ export class Camera {
 		objects.push(this);
 		//camera.position.y = 10;
 		//camera.position.set( 0,9,0 );
-		//startRender();
-		listener = new THREE.AudioListener();
-		camera.add( listener );
   }
 }
 // Radial Menu
@@ -1124,9 +1107,10 @@ export class Radial {
 				map: options.map,
 			});
 		
-			const geometry = new THREE.CircleGeometry(1, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
+			const geometry = new THREE.CircleGeometry(0.2, 32,((Math.PI * 2)/numberOfOptions) * (i), (Math.PI * 2) / numberOfOptions);
 			var circlePart = new THREE.Mesh( geometry, thematerial );
 			// circlePart.rotation.set(rot[0],rot[1],rot[2])
+			circlePart.position.set(0,1,-2)
 			mainmenu.add(circlePart)
 		}
 	}
@@ -1326,7 +1310,7 @@ export class Animate {
 	constructor (options) {
 		// console.log(options.at)
 		animationOn = true;
-		var targetObject = options.at.object;
+		var targetObject = options.at.object || options.at;
 		var y		= options.yoyo;
 		var r		= options.repeat	|| 0;
 		var del		= options.delay		|| 0;
@@ -1385,7 +1369,6 @@ export class Animate {
 				.start();
 			//new TWEEN.Tween(shad1.color).to({r:col.r,g:col.g,b:col.b,}, dur).repeat(r).yoyo(y).start();
 			}
-			
 			//	TweenLite.to(targetObject.material.color, dur, {r:col.r,g:col.g,b:col.b,});
 		}
 		// position
@@ -1711,6 +1694,53 @@ export class Box {
 }
 												  
 									  
+// Avatar
+var myAvatar
+export class Avatar {
+			
+	constructor (options) {
+		if(!options){options={}}
+		// console.log(options.file);
+		myAvatar = this
+		this._file = options.file || '/assets/models/glb/Soldier.glb';
+		
+		var acts = this._actions
+		var helper = options.helper || false;
+
+		this._index = characters.length
+		
+		const loader = new GLTFLoader();
+		loader.load(this._file, function ( gltf ) {
+
+			model = gltf.scene;
+			scene.add( model );
+
+			model.traverse( function ( object ) { if ( object.isMesh ) object.castShadow = true; } );
+			skeleton = new THREE.SkeletonHelper( model );
+			skeleton.visible = true;
+			scene.add( skeleton );
+			// console.log(skeleton)
+			
+			
+			myAvatar.skeleton = skeleton
+			skeleton.bones.forEach( model => {
+				
+				//console.log(model.name)
+				if(model.name == 'mixamorigLeftHand'){ model.position.set(0,0.1,-3) }
+				if(model.name == 'mixamorigLeftHandRing1'){ }
+				if(model.name == 'mixamorigLeftHandRing2'){ }
+				if(model.name == 'mixamorigLeftHandRing3'){ }
+				if(model.name == 'mixamorigLeftHandPinky1'){ }
+				if(model.name == 'mixamorigLeftHandPinky2'){ }
+			
+	} );
+			//var dfsg = skeleton.getBoneByName("mixamorigLeftForeArm")//.position.set(1,2,0)
+			// console.log(model)
+		} );
+		
+	}
+}
+									  
 // Geometry
 export class Geometry {
 			
@@ -1739,7 +1769,7 @@ export class Geometry {
 
 	// set functions
 	setColor		(e) { this._color = e;		this.object.material.color = new THREE.Color(this._color); 						} // set color
-	setPosition		(e)	{ this._position = e;	this.object.position  .set(e[0],e[1],e[2]); this.object.__dirtyPosition = true; } // set position
+	setPosition		(e)	{ this._position = e; if ( Array.isArray( this._position) ) { this.object.position  .set(e[0],e[1],e[2]); } else { this.object.position .set(e.x,e.y,e.z); }this.object.__dirtyPosition = true; } // set position
 	setQuaternion	(e) { this._quaternion = e;	this.object.quaternion.set(e[0],e[1],e[2]);										} // set quaternion
 	setRotation		(e)	{ this._rotation = e;	this.object.rotation  .set(e[0],e[1],e[2]); this.object.__dirtyRotation = true; } // set rotation
 	setScale		(e)	{ this._scale = e;		this.object.scale     .set(e[0],e[1],e[2]);										} // set scale
@@ -1786,7 +1816,7 @@ export class Cube extends Geometry {
 		var s = this._scale;
 		if (s.length){ box.scale.set(...s ); }
 		else 		 { box.scale.set(s,s,s); }
-		//	  console.log(name)
+		
 		scene.add(box);
 		this.object = box;
 	}
@@ -2401,7 +2431,7 @@ $(document).on('mousedown', function(e){
 	}
 });
 
-/*
+
 // listen for touch
 $(document).on('touchstart', function(e){
 		mouse.x = ( e.touches[0].clientX   / window.innerWidth  ) * 2 - 1;
@@ -2415,7 +2445,7 @@ $(document).on('touchstart', function(e){
 	}
 });
 	
-	*/
+	
 // Menu
 export class Menu {
 constructor (options) {
@@ -2424,71 +2454,136 @@ constructor (options) {
 	}
 }
 
-const currentHandModel = { left: 0, right: 0 };
-const handModels = { left: null, right: null };
+//const currentHandModel = { left: 0, right: 0 };
+//const handModels = { left: null, right: null };
 
 // Hands
+				 
+				 var handObject;
 export class Hands {
 constructor (options) {
 	if(!options){options={}}
 
-	this.style = options.style || 'oculus'
-	var style = this.style
+	this._style = options.style || 'oculus'
+	var style = this._style
+	// console.log(style)
 	const controllerModelFactory = new XRControllerModelFactory();
 	const handModelFactory = new XRHandModelFactory().setPath( "/assets/models/fbx/" );
-
 
 	hand1 = renderer.xr.getHand( 0 );
 	dolly.add( hand1 );
 
-	handModels.left = [
-		handModelFactory.createHandModel( hand1, "boxes" ),
-	//	handModelFactory.createHandModel( hand1, "spheres" ),
-	//	handModelFactory.createHandModel( hand1, "oculus", { model: "lowpoly" } ),
-	//	handModelFactory.createHandModel( hand1, "oculus" )
-	];
 
-	handModels.left.forEach( model => {
-		model.visible = false;
-		hand1.add( model );
-	} );
-
-	handModels.left[ currentHandModel.left ].visible = true;
-	function cycleHandModel( hand ) {
-		handModels[ hand ][ currentHandModel[ hand ] ].visible = false;
-		currentHandModel[ hand ] = ( currentHandModel[ hand ] + 1 ) % handModels[ hand ].length;
-		handModels[ hand ][ currentHandModel[ hand ] ].visible = true;
-
-	}
+	hand1.add( handModelFactory.createHandModel( hand1, style ) );
 	
-	hand1.addEventListener( 'pinchstart', evt => { /* cycleHandModel( evt.handedness ); */ console.log('start'); } );
-	hand1.addEventListener( 'pinchend',   evt => { /* cycleHandModel( evt.handedness ); */ console.log('end');   } );
+	//handModels.right[ currentHandModel.right ].visible = true;
+	
+	hand1.addEventListener( 'pinchstart', evt => {  console.log('start'); } );
+	hand1.addEventListener( 'pinchend',   evt => {  console.log('end');   } );
 
 	// Hand 2
 	hand2 = renderer.xr.getHand( 1 );
 	dolly.add( hand2 );
-	handModels.right = [
-		handModelFactory.createHandModel( hand2, "boxes" ),
-	//	handModelFactory.createHandModel( hand2, "spheres" ),
-	//	handModelFactory.createHandModel( hand2, "oculus", { model: "lowpoly" } ),
-	//	handModelFactory.createHandModel( hand2, "oculus" )
-	];
-	handModels.right.forEach( model => {
-		model.visible = false;
-		hand2.add( model );
-	} );
+		
+	
+	hand2.add( handModelFactory.createHandModel( hand2, style ) );
 
-	handModels.right[ currentHandModel.right ].visible = true;
-	window.handModels = handModels;
+	
+	handObject = {
+	left:{
+		wrist: hand2.children[0],
+		thumb:{
+			metacarpal:	hand2.children[1],
+			proximal:	hand2.children[2],
+			distal:		hand2.children[3],
+			tip:		hand2.children[4],
+		},
+		index:{
+			metacarpal:		hand2.children[5],
+			proximal:		hand2.children[6],
+			intermediate:	hand2.children[7],
+			distal:			hand2.children[8],
+			tip:			hand2.children[9],
+		},
+		middle:{
+			metacarpal:		hand2.children[10],
+			proximal:		hand2.children[11],
+			intermediate:	hand2.children[12],
+			distal:			hand2.children[13],
+			tip:			hand2.children[14],
+		},
+		ring:{
+			metacarpal:		hand2.children[15],
+			proximal:		hand2.children[16],
+			intermediate:	hand2.children[17],
+			distal:			hand2.children[18],
+			tip:			hand2.children[19],
+		},
+		pinky:{
+			metacarpal:		hand2.children[20],
+			proximal:		hand2.children[21],
+			intermediate:	hand2.children[22],
+			distal:			hand2.children[23],
+			tip:			hand2.children[24],
+		}
+	},
+	right:{
+		wrist: hand1.children[0],
+		thumb:{
+			metacarpal:	hand1.children[1],
+			proximal:	hand1.children[2],
+			distal:		hand1.children[3],
+			tip:		hand1.children[4],
+		},
+		index:{
+			metacarpal:		hand1.children[5],
+			proximal:		hand1.children[6],
+			intermediate:	hand1.children[7],
+			distal:			hand1.children[8],
+			tip:			hand1.children[9],
+		},
+		middle:{
+			metacarpal:		hand1.children[10],
+			proximal:		hand1.children[11],
+			intermediate:	hand1.children[12],
+			distal:			hand1.children[13],
+			tip:			hand1.children[14],
+		},
+		ring:{
+			metacarpal:		hand1.children[15],
+			proximal:		hand1.children[16],
+			intermediate:	hand1.children[17],
+			distal:			hand1.children[18],
+			tip:			hand1.children[19],
+		},
+		pinky:{
+			metacarpal:		hand1.children[20],
+			proximal:		hand1.children[21],
+			intermediate:	hand1.children[22],
+			distal:			hand1.children[23],
+			tip:			hand1.children[24],
+		}
+		//console.log( e.data.handedness );
+				
+		
+	//	hand2.children[9]
+
+	}
+						}
+	
+	
+	
+	//window.handModels = handModels;
 	hand2.addEventListener( 'pinchend', evt => {
 		// var firstBB = new THREE.Box3().setFromObject(hand2.children[9]);
 		// var secondBB = new THREE.Box3().setFromObject(hand1.children);
 		var ray = new THREE.Raycaster( hand2.children[9].position );
 		raycaster.ray.direction.set(scene.direction)//.applyMatrix4( tempMatrix );
 		var	intersections = ray.intersectObjects( scene.children);
+		
+		
 		// var collision = firstBB.intersectsBox(secondBB);
 		// console.log(intersections)
-		// cycleHandModel( evt.handedness );
 	});
 	window.hands = [ hand1, hand2 ];
 	var mat =  getMaterial({
@@ -2501,10 +2596,16 @@ constructor (options) {
 	});
 	var geo =  new THREE.PlaneGeometry(0.1,0.02,1,1);
 	fingermenu = new THREE.Mesh(geo, mat		);
-	hand2.children[9].add(fingermenu)
-	fingermenu.position.x = 0.05
-	fingermenu.rotation.x = -Math.PI / 2;
+	//hand2.children[9].add(fingermenu)
+	//fingermenu.position.x = 0.05
+	//fingermenu.rotation.x = -Math.PI / 2;
 
+	
+	this.left = handObject.left;
+	this.right = handObject.right;
+
+	
+	
 	const font = new THREE.FontLoader();
 	font.load('/assets/fonts/helvetiker_bold.json', function ( font ) {
 		const textGeo = new THREE.TextBufferGeometry( 'main menu', {
@@ -2518,7 +2619,7 @@ constructor (options) {
 		geo.computeBoundingBox();
 		const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
 		const verticalOffset = - 0.25 * ( geo.boundingBox.max.y - geo.boundingBox.min.y );
-		material = new THREE.MeshStandardMaterial({specular: 'white',color:'black',});
+		material = new THREE.MeshStandardMaterial({color:'black',});
 		text = new THREE.Mesh( textGeo, material );
 		text.position.x 	= centerOffset;
 		text.position.y 	= verticalOffset;
@@ -2532,7 +2633,26 @@ constructor (options) {
 		//text.position.set(centerOffset + pos[0], pos[1],pos[2])
 		//objects.push(mesh);
 	});
+	
+	//const geometry = new THREE.BoxGeometry(0.1,0.1,0.1);
+	//var box;
+	//box = new THREE.Mesh( geometry, material );
+	//box.castShadow    = true;
+	//hand2.children[9].add(box)
+
+	
 }
+		
+		
+		
+		getHand(){
+		console.log('sdfg');
+			
+			
+		//	handObject
+	}
+		
+		
 }
 var hit;
 function collision() {
@@ -2704,116 +2824,6 @@ export class Image {
 }
 			   
 
-// car
-var ground_material, car_material, wheel_material, wheel_geometry, loader, scene, ground, car = {};
-export class Car {
-	constructor (options) {
-		
-		if(!options){options={}}
-		this._color 	= options.color 	|| 0xffffff;
-		this._wheel 	= options.wheel 	|| 0x222222;
-		this._speed 	= options.speed	    || 5;
-
-		var carspeed = this._speed;
-		
-		loader = new THREE.TextureLoader();
-		car_material   = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._color }),1, .2 );
-		wheel_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._wheel }), 1, .5 );
-		wheel_geometry = new THREE.CylinderGeometry( 2, 2, 1, 10 );
-		car.body = new Physijs.BoxMesh( new THREE.BoxGeometry( 10, 3, 7 ), car_material, 100 );
-		car.body.position.y = 8;
-		// car.body.receiveShadow = ]
-		car.body.castShadow = true;
-		scene.add( car.body );
-
-		car.wheel_fl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
-		car.wheel_fl.rotation.x = Math.PI / 2;
-		car.wheel_fl.position.set( -3.5, 6.5, 5 );
-		car.wheel_fl.castShadow = true;
-		scene.add( car.wheel_fl );
-		car.wheel_fl_constraint = new Physijs.DOFConstraint( car.wheel_fl, car.body, new THREE.Vector3( -3.5, 6.5, 5 ) );
-		scene.addConstraint( car.wheel_fl_constraint );
-		car.wheel_fl_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
-
-		car.wheel_fr = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
-		car.wheel_fr.rotation.x = Math.PI / 2;
-		car.wheel_fr.position.set( -3.5, 6.5, -5 );
-		car.wheel_fr.receiveShadow = car.wheel_fr.castShadow = true;
-		scene.add( car.wheel_fr );
-		car.wheel_fr_constraint = new Physijs.DOFConstraint( car.wheel_fr, car.body, new THREE.Vector3( -3.5, 6.5, -5 ) );
-		scene.addConstraint( car.wheel_fr_constraint );
-		car.wheel_fr_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
-
-		car.wheel_bl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
-		car.wheel_bl.rotation.x = Math.PI / 2;
-		car.wheel_bl.position.set( 3.5, 6.5, 5 );
-		car.wheel_bl.receiveShadow = car.wheel_bl.castShadow = true;
-		scene.add( car.wheel_bl );
-		car.wheel_bl_constraint = new Physijs.DOFConstraint( car.wheel_bl, car.body, new THREE.Vector3( 3.5, 6.5, 5 ) );
-		scene.addConstraint( car.wheel_bl_constraint );
-		car.wheel_bl_constraint.setAngularLowerLimit({ x: 0, y: 0, z: 0 });
-		car.wheel_bl_constraint.setAngularUpperLimit({ x: 0, y: 0, z: 0 });
-
-		car.wheel_br = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
-		car.wheel_br.rotation.x = Math.PI / 2;
-		car.wheel_br.position.set( 3.5, 6.5, -5 );
-		car.wheel_br.receiveShadow = car.wheel_br.castShadow = true;
-		scene.add( car.wheel_br );
-		car.wheel_br_constraint = new Physijs.DOFConstraint( car.wheel_br, car.body, new THREE.Vector3( 3.5, 6.5, -5 ) );
-		scene.addConstraint( car.wheel_br_constraint );
-		car.wheel_br_constraint.setAngularLowerLimit({ x: 0, y: 0, z: 0 });
-		car.wheel_br_constraint.setAngularUpperLimit({ x: 0, y: 0, z: 0 });
-		   
-		   document.addEventListener( 'keydown', function( ev ) {
-				   switch( ev.keyCode ) {
-					   case 37: // left
-						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
-						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
-						   car.wheel_fl_constraint.enableAngularMotor(1);
-						   car.wheel_fr_constraint.enableAngularMotor(1);
-						   break;
-					   case 39: // right
-						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
-						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
-						   car.wheel_fl_constraint.enableAngularMotor( 1 );
-						   car.wheel_fr_constraint.enableAngularMotor( 1 );
-						   break;
-					   case 38: // up
-						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
-						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
-						   car.wheel_bl_constraint.enableAngularMotor(2);
-						   car.wheel_br_constraint.enableAngularMotor(2);
-						   break;
-					   case 40: // down
-						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
-						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
-						   /* constraint.configureAngularMotor(
-							   which, // which angular motor to configure - 0,1,2 match x,y,z
-							   low_limit, // lower limit of the motor
-							   high_limit, // upper limit of the motor
-							   velocity, // target velocity
-							   max_force // maximum force the motor can apply
-						   );*/
-						   car.wheel_bl_constraint.enableAngularMotor(2); // which angular motor to configure - 0,1,2 match x,y,z
-						   car.wheel_br_constraint.enableAngularMotor(2);
-						   break;
-				   }
-			   }
-		   );
-		   
-		   document.addEventListener( 'keyup', function( ev ) {
-				   switch( ev.keyCode ) {
-					   case 37:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
-					   case 39:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
-					   case 38:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
-					   case 40:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
-				   }
-			   }
-		   );
-}
-}
 // Light
 export class  Light {
   constructor (options) {
@@ -2995,7 +3005,7 @@ export class Fog {
 }
 var solderActive = false
 var ticks = 0, throwOld, throwNew, tick = 0
-function render() {
+function render(timeNow, frame ) {
 			
 	tick += 1;
 
@@ -3124,6 +3134,7 @@ function render() {
 			// Teleport Locomotion
 			if(teleporting){
 				rafCallbacks.forEach(cb => cb(timeNow));
+				camera.getWorldPosition(cameraPostion)
 			}
 	 
 	if(moveForward){ }
@@ -3137,32 +3148,8 @@ function render() {
 	}*/
 			if(touchGamepad){
 				
-						fullGamepad.joystick.l = [parseInt(Joy1.GetX()) * 0.01, parseInt(Joy1.GetY()) * 0.01]
+				fullGamepad.joystick.l = [parseInt(Joy1.GetX()) * 0.01, parseInt(Joy1.GetY()) * 0.01]
 				fullGamepad.joystick.r = [parseInt(Joy2.GetX()) * 0.01, parseInt(Joy2.GetY()) * 0.01]
-						//	},
-							/*button:{
-								a : 0, // A Button
-								b : 0, // B Button
-								x : 0, // X Button
-								y : 0 // Y Button
-								//r : controller[0].gamepad.buttons[3], // stick button R
-								//l : controller[1].gamepad.buttons[3]  // stick button L
-							},/*
-							trigger:{
-								r : controller[0].gamepad.buttons[0], // trigger R
-								l : controller[1].gamepad.buttons[0]  // trigger L
-							},
-							grip:{
-								r : controller[0].gamepad.buttons[1], // grip R
-								l : controller[1].gamepad.buttons[1]  // grip L
-							},
-							rest:{
-								r : controller[0].gamepad.buttons[6], // thumbrest R
-								l : controller[1].gamepad.buttons[6]  // thumbrest L
-							}*/
-						//}
-			///		}
-			//	}
 				
 				// ===== LEFT JOYSTICK  ===== //
 				
@@ -3179,11 +3166,11 @@ function render() {
 				if(fullGamepad.joystick.r[0]){
 					
 					// look up/down
-					var newX = camera.rotation.x + fullGamepad.joystick.r[1] * 0.01 ;
+					var newX = camera.rotation.x + fullGamepad.joystick.r[1] * 0.05 ;
 					if(newX <= 0.5 && newX >= -1 ){ camera.rotation.x = newX; }
 					
 					// look left/right
-					var newY = dolly.rotation.y + scale(-1,1,1,-1,fullGamepad.joystick.r[0]) * 0.025;
+					var newY = dolly.rotation.y + scale(-1,1,1,-1,fullGamepad.joystick.r[0]) * 0.05;
 				
 					// if rotation is more than a full 360, set back to 0
 					if     (newY >  Math.PI * 2){ newY -= Math.PI * 2 }
@@ -3305,37 +3292,31 @@ function render() {
 			renderer.render( scene, camera );
 	// var seconds = new Date().getTime() / 6000;
 }
-													 //var i = 0;
-													// function startRender() { renderer.render( scene, camera );
-													//   i++;
-													//   if (i < Infinity) {
-													//	 setTimeout(startRender, 1000/fps);
-													//   }
-													// }
+
 function limitRange(num, min, max){
   const MIN = min || 1;
   const MAX = max || 20;
   const parsed = parseInt(num)
   return Math.min(Math.max(parsed, MIN), MAX)
 }
-function scale(oldMin, oldMax, newMin, newMax, oldValue) {
- 
-			var oldRange = oldMax - oldMin
-			var newRange = newMax - newMin
 
-			var newValue = ((oldValue - oldMin) * newRange / oldRange) + newMin
-					return newValue
+// scale a number range
+function scale(oldMin, oldMax, newMin, newMax, oldValue) {
+	var oldRange = oldMax - oldMin;
+	var newRange = newMax - newMin;
+	var newValue = ((oldValue - oldMin) * newRange / oldRange) + newMin;
+	return newValue;
 }
 
+// scale vector range
 function scaleVector(oldMin, oldMax, newMin, newMax, vect) {
-	
 	var newVector = {x:0,y:0,z:0}
 	newVector.x = scale(oldMin,oldMax,newMin,newMax,vect.x)
 	newVector.y = scale(oldMin,oldMax,newMin,newMax,vect.y)
 	newVector.z = scale(oldMin,oldMax,newMin,newMax,vect.z)
-
-	return newVector
+	return newVector;
 }
+
 // distance between two vectors
 function distanceVector( v1, v2 ){
     var dx = v1.x - v2.x;
@@ -3345,12 +3326,20 @@ function distanceVector( v1, v2 ){
     return Math.sqrt( dx * dx + dy * dy + dz * dz );
 }
 
+// difference between two vectors
+function differenceVector( v1, v2 ){
+	var difference = function (a, b) { return Math.abs(a - b); }
+	var dx = Math.abs(v1.x - v2.x)// v1.x - v2.x;
+	var dy = Math.abs(v1.y - v2.y)// v1.y - v2.y;
+	var dz = Math.abs(v1.z - v2.z)// v1.z - v2.z;
+	return {x:dx,y:dy,z:dz};
+}
+
 // positional difference
 function positionVector( v1, v2 ){
 	var dx = v1.x - v2.x;
     var dy = v1.y - v2.y;
     var dz = v1.z - v2.z;
-
 	return {x:dx,y:dy,z:dz};
 }
 
@@ -3359,7 +3348,6 @@ function multiplyVector( v, a ){
     var dx = v.x * a;
     var dy = v.y * a;
     var dz = v.z * a;
-
 	return {x:dx,y:dy,z:dz};
 }
 
@@ -3381,7 +3369,6 @@ function addVector( v1, v2 ){
     var dx = v1.x + v2.x;
     var dy = v1.y + v2.y;
     var dz = v1.z + v2.z;
-
 	return {x:dx,y:dy,z:dz};
 }
 
@@ -3423,8 +3410,8 @@ var getMaterial = function(options){
 	var repeat 	= options.repeat || [1,1];
 	var bumpScale = options.bumpScale || 0
 	var bumpMap = options.bumpMap || null
-			var alphaMap = options.alphaMap || null
-			var pos = options.position || null
+	var alphaMap = options.alphaMap || null
+	var pos = options.position || null
 	var params;
 	// console.log(bumpMap)
 	var clearcoat = options.clearcoat || 1
@@ -3568,6 +3555,7 @@ function onSelectEnd(e){
 		this.remove(guideline);
 		scene.remove(guidesprite);
 		scene.remove(guidelight);
+		var dsg = camera.getWorldPosition(cameraPostion)
 		movePlayer();
 	}
 }
@@ -3587,17 +3575,32 @@ function vibrateR(wr){
 function movePlayer(e){
 	//var sdfg = this
 	teleporting = false
-	const feetPos = dolly.position;
+	const feetPos = cameraPostion;
 	feetPos.y = 0;
+				var asdf = camera.getWorldPosition(cameraPostion);
+				//var asdf1 = dolly.getWorldPosition(dollyPostion);
+				//console.log(asdf, asdf1)
+				console.log(differenceVector(feetPos,cameraPostion))
 	const p = guidingController.getWorldPosition(tempVecP);
 	const v = guidingController.getWorldDirection(tempVecV);
 	v.multiplyScalar(6);
 	const t = (-v.y  + Math.sqrt(v.y**2 - 2*p.y*g.y))/g.y;
-	const cursorPos = positionAtT(tempVec1,t,p,v,g);
-	const offset = cursorPos.addScaledVector(feetPos ,-1);
-	newPos.copy(dolly.position);
+	const cursorPos = positionAtT(tempVec1,t,cameraPostion,v,g);
+	const offset = cursorPos.addScaledVector(asdf ,-1);
+	newPos.copy(cameraPostion);
 	newPos.add(offset);
-	dolly.position.set(newPos.x,0,newPos.z);
+	newPos.y = 0;
+	new Animate({
+		at: dolly,
+		position: newPos,
+		duration: 300,
+		velocity:false,
+		type:'absolute'
+	});
+	//dolly.position.set(newPos.x,2,newPos.z);
+	//camera.position.set(0,0,0);
+	//camera.position.set(newPos.x,0,newPos.z);
+	//dolly.__dirtyPosition = true;
 }
 
 // Globe
@@ -3938,34 +3941,28 @@ export class Sky {
 		}
 		
 		else if (this._type == 'depth'){
-			//  clock = new THREE.Clock();
-			// Create the panoramic sphere geometery
 			const panoSphereGeo = new THREE.SphereBufferGeometry( 6, 256, 256 );
-			// Create the panoramic sphere material
 			const panoSphereMat = new THREE.MeshStandardMaterial( {
-			side: THREE.BackSide,
-			displacementScale: - 4.0
+				side: THREE.BackSide,
+				displacementScale: - 4.0
 			});
 			// Create the panoramic sphere mesh
 			sphere = new THREE.Mesh( panoSphereGeo, panoSphereMat );
 			manager = new THREE.LoadingManager();
 			var loader = new THREE.TextureLoader( manager );
 			loader.load( '/assets/textures/kandao3.jpg', function ( texture ) {
-			texture.minFilter = THREE.NearestFilter;
-			texture.generateMipmaps = false;
-			sphere.material.map = texture;
+				texture.minFilter = THREE.NearestFilter;
+				texture.generateMipmaps = false;
+				sphere.material.map = texture;
 			} );
 			loader.load( '/assets/textures/kandao3_depthmap.jpg', function ( depth ) {
-			depth.minFilter = THREE.NearestFilter;
-			depth.generateMipmaps = false;
-			sphere.material.displacementMap = depth;
+				depth.minFilter = THREE.NearestFilter;
+				depth.generateMipmaps = false;
+				sphere.material.displacementMap = depth;
 			} );
 			// On load complete add the panoramic sphere to the scene
 			manager.onLoad = function () { scene.add( sphere ); };
 		}
-		
-		
-		
 		else if (this._type == 'skybox'){
 			//const loader = new THREE.CubeTextureLoader();
 			//const texture = loader.load(images);
@@ -4260,22 +4257,18 @@ export class Dropdown {
 		if(!options){options={}}
 		console.log(options.options);
 		var o = options.options
-
-	//const group = new THREE.Group();
-
+		//const group = new THREE.Group();
 		this._pos = options.position || [0,0,0]
 		this._rot = options.rotation || [0,0,0]
 		this._color = options.color || 'black'
 		this._opacity = options.opacity || 1
 		var ps =  this._pos
 		// example
-	
 		var menuItems = o;
 		var fontSize = options.fontSize || 0.2
 		var sdfg = this._pos;
 		var sdfg1 = this._rot;
 		//mainmenu.add(group)
-		
 		//group.position.set(...this._pos)
 		//mainmenu.rotation.set(...this._rot)
 		var oui = this._opacity
@@ -4442,22 +4435,18 @@ export class Character {
 	}
 			
 		pause() {
-			console.log('pause');
 			characters[0][1].forEach( function ( action ) { action.paused = true; } );
 		}
 		idle() {
-			console.log('idle');
 			prepareCrossFade( runAction, idleAction, 0.1 );
 			currentAction = 'idleAction';
 		}
 		walk() {
-			console.log('walk');
 			characters[0][1].forEach( function ( action ) { action.paused = true; } );
 			prepareCrossFade( idleAction, walkAction, 0.1 );
 			currentAction = 'walkAction';
 		}
 		run() {
-			console.log('run');
 			characters[0][1].forEach( function ( action ) { action.paused = true; } );
 			prepareCrossFade( walkAction, runAction, 0.1 );
 			currentAction = 'runAction';
@@ -4716,19 +4705,9 @@ export class Model {
 				   scene.add( box );
 				   box.applyMatrix4( volume.matrix );
 				   scene.add( cube );
-
-				   //z plane
-				   const sliceZ = volume.extractSlice( 'z', Math.floor( volume.RASDimensions[ 2 ] / 4 ) );
-				   scene.add( sliceZ.mesh );
-
-				   //y plane
-				   const sliceY = volume.extractSlice( 'y', Math.floor( volume.RASDimensions[ 1 ] / 2 ) );
-				   scene.add( sliceY.mesh );
-
-				   //x plane
-				   const sliceX = volume.extractSlice( 'x', Math.floor( volume.RASDimensions[ 0 ] / 2 ) );
-				   scene.add( sliceX.mesh );
-
+				   const sliceZ = volume.extractSlice( 'z', Math.floor( volume.RASDimensions[ 2 ] / 4 ) ); scene.add( sliceZ.mesh );
+				   const sliceY = volume.extractSlice( 'y', Math.floor( volume.RASDimensions[ 1 ] / 2 ) ); scene.add( sliceY.mesh );
+				   const sliceX = volume.extractSlice( 'x', Math.floor( volume.RASDimensions[ 0 ] / 2 ) ); scene.add( sliceX.mesh );
 			   } );
 		}
 		else if (ext == '3ds'){
@@ -5326,6 +5305,8 @@ var listener;var audioFile;
 export class Audio {
 	constructor (options) {
 		if(!options){options={}}
+		listener = new THREE.AudioListener();
+		camera.add( listener );
 		this._gain 		= options.gain 		|| 1;
 		this._file		= options.file 		|| '/assets/audio/fur_elise.mp3';
 		this._loop 		= options.loop 		|| false;
@@ -5561,11 +5542,9 @@ export class Accelerometer{
 	constructor (options){
 		if(!options){options={}}
 		acelFunction = options;
-		gyroFunction.scale = options.scale || [-1,1]
-
+		acelFunction.scale = options.scale || [-1,1]
 		document.addEventListener("click", this.start, {once: true});
 	}
-	
 	start(){
 		DeviceOrientationEvent.requestPermission().then(response => {
 			if (response == 'granted') {
@@ -5575,7 +5554,6 @@ export class Accelerometer{
 				});
 			}
 		}).catch(handleError)
-		
 	}
 }
 
@@ -5588,9 +5566,7 @@ export class Gyroscope{
 		gyroFunction.scale = options.scale || [-1,1];
 		document.addEventListener("click", this.start , {once: true});
 	}
-	
 	start(){
-		//document.removeEventListener("click", this.start);
 		DeviceOrientationEvent.requestPermission().then(response => {
 			if (response == 'granted') {
 				window.addEventListener('devicemotion', (e) => {
@@ -5604,8 +5580,6 @@ export class Gyroscope{
 	}
 }
 
-
-
 // Compass
 var compassFunction;
 export class Compass{
@@ -5614,22 +5588,12 @@ export class Compass{
 		compassFunction = options
 		document.addEventListener("click", this.start, {once: true});
 	}
-	
 	start(){
 	  DeviceOrientationEvent.requestPermission().then(response => {
 		  if (response == 'granted') {
-			  // orientation of the device as compared to the Earth coordinate frame.
-			  window.addEventListener('deviceorientation', (e) => {
-				  console.log(e)
-				  compassFunction.action(e);
-				//	var rotateDegrees	= e.alpha; //  rotation around z-axis
-				//	var leftToRight		= e.gamma; // [ -90, 90] left to right
-				//	var frontToBack		= e.beta;  // [-180,180] front to back
-				//  console.log(e)
-			  })
+			  window.addEventListener('deviceorientation', (e) => { compassFunction.action(e); })
 		  }
 	  }).catch(handleError)
-
   }
 }
 
@@ -5638,7 +5602,116 @@ export class Compass{
 function handleError(error) { console.log(error); }
 			
 // ========== MISC ========== //
+// Car
+var ground_material, car_material, wheel_material, wheel_geometry, ground, car = {};
+export class Car {
+	constructor (options) {
+		
+		if(!options){options={}}
+		this._color 	= options.color 	|| 0xffffff;
+		this._wheel 	= options.wheel 	|| 0x222222;
+		this._speed 	= options.speed	    || 5;
 
+		var carspeed = this._speed;
+		
+		loader = new THREE.TextureLoader();
+		car_material   = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._color }),1, .2 );
+		wheel_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._wheel }), 1, .5 );
+		wheel_geometry = new THREE.CylinderGeometry( 2, 2, 1, 10 );
+		car.body = new Physijs.BoxMesh( new THREE.BoxGeometry( 10, 3, 7 ), car_material, 100 );
+		car.body.position.y = 8;
+		// car.body.receiveShadow = ]
+		car.body.castShadow = true;
+		scene.add( car.body );
+
+		car.wheel_fl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
+		car.wheel_fl.rotation.x = Math.PI / 2;
+		car.wheel_fl.position.set( -3.5, 6.5, 5 );
+		car.wheel_fl.castShadow = true;
+		scene.add( car.wheel_fl );
+		car.wheel_fl_constraint = new Physijs.DOFConstraint( car.wheel_fl, car.body, new THREE.Vector3( -3.5, 6.5, 5 ) );
+		scene.addConstraint( car.wheel_fl_constraint );
+		car.wheel_fl_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
+		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
+
+		car.wheel_fr = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
+		car.wheel_fr.rotation.x = Math.PI / 2;
+		car.wheel_fr.position.set( -3.5, 6.5, -5 );
+		car.wheel_fr.receiveShadow = car.wheel_fr.castShadow = true;
+		scene.add( car.wheel_fr );
+		car.wheel_fr_constraint = new Physijs.DOFConstraint( car.wheel_fr, car.body, new THREE.Vector3( -3.5, 6.5, -5 ) );
+		scene.addConstraint( car.wheel_fr_constraint );
+		car.wheel_fr_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
+		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
+
+		car.wheel_bl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
+		car.wheel_bl.rotation.x = Math.PI / 2;
+		car.wheel_bl.position.set( 3.5, 6.5, 5 );
+		car.wheel_bl.receiveShadow = car.wheel_bl.castShadow = true;
+		scene.add( car.wheel_bl );
+		car.wheel_bl_constraint = new Physijs.DOFConstraint( car.wheel_bl, car.body, new THREE.Vector3( 3.5, 6.5, 5 ) );
+		scene.addConstraint( car.wheel_bl_constraint );
+		car.wheel_bl_constraint.setAngularLowerLimit({ x: 0, y: 0, z: 0 });
+		car.wheel_bl_constraint.setAngularUpperLimit({ x: 0, y: 0, z: 0 });
+
+		car.wheel_br = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
+		car.wheel_br.rotation.x = Math.PI / 2;
+		car.wheel_br.position.set( 3.5, 6.5, -5 );
+		car.wheel_br.receiveShadow = car.wheel_br.castShadow = true;
+		scene.add( car.wheel_br );
+		car.wheel_br_constraint = new Physijs.DOFConstraint( car.wheel_br, car.body, new THREE.Vector3( 3.5, 6.5, -5 ) );
+		scene.addConstraint( car.wheel_br_constraint );
+		car.wheel_br_constraint.setAngularLowerLimit({ x: 0, y: 0, z: 0 });
+		car.wheel_br_constraint.setAngularUpperLimit({ x: 0, y: 0, z: 0 });
+		   
+		   document.addEventListener( 'keydown', function( ev ) {
+				   switch( ev.keyCode ) {
+					   case 37: // left
+						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
+						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
+						   car.wheel_fl_constraint.enableAngularMotor(1);
+						   car.wheel_fr_constraint.enableAngularMotor(1);
+						   break;
+					   case 39: // right
+						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
+						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
+						   car.wheel_fl_constraint.enableAngularMotor( 1 );
+						   car.wheel_fr_constraint.enableAngularMotor( 1 );
+						   break;
+					   case 38: // up
+						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
+						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
+						   car.wheel_bl_constraint.enableAngularMotor(2);
+						   car.wheel_br_constraint.enableAngularMotor(2);
+						   break;
+					   case 40: // down
+						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
+						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
+						   /* constraint.configureAngularMotor(
+							   which, // which angular motor to configure - 0,1,2 match x,y,z
+							   low_limit, // lower limit of the motor
+							   high_limit, // upper limit of the motor
+							   velocity, // target velocity
+							   max_force // maximum force the motor can apply
+						   );*/
+						   car.wheel_bl_constraint.enableAngularMotor(2); // which angular motor to configure - 0,1,2 match x,y,z
+						   car.wheel_br_constraint.enableAngularMotor(2);
+						   break;
+				   }
+			   }
+		   );
+		   
+		   document.addEventListener( 'keyup', function( ev ) {
+				   switch( ev.keyCode ) {
+					   case 37:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
+					   case 39:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
+					   case 38:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
+					   case 40:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
+				   }
+			   }
+		   );
+}
+}
 // Pendulum
 export class Pendulum{
 	constructor (options){
@@ -5787,11 +5860,7 @@ initEventHandling = (function() {//console.log('sdf')
 	   handleMouseMove = function( e ) {
 		   var ray, intersection, i, scalar;
 		   if ( selected_block !== null ) {
-			   _vector.set(
-				    (e.clientX / window.innerWidth  ) * 2 - 1,
-				   -(e.clientY / window.innerHeight ) * 2 + 1,
-				   1
-			   );
+			   _vector.set( (e.clientX / window.innerWidth  ) * 2 - 1, -(e.clientY / window.innerHeight ) * 2 + 1, 1 );
 			   _vector.unproject( camera );
 			   ray = new THREE.Raycaster( camera.position, _vector.sub( camera.position ).normalize() );
 			   intersection = ray.intersectObject( intersect_plane );

@@ -2,13 +2,12 @@ body{margin:0;background-color:#444;font-family:Helvetica;font-size:2em;line-hei
 header{position:relative;padding:.5em;z-index:10;}
 header a{max-width: 75vw ;}
 header p a{max-width: 75vw !important;}
-	/*html{height:100vh!important}*/
- .icons{
+
+.icons{
 	pointer-events:none
 }
 header,header a, i {
 	text-shadow:2px 2px 2px black;
-
 }
 
 input {pointer-events:all}
@@ -21,8 +20,16 @@ a:hover{opacity:1!important}
 a{pointer-events: all !important}
 header p a{font-size:.5em}
 canvas{pointer-events:all !important;position:absolute;background: inherit;top:0;    z-index: -1;}
-/*h1,span,table{margin:0;font-size:0.5em;overscroll-behavior:none;padding-bottom:0}
-*/header h1,table{margin:0;font-size:1em;overscroll-behavior:none;padding-bottom:0;position: relative;z-index:1; pointer-events:none}
+header h1,table{
+	margin:0;
+	font-size:1em;
+	overscroll-behavior:none;
+	padding-bottom:0;
+	position: relative;
+	z-index:1;
+	pointer-events:none
+}
+
 a{color:#ff0;text-decoration:none}
 a:hover{text-decoration:underline}
 button{cursor:pointer;text-transform:uppercase}
@@ -32,36 +39,31 @@ table{padding:1em;table-layout:fixed;width:100%}
 td{vertical-align:top;position:relative}
 
 .code{
-	
 	/* border-radius: 1vw; */
- background:rgb(0 0 0 / 90%) !important;
- /* height: fit-content; */
- overflow: scroll/*padding:1em*/ z-index:1;
- width: calc(100% - 1em);
- font-size: 0.6em;
- line-height: 110%;
- margin: 0;
- line-height: 1;
- padding-left: 1em;
-
- position: absolute;
- bottom: 0;
- pointer-events: all;
- z-index:1000;
- padding-top:1em;
- padding-bottom:1em;
- max-height: 80vh;
- overflow: scroll;
+	background:rgb(0 0 0 / 90%) !important;
+	/* height: fit-content; */
+	overflow: scroll/*padding:1em*/ z-index:1;
+	width: calc(100% - 1em);
+	font-size: 0.6em;
+	line-height: 110%;
+	margin: 0;
+	line-height: 1;
+	padding-left: 1em;
+	position: absolute;
+	bottom: 0;
+	pointer-events: all;
+	z-index:1000;
+	padding-top:1em;
+	padding-bottom:1em;
+	max-height: 80vh;
+	overflow: scroll;
 }
+
 .code code{
 	pointer-events:all;
-	
 }
-/*
- pre{}
- .code{bottom:0;}
 
- */
+
 .hljs,.hljs-tag,.hljs-subst{color:#f8f8f2}
 .hljs-strong,.hljs-emphasis{color:#a8a8a2}
 .hljs-bullet,.hljs-quote,.hljs-number,.hljs-regexp,.hljs-literal,.hljs-link{color:#ae81ff}
@@ -85,21 +87,22 @@ header,h1,div{cursor:default}
 /*p{margin:0;
 	display: inline-block;line-height:1px}
 */
-a[href="#"]  {
-	/*text-shadow:2px 2px 2px black !important*/
-	font-weight:900;
-	
-}
-a  {
-	/*text-shadow:2px 2px 2px black !important*/
-	
+
+a {
 	color:white !important;
 	cursor:pointer !important
 }
-svg{padding:25px}
+
+svg{
+	padding:25px
+}
 
 
-svg circle{stroke:black; fill:grey}/*
+svg circle{
+	stroke:black;
+	fill:grey
+}
+/*
 header span:not(last-child)::after {
   content: " ";
   font-weight:100;
@@ -108,19 +111,19 @@ header span:not(last-child)::after {
 
 header p {
 	display:block;
- padding:0;
- margin:0;
- 
+	padding:0;
+	margin:0;
 }
 #video{
 	position: fixed;
 	z-index: -1;
 }
-header p:nth-of-type(1) {
 
- /*position:absolute !important;*/
- width:100%
+header p:nth-of-type(1) {
+	/*position:absolute !important;*/
+	width:100%
 }
+
 header span {
 font-size:2em
  
@@ -130,18 +133,10 @@ font-size:2em
 	margin:0;
 	line-height:0px !important;
 	font-size:1em !important
- 
-}/*
-header p span::after {
-  content: "";
-  font-weight:100;
-  font-size:1em
 }
-header span:last-child:after {
-	content:'';
-}*/
+
 header ul li{
-display: inline-block;
+	display: inline-block;
 	list-style: none;
 }
 header ul li:not(last-child)::after{
@@ -155,27 +150,27 @@ header ul li:not(last-child)::after{
 	display:none;
 }
 #markdown {
-border: 1px dashed #333333;
-width: 100%px;
-height:fit-content;
-padding:1em
+	border: 1px dashed #333333;
+	width: 100%px;
+	height:fit-content;
+	padding:1em
 }
 #markdown{pointer-events:none}
 body{pointer-events:none}
 audio, input, select, button{pointer-events:all}
+
 ul{
 	margin-top: 0;
- margin-bottom: 0;
- /* position: absolute; */
- /* height: 79px;*/}
+	margin-bottom: 0;
+}
+
 h3{
 	margin: 0.1em;
 	
 }
 .dg.ac{
 	z-index: 9999999 !important;
-		pointer-events: all;
-	
+	pointer-events: all;
 }
 
 #sourceLink {
@@ -188,8 +183,6 @@ h3{
 
 
 /* joystick */
-
-
 .row{
 	display: inline-flex;
 	clear: both;
@@ -198,50 +191,39 @@ h3{
 	width:100vw
 }
 
-#joy1Div, #joy2Div
-{position:fixed;
+#joy1Div, #joy2Div{
+	position:fixed;
 	width:150px;
 	height:150px;
 	margin:0px;
 	bottom:0;
 }
-#joy2Div
-{
-  right:0;
-}
+
+#joy2Div {  right:0;}
 
 #buttonGroupL,#buttonGroupR {
-	
 	position: fixed;
- bottom: 0;
- /*padding: 1em;*/
-pointer-events:none
+	bottom: 0;
+	/*padding: 1em;*/
+	pointer-events:none
 }
-#buttonGroupL {
-	left:150px
-}
-#buttonGroupR {
-	
-	right:150px
-
-}
+#buttonGroupL { left:150px }
+#buttonGroupR { right:150px }
 #buttonGroupL div, #buttonGroupR div{
-	
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
- padding: 0.5em;
-height:1em;
-width:1em;
-text-align:center;
-border-radius:50%;
-
-border: 4px solid rgba(0,0,0,0.5);
-margin: 0.1em;
-cursor:pointer;
-position:relative;
-pointer-events:all
+	padding: 0.5em;
+	height:1em;
+	width:1em;
+	text-align:center;
+	border-radius:50%;
+	border: 4px solid rgba(0,0,0,0.5);
+	margin: 0.1em;
+	cursor:pointer;
+	position:relative;
+	pointer-events:all
 }
 
 #a{ background:rgba(  0,255,  0,0.5); }
@@ -252,24 +234,22 @@ pointer-events:all
 
 
 #dpad {
-	
 	width:150px;
 	height:150px;
-background:transparent;
-align-content:center;
-
+	background:transparent;
+	align-content:center;
 }
+
 #dpad div{
 	width: 50%;
-	 margin: 0 auto;
-	 width:33.3%;
-	 height:33.3%;
-background:rgba(0,0,0,0.5);
-text-align:center;
-border-radius:4px;
-
-cursor:pointer;
-pointer-events:all
+	margin: 0 auto;
+	width:33.3%;
+	height:33.3%;
+	background:rgba(0,0,0,0.5);
+	text-align:center;
+	border-radius:4px;
+	cursor:pointer;
+	pointer-events:all
 }
 
 .dpadRow {
@@ -280,16 +260,16 @@ pointer-events:all
 
 .dpadRow div{
 	margin: auto;
-display:inline-block;
-position:relative;
-height: 100%!important;
-width: 33.3%!important;
-text-align:center
+	display:inline-block;
+	position:relative;
+	height: 100%!important;
+	width: 33.3%!important;
+	text-align:center
 }
 #dpad div i{
-font-size:1.5em;
-color:rgba(255,255,255,0.9);
-text-shadow:none
+	font-size:1.5em;
+	color:rgba(255,255,255,0.9);
+	text-shadow:none
 }
 .dpadRow #dpad_right{
 	right:0;
@@ -304,7 +284,6 @@ input{
 	width: 95% !important;
 	position: absolute;
 	font-size:26px;
-
 	font-family: 'Courier New', monospace;
 font-weight:900;
 padding:0.1em

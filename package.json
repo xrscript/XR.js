@@ -1,7 +1,7 @@
 {
-  "name": "xr.js",
+  "name": "XR.js",
   "version": "1.0.0",
-  "description": "XR on the web",
+  "description": "JavaScript library for XR experiences.",
   "main": "XR.js",
   "directories": {
     "example": "examples",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "gasp": "0.0.2",
+    "gsap": "^3.5.1",
     "jquery": "^3.5.1",
     "showdown": "^1.9.1",
     "simplex-noise": "^2.4.0",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joshstovall/XR.js.git"
+    "url": "git+https://github.com/xrscript/XR.js.git"
   },
   "keywords": [
     "webxr",
@@ -32,7 +32,7 @@
   "author": "Josh Stovall",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/joshstovall/XR.js/issues"
+    "url": "https://github.com/xrscript/XR.js/issues"
   },
-  "homepage": "https://github.com/joshstovall/XR.js#readme"
+  "homepage": "https://github.com/xrscript/XR.js#readme"
 }

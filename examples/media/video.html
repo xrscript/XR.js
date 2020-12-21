@@ -37,8 +37,6 @@ new XR.Video({
 	scale:1
 });
 
-
-
 new XR.Button({
 	position:[-1.5,-0.35,0.1],
 	scale:[0.9,0.3],
@@ -51,8 +49,6 @@ new XR.Button({
 	color:'white',
 	background:'green'
 });
-
-
 
 new XR.Button({
 	scale:[0.9,0.3],
@@ -74,7 +70,6 @@ new XR.Button({
 	value:'upload',
 	text:'upload',
 	name:'upload',
-	//color:'#6666FF',
 	action:button3,
 	fontSize:0.18,
 	color:'white',
@@ -82,27 +77,23 @@ new XR.Button({
 
 });
 
-
-
 function button1(){
-	console.log("you clicked button 1")
-	video.play()
+	console.log("you clicked button 1");
+	video.play();
 }
-
 
 function button2(){
-	console.log("you clicked button 2")
-	video.pause()
+	console.log("you clicked button 2");
+	video.pause();
 }
 
-
 function button3(){
-	console.log("you clicked button 2")
-$('#myFile').click()}
+	console.log("you clicked button 3");
+	$('#myFile').click();
+}
 
 var controller = new XR.Gamepad();
 
-console.log(controller)
 new XR.Locomotion({
 	type:'teleport',
 	bind: controller.left
@@ -111,7 +102,6 @@ new XR.Menu();
 
 //var leftController = new XR.Gamepad();
 var pointer = new XR.Pointer({
-	
 	bind: controller.right
 });</script>
 	</body>
