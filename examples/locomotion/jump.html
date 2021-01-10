@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Jump</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css" />
+	</head>
+	<body>
+			
+		<header>
+			<h1><a href="/">XR.js</a> 🥽</h1>
+			<a href="/examples">Examples</a>
+			<a href="/examples/locomotion">Locomotion</a>
+			<a href="/examples/locomotion/jump.html">Jump</a>
+			<p>
+				<a href="/examples/locomotion/walk.html">Walk</a>
+				<a href="/examples/locomotion/fly.html">Fly</a>
+				<a href="/examples/locomotion/teleport.html">Teleport</a>
+				<a href="/examples/locomotion/rotate.html">Rotate</a>
+				<a href="/examples/locomotion/jump.html">Jump</a>
+			</p>
+		</header>
+		
+		
+<script type="module">import * as XR from '/XR.js';
+	
+new XR.Reality();
+new XR.Light();
+new XR.Floor();
+
+var controller = new XR.Gamepad();
+
+new XR.Locomotion();
+
+</script>
+	
+
+	</body>
+</html>

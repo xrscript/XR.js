@@ -3,3 +3,4 @@
 workspace.xcworkspace
 node_modules
 examples/objects/model/.DS_Store
+package-lock.json

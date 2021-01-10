@@ -38,29 +38,23 @@ for ( let i = 0; i <3; i ++ ) {
 
 	  new XR.Sphere({
 	   physics:true,
-	   position:[Math.random()* 1,6,Math.random()* 1],
+	   position:[Math.random() - 0.5,6,Math.random() - 0.5],
 	   rotation:[Math.random(),0.1,0.2],
 	   color: 0xffffff * Math.random(),
-	   bounce:1,
-	   scale: Math.random() * 8
    });
 	  
 	  new XR.Cone({
 	   physics:true,
-	   position:[Math.random()* 10,6,Math.random()* 10],
+	   position:[Math.random() - 0.5,6,Math.random() - 0.5],
 	   rotation:[0.1,0.1,0.2],
 	   color: 0xffffff * Math.random(),
-	   scale: Math.random() * 8,
-	   bounce:1
    });
 	  
 	  new XR.Box({
 	   physics:true,
-	   position:[Math.random()* 10,6,Math.random()* 10],
+	   position:[Math.random() - 0.5,6,Math.random() - 0.5],
 	   rotation:[Math.random() - 0.5,Math.random() - 0.5,Math.random() - 0.5],
 	   color:0xffffff * Math.random(),
-	   scale: Math.random() * 2,
-	   bounce:1
    });
 
 	  }

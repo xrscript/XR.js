@@ -93,12 +93,6 @@
 new XR.Reality();
 
 var imgs = [
-	//'/assets/img/equirectangular/venice_sunset.jpg',
-	//'/assets/img/equirectangular/royal_esplanade.jpg',
-	//'/assets/img/equirectangular/quarry.jpg',
-	//'/assets/img/equirectangular/bridge.jpg',
-	//'/assets/img/equirectangular/earth.jpg',
-	//'/assets/img/equirectangular/sky2.jpg',
 	'/assets/img/planets/earth.jpg',
 	'/assets/img/planets/jupiter.jpg',
 	'/assets/img/planets/mars.jpg',
@@ -113,75 +107,8 @@ var imgs = [
 ];
 
 // load a random sky
-var item = imgs[Math.floor(Math.random() * imgs.length)];
-new XR.Sky({file:item});
-/*
+new XR.Sky({file:imgs[Math.floor(Math.random() * imgs.length)]});
 
-new XR.Dropdown({
-  options:[{ name:'Audio', href:'/examples/media/audio.html' },
-           { name:'Image', href:'/examples/media/image.html' },
-		   { name:'Video', href:'/examples/media/video.html' }]
-});
-
-
-new XR.Dropdown({
-	position:[2,0,0],
-  options:[{ name:'Physics', href:'/examples/physics/index.html' },
-		   { name:'Animate', href:'/examples/animate/index.html' },
-		   { name:'More',     href:'/examples/media/index.html' }]
-});
-new XR.Dropdown({
-	position:[-2,0,0],
-	options:[
-			 { name:'Sky',   href:'/examples/objects/sky/' ,  action: myAction },
-			 { name:'Fog',   href:'/examples/objects/fog/',   action: myAction },
-			 { name:'Light', href:'/examples/objects/light/', action: myAction }
-	]
-});*/
-function dropdownAction(e, href){
-console.log(href)
-if(href){
-
-// location.href = href;
-// window.location.replace(href)
-}
-console.log(e);
-//// for demo
-// var menuBox, menuSphere, menuCylinder;
-
-switch( e ) {
-case 'box':      gr.add( menuBox );      gr.remove(menuCylinder); gr.remove( menuSphere );  break;
-case 'sphere':   gr.add( menuSphere );   gr.remove( menuBox );    gr.remove( menuCylinder); break;
-case 'cylinder': gr.add( menuCylinder ); gr.remove( menuBox );    gr.remove( menuSphere );  break;
-}
-}
-function myAction(e){
-	
-window.location.replace(e);
-////
-//	console.log(e)
-}
-
-new XR.Menu();
-
-var controller = new XR.Gamepad();
-
-
-//var leftController = new XR.Gamepad();
-var pointer = new XR.Pointer({
-	
-	bind: controller.right
-});
-
-setTimeout(function(){
-	controller.vibrate(0.2, 20);
-	//controller.(1,40)
-}, 5020);
-
-
-new XR.Light({
-
-});
 </script>
 	</body>
 </html>

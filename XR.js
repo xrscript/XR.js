@@ -128,6 +128,7 @@ let mixerDAE;
 raycaster = new THREE.Raycaster();
 var clock = new THREE.Clock();
 var audioLoader = new THREE.AudioLoader();
+var ground_material, car_material, wheel_material, wheel_geometry, ground, car = {};
 
 //mirror
 var mirror = false;
@@ -205,11 +206,10 @@ export class Reality {
 		//TWEEN.start();
 		var look = options.lookAt || [0,2,1]// || null
 		if(look.length){
-			camera.lookAt(new THREE.Vector3(...look));
+			//camera.lookAt(new THREE.Vector3(...look));
 			//	controls.target.set( ...options.lookAt);
 		}
 		//camera.position.set( 0, 2, 5 );
-		//camera.lookAt(new THREE.Vector3(0,1,0));
 		
 		//camera.lookAt(new THREE.Vector3(...look));
 		//return scene
@@ -349,54 +349,24 @@ export class Grab {
 			grabTime = 0
 			grabStartTime = +new Date();
 			grabbing = true
-		//	console.log('grrraab')
 			panoSphereMat.wireframe = false
-			//const p = guidingController.getWorldPosition(tempVecP);  // controller position
-			//const v = guidingController.getWorldDirection(tempVecV); // controller direction
-			
 			// update the picking ray with the camera and mouse position
 			var direction = sphere.getWorldDirection(controllerGrabStartRotation);
 			var position = sphere.getWorldPosition(controllerGrabStartPosition);
 			//console.log(direction)
 			GrabRaycaster.set( position, direction );
-			// Draw a line from pointA in the given direction at distance 100
-		/*	   var pointA = new THREE.Vector3(controllerGrabPosition );
-			   var direction = new THREE.Vector3(controllerGrabVector );
-			   direction.normalize();
 
-			   var distance = 100; // at what distance to determine pointB
-
-			   var pointB = new THREE.Vector3();
-			   pointB.addVectors ( pointA, direction.multiplyScalar( distance ) );
-
-			   var geometry = new THREE.Geometry();
-			   geometry.vertices.push( pointA );
-			   geometry.vertices.push( pointB );
-			   var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-			   var line = new THREE.Line( geometry, material );
-			   scene.add( line );
-		 */
-				// calculate objects intersecting the picking ray
-			//var object = scene.getObjectById( 4, true );
-			
 			scene.traverse(function(child) {
 			  if (child.type === "Mesh") {
-				  
 				  if(child.name != 'controller' && child.name != 'floor'){
-					  console.log(intersecto)
 					  intersecto = GrabRaycaster.intersectObject(child );
 					  grabbingObject = intersecto
-					  console.log(grabbingObject)
-					  // console.log(scene.children)
-					  // console.log(intersecto)
 					  if (intersecto[0]){
 						  var direction = intersecto[0].object.getWorldDirection(intersectingObjectDirection);
 						  var position  = intersecto[0].object.getWorldPosition(intersectingObjectPosition);
 						  //  intersecto[0].object.material.color.set( 0xff0000 );
 					  }
 				  }
-			//	  console.log('mesh')
-				//child.material = ClassMaterial; //apply same material to all meshes
 			  }
 			});
 		});
@@ -484,23 +454,46 @@ export class Controls {
 		if(!options){options={}}
 		controls = new OrbitControls( camera, renderer.domElement);
 		//controls.damping = 0.2;
-		//this.minDistance = 0;
-		this.maxDistance = 100;
-		var position = options.position || [0,2,0]
+		controls.minDistance = 0;
+		controls.maxDistance = 100;
+		var position = options.position || [0,1,0]
 		// controls.target.set( 0, 0,  0 );
-		controls.update();
-		// controls.screenSpacePanning = true;
-		controls.enableKeys = false;
-		controls.maxPolarAngle = (Math.PI/ 2) - 0.1;
-		camera.position.set( ...position );
-		//camera.lookAt( 0, 30, 0 );
+	//	controls.update();
+controls.screenSpacePanning = false;
+controls.enableKeys = false;
+		//controls.enableZoom = false;
+		controls.maxPolarAngle = Infinity
+		//camera.position0.set( ...position );
+		camera.position.set( 0, 2, 0 );
+		//camera.lookAt( 0, 0, 0 );
 		//controls.target.set( 0, 2,0 );
-		camera.scale.set(1, 1, 1)
-		controls.enableDamping = true;
-		controls.dampingFactor = 0.05;
-		//controls.addEventListener( 'change', render );
+		//camera.scale.set(1, 1, 1)
+		//controls.enableDamping = true;
+		//controls.dampingFactor = 0.05;
+		if(car[0]){
+		controls.addEventListener( 'change', moveOrbit );
+		}
+		//controls.enabled = false;
+		camera.lookAt(new THREE.Vector3(0,1.5,-2));
+		controls.target.set(0,1.5,-2);controls.update();
 	}
 }
+function moveOrbit(){
+	console.log('asdf')
+	//controls.lookAt(dolly.getWorldPosition(dollyPostion))
+	//controls.position.set(dolly.getWorldPosition(dollyPostion))
+	//camera.getWorldPosition(dollyPostion)
+	if(dollyPostion){
+	var sdfg = dolly.getWorldPosition(dollyPostion)
+	console.log(dolly.getWorldPosition(dollyPostion))
+	controls.target = dolly.getWorldPosition(dollyPostion)
+		//controls.position0.set( ...position );
+
+	//	controls.update();//	camera.position.set(  0,8,0 )
+	}
+	//	camera.position.set( 0,8,0 );
+}
+
 let floorMat;
 // Floormat
 export class Floormat {
@@ -559,8 +552,8 @@ export class Floor {
 		this._name 		= options.name 		|| 'floor';
 		this._map 		= options.map 		|| null;
 		this._material 	= options.material 	|| 'standard';
-		this._bounce 	= options.bounce 	|| 0.2;
-		this._friction 	= options.friction 	|| 0.2;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
 		var o = this._opacity;
 		var s = this._size;
 		var c = this._color;
@@ -582,15 +575,14 @@ export class Floor {
 		//ground.receiveShadow = true;
 		//scene.add( ground );
 		
-		var geo =  new THREE.PlaneGeometry(this._scale[0], this._scale[1])
-		floor = new Physijs.PlaneMesh(geo, ground_material, 0		);
+		floor = new Physijs.BoxMesh(new THREE.BoxGeometry(this._scale[0],this._scale[1],0.1), ground_material, 0		);
 		
 		//var geo =  new THREE.BoxGeometry(this._scale[0], this._scale[1])
 		//floor = new Physijs.BoxMesh(geo, ground_material, 0		);
 		
 		floor.rotation.x = -Math.PI / 2;
 		//floor.position.x = 0;
-		floor.position.y = 0.0;
+		floor.position.y = 0;
 		scene.add(floor);
 		floor.color = c;
 		floor.receiveShadow = true;
@@ -676,13 +668,19 @@ export class Player {
 	constructor (options) {
 		if(!options){options={}}
 		
-		var  thematerial = Physijs.createMaterial( new THREE.MeshBasicMaterial({ color:'white', opacity:0.0, transparent:true}), 1, 0, 1000)
+		var  thematerial = Physijs.createMaterial( new THREE.MeshBasicMaterial({ color:'white', opacity:0, transparent:true, side:THREE.FrontSide}), 1, 0, 1000)
 		//dolly = new THREE.Group();
-		
-		if(floor){ dolly = new Physijs.BoxMesh(new THREE.BoxGeometry( 2, 0.01, 2 ),thematerial ); }
-		else     { dolly = new THREE.Mesh(new THREE.BoxGeometry( 2, 0.01, 2 ),thematerial ); }
-		dolly.position.set( 0, 0.01, 1 );
-
+		// console.log(scene)
+		//if(floor){
+			dolly = new Physijs.PlaneMesh(new THREE.PlaneGeometry( 2, 0.1, 2 ),thematerial );
+			
+		//}
+		//else     {
+			//dolly = new THREE.Mesh(new THREE.PlaneGeometry( 2, 0.01, 2 ),thematerial );
+			
+		//}
+		dolly.position.set( 0, 0.01, 20 );
+		dolly.__dirtyPosition = true;
 		if(options.position){
 			var p = options.position
 			dolly.position.set( p[0],0,p[2] );
@@ -690,7 +688,7 @@ export class Player {
 		
 		dolly.add( camera );
 		scene.add( dolly );
-		//dolly.position.set( 0,8,0 );
+		//camera.position.set( 0,8,0 );
 
 		scene.add(cameraGroup);
 		var ground_material = Physijs.createMaterial( new THREE.MeshStandardMaterial(),
@@ -722,13 +720,8 @@ export class Overlay {
 	}
 			
 			text(e){
-				//console.log(this.object)
-				//console.log(e)
-				//console.log(this)
-				//console.log(overlays)
 				camera.remove(this.object)
 				overlays.forEach(function(model, i) {
-					//console.log(model,i)
 					camera.remove(overlays[i]);
 				});
 				newText(this._font, e, this._size)
@@ -759,8 +752,6 @@ function newText(thefont,text,size){
 			opacity:1
 		});
 		overlaytext = new THREE.Mesh( textGeo, material );
-		//text.castShadow 	= true;
-		//text.receiveShadow 	= false;
 		
 		// if 'href' exists, make it clickable
 		if (overlaytext.href){ mainmenu.add(overlaytext); }
@@ -773,56 +764,8 @@ function newText(thefont,text,size){
 	});
 	return thetextobj;
 }
-var	chair_material,ground_material,ground
-var spawnChair
-// Chairs
-export class Chairs {
-	constructor (options) {
-		loader = new THREE.TextureLoader();
-		chair_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }),.6,.9);
-		chair_material.map.wrapS = chair_material.map.wrapT = THREE.RepeatWrapping;
-		chair_material.map.repeat.set( .25, .25 );
-		spawnChair();
-	}
-}
 
-spawnChair = (function() {
-	var buildBack, buildLegs, doSpawn;
-	
-	buildBack = function() {
-		var back, _object;
-		   back = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, .5 ),chair_material);back.position.y = 5;back.position.z = -2.5;back.castShadow = true;back.receiveShadow = true;// rungs - relative to back
-		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = -2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
-		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
-		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = 2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
-		return back;
-	};
-	buildLegs = function() {
-		var leg, _leg;
-		 leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);leg.position.x = 2.25;  leg.position.z = -2.25; leg.position.y    = -2.5; leg.castShadow = true;leg.receiveShadow = true;// back left
-		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.x = -4.5;_leg.castShadow = true; _leg.receiveShadow = true; leg.add( _leg );// front left - relative to back left le
-		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.z = 4.5; _leg.castShadow = true; _leg.receiveShadow = true; leg.add( _leg ); // front left - relative to back left leg
-		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.x = -4.5;_leg.position.z = 4.5;  _leg.castShadow    = true;_leg.receiveShadow = true;leg.add( _leg );  // front right - relative to back left leg
-		return leg;
-	};
-	
-	doSpawn = function() {
-		var chair;
-		// seat of the chair
-		chair = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, 5 ),chair_material);
-		chair.castShadow = true;
-		chair.receiveShadow = true;
-		chair.add( buildBack() ); // back - relative to chair ( seat )
-		chair.add( buildLegs() ); // legs - relative to chair ( seat )
-		chair.position.set(Math.random() * 50 - 25, 100, Math.random() * 50 - 25);
-		chair.rotation.set(Math.random() * Math.PI * 2,Math.random() * Math.PI * 2,Math.random() * Math.PI * 2);
-		chair.addEventListener( 'ready', spawnChair );
-		scene.add( chair );
-	};
-	
-	return function() {setTimeout( doSpawn, 1000 );};
-})();
-
+								  
 // Gamepad
 export class Gamepad {
 	constructor (options) {
@@ -1068,10 +1011,10 @@ export class Camera {
 		if(!options){options={}}
 		this.fps 	= options.fps 	|| 60;
 		this.fov 	= options.fov 	|| 70;
-		this.near 	= options.near 	|| 0.01;
-		this.far 	= options.far 	|| 10000;
-		camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth /
-		window.innerHeight, this.near, this.far );
+		this.near 	= options.near 	|| 0.1;
+		this.far 	= options.far 	|| 200;
+		camera = new THREE.PerspectiveCamera( this.fov, window.innerWidth / window.innerHeight, this.near, this.far);
+		
 		this.object = camera;
 		objects.push(this);
 		//camera.position.y = 10;
@@ -1092,9 +1035,6 @@ export class Radial {
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics 	= options.physics 	|| true;
-		this._bounce 	= options.bounce 	|| 0.8;
-		this._friction 	= options.physics 	|| 0.3;
 		var numberOfOptions = options.options.length
 		var rot = this._rotation
 		
@@ -1131,9 +1071,9 @@ export class Triangle {
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._radius 	= options.radius 	|| false;
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var r = this._radius;
 		var o = options.opacity || 0;
@@ -1173,11 +1113,10 @@ export class Sphere {
 		this._material 	= options.material 	|| 'physical';
 		this._opacity 	= options.opacity 	|| 1;
 		this._map 		= options.map 		|| null;
-		this._physics 	= options.physics 	|| true;
-		this._bounce 	= options.bounce 	|| 1;
-		this._friction 	= options.friction 	|| 1;
-		var p = this._physics;
-		//var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, true);
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
+		var p = this._physics;		//var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, true);
 		var messh
 		var rot = this._rotation;
 		var scale = this._scale
@@ -1350,7 +1289,14 @@ export class Animate {
 		
 		// color
 		if (options.color  != null){
-			var col = new THREE.Color(options.color);
+			
+			var col
+			if(typeof options.color === 'object'){
+				col = options.color
+			} else {
+				col = new THREE.Color(options.color);
+			}
+
 			
 			new TWEEN.Tween(targetObject.material.color)
 			.to({r:col.r,g:col.g,b:col.b,},dur)
@@ -1518,11 +1464,10 @@ export class Tetrahedron {
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics	= options.physics	|| true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
-		
 		material =  getMaterial({
 			type	: this._material,
 			combine: 		THREE.MixOperation,
@@ -1580,9 +1525,7 @@ export class Box {
 	constructor (options) {
 		if(!options){options={}}
 		this._blend 	= options.blend		|| "normal";
-		this._bounce	= options.bounce 	|| 0.5;
 		this._color 	= options.color 	|| 0xffffff;
-		this._friction 	= options.physics 	|| 0.3;
 		this._helper 	= options.helper 	|| false;
 		this._material 	= options.material 	|| "standard";
 		this._map 		= options.map 		|| null;
@@ -1593,6 +1536,8 @@ export class Box {
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._scale 	= options.scale 	|| 1;
 		this._side 		= options.side 		|| 2;
+		this._bounce	= options.bounce 	|| 0.5;
+		this._friction 	= options.friction 	|| 0.5;
 		
 		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
@@ -1781,9 +1726,7 @@ export class Cube extends Geometry {
 		if(!options){options={}}
 		super(options);
 		this._blend 	= options.blend		|| "normal";
-		this._bounce	= options.bounce 	|| 0.5;
 		this._color 	= options.color 	|| 0xffffff;
-		this._friction 	= options.physics 	|| 0.3;
 		this._helper 	= options.helper 	|| false;
 		this._material 	= options.material 	|| "standard";
 		this._map 		= options.map 		|| null;
@@ -1794,7 +1737,9 @@ export class Cube extends Geometry {
 		this._rotation	= options.rotation	|| [0,0,0];
 		this._scale 	= options.scale 	|| 1;
 		this._side 		= options.side 		|| 2;
-		
+		this._bounce	= options.bounce 	|| 0.5;
+		this._friction 	= options.friction 	|| 0.5;
+
 		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 
@@ -1839,8 +1784,8 @@ export class Octahedron extends Geometry{
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
 		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		
@@ -1896,12 +1841,11 @@ export class Dodecahedron {
 	   this._material 	= options.material 	|| "standard";
 	   this._reflect 	= options.reflect 	|| 1;
 	   this._helper 	= options.helper 	|| false;
-	   this._physics 	= options.physics 	|| true;
-	   this._bounce 	= options.bounce 	|| 0.8;
-	   this._friction 	= options.physics 	|| 0.3;
+	   this._bounce		= options.bounce	|| 0.5;
+	   this._friction	= options.friction	|| 0.5;
 	   
+	   if(options.physics == false){this._physics = false} else {this._physics = true}
 	   var p = this._physics;
-	   
 	   //var thematerial =  getMaterial(this._material,this._color,this._blend)
 	   // material = thematerial;
 	   // geometry = new THREE.ConeGeometry( this._height, this._radius, 32 );
@@ -1955,11 +1899,10 @@ export class Icosahedron {
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics 	= options.physics 	|| true;
-		this._bounce 	= options.bounce 	|| 0.8;
-		this._friction 	= options.physics 	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
-		
 		material =  getMaterial({
 			type		: this._material,
 			combine		: THREE.MixOperation,
@@ -1972,9 +1915,7 @@ export class Icosahedron {
 			opacity		: this._opacity,
 			wireframe	: false,
 			map			: this._map,
-		position:this._position,
-
-
+			position	: this._position,
 			//flatShading:	true
 		});
 		var geometry = new THREE.IcosahedronGeometry(s, s, s);
@@ -1986,9 +1927,8 @@ export class Icosahedron {
 		box.castShadow = true;
 		
 		this.object = box;
-		var pos = this._position;
-		box.position.set(...pos);
 		
+		box.position.set(...this._position);
 		box.rotation.set(...this._rotation)
 
 		var s = this._scale;
@@ -2016,11 +1956,10 @@ export class Torus {
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics 	= options.physics 	|| true;
-		this._bounce 	= options.bounce 	|| 0.8;
-		this._friction 	= options.physics 	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
-		
 		var s = options.segments || [8,6]
 		material = new THREE.MeshLambertMaterial ({
 			combine: 		THREE.MixOperation,
@@ -2049,7 +1988,8 @@ export class Torus {
 		var s = this._scale;
 		if (s.length){ box.scale.set(...s ); }
 		else 		 { box.scale.set(s,s,s); }
-		objects.push(this.object);this.object = box;
+		objects.push(this.object);
+		this.object = box;
 		scene.add(box);
 	}
 }
@@ -2070,10 +2010,10 @@ export class TorusKnot {
 		this._material 	= options.material 	|| "standard";
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
-		this._physics	= options.physics	|| true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
 		
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var s = options.segments || [8,6]
 		var w = options.wind || [3,2]
@@ -2135,10 +2075,10 @@ export class Cylinder {
 		this._cap 		= options.cap		|| false;
 		this._cap = !this._cap;
 		var geometry = new THREE.CylinderGeometry( this._radius[0],this._radius[1], this._height, 32, 1, this._cap);
-		this._physics = options.physics || true;
-		this._bounce = options.bounce || 0.8;
-		this._friction = options.physics || 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
 		
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var obj = new THREE.Group();
 		var rot = this._rotation;
@@ -2181,12 +2121,7 @@ meshOuter.add(meshInner);
 		meshOuter.rotation.set(...this._rotation)
 		meshOuter.castShadow 	= true;
 		meshInner.castShadow 	= true;
-		
-
 		scene.add(meshOuter);
-		
-		//meshOuter.receiveShadow 	= false;
-		//spawnBox()
 	}
 }
 				 
@@ -2204,10 +2139,10 @@ export class Cone {
 		this._height 	= options.height 	|| 1;
 		this._opacity 	= options.opacity 	|| 1;
 		this._map 		= options.map 		|| null;
-		this._physics	= options.physics	|| true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
 		
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var pos = this._position
 
@@ -2261,9 +2196,9 @@ export class Circle {
 		this._reflect 	= options.reflect 	|| 1;
 		this._helper 	= options.helper 	|| false;
 		this._radius 	= options.radius 	|| false;
-		this._physics	= options.physics	|| true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var r = this._radius;
 		var o = options.opacity || 0;
@@ -2304,9 +2239,9 @@ export class Plane {
 		this._href		= options.href		|| null;
 		this._name		= options.name		|| 'myname';
 		this._at		= options.at		|| scene;
-		this._physics	= options.physics	||true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var c = this._color
 	
@@ -2366,9 +2301,9 @@ export class Ring {
 		this._position	= options.position	|| [0,0,0];
 		this._opacity	= options.opacity	|| 1;
 		this._radius	= options.radius	|| [0.5,1];
-		this._physics	= options.physics	|| true;
-		this._bounce	= options.bounce	|| 0.8;
-		this._friction	= options.physics	|| 0.3;
+		this._bounce	= options.bounce	|| 0.5;
+		this._friction	= options.friction	|| 0.5;
+		if(options.physics == false){this._physics = false} else {this._physics = true}
 		var p = this._physics;
 		var r = this._radius
 		var c = this._color
@@ -2997,8 +2932,8 @@ export class Fog {
 	constructor (options) {
 		if(!options){options={}}
 		this._color = options.color || 0xFFFFFF;
-		this._near	= options.near	|| 1;
-		this._far 	= options.far	|| 1000;
+		this._near	= options.near	|| 0.1;
+		this._far 	= options.far	|| 200;
 		scene.fog = new THREE.Fog(this._color, this._near, this._far);
 		scene.background = new THREE.Color(this._color);
 	}
@@ -3281,7 +3216,7 @@ function render(timeNow, frame ) {
 	if (animationOn){ TWEEN.update(); }
 			
 	// mirror stuff (update every 60 frames)
-		if(tick % 60 == 0 && mirror){
+		if(tick % 20 == 0 && mirror){
 			mirrorCameras.forEach( function ( cam,i ) {
 				cam.position.copy( mirrorObjects[i].position);
 				cam.update( renderer, scene );
@@ -3401,16 +3336,17 @@ var getMaterial = function(options){
 	// type,color,blend
 	if(!options){options={}}
 
-	var c 		= options.color 	|| 0xFFFFFF;
-	var r 		= options.reflect 	|| 1;
-	var w 		= options.wireframe || false;
-	var o 		= options.opacity 	|| 1;
-	var m 		= options.metalness || 1;
-	var asdf 	= options.map;
-	var repeat 	= options.repeat || [1,1];
-	var bumpScale = options.bumpScale || 0
-	var bumpMap = options.bumpMap || null
-	var alphaMap = options.alphaMap || null
+	var c 			= options.color 	|| 0xFFFFFF;
+	var r 			= options.reflect 	|| 1;
+	var w 			= options.wireframe || false;
+	var o 			= options.opacity 	|| 1;
+	var m 			= options.metalness || 1;
+	var asdf 		= options.map;
+	var repeat 		= options.repeat || [1,1];
+	var bumpScale 	= options.bumpScale || 0
+	var bumpMap 	= options.bumpMap || null
+	var alphaMap 	= options.alphaMap || null
+	var displacementMap = options.displacementMap || null;
 	var pos = options.position || null
 	var params;
 	// console.log(bumpMap)
@@ -3451,7 +3387,8 @@ var getMaterial = function(options){
 	
 	if(bumpMap){ params.bumpMap =  new THREE.TextureLoader().load(bumpMap); params.bumpScale = bumpScale; }
 	if(alphaMap){ params.alphaMap = new THREE.TextureLoader().load(alphaMap); }
-			
+	if(displacementMap){ params.displacementMap = new THREE.TextureLoader().load(displacementMap); }
+
 	switch(options.type){
 		case "basic"	: return new THREE.MeshBasicMaterial(params);    break;
 		case "depth"	: return new THREE.MeshDepthMaterial(params);    break;
@@ -3603,73 +3540,15 @@ function movePlayer(e){
 	//dolly.__dirtyPosition = true;
 }
 
-// Globe
-export class Globe {
-	constructor (options) {
-		var earth = new THREE.Mesh(
-			new THREE.SphereGeometry(0.4, 34, 34),
-			new THREE.MeshPhongMaterial({
-				map 		: new THREE.TextureLoader().load('/assets/textures/earth/earthmap1k.jpg'),
-				specularMap	: new THREE.TextureLoader().load('/assets/textures/earth/earthspec1k.jpg'),
-				bumpMap		: new THREE.TextureLoader().load('/assets/textures/earth/earthbump1k.jpg'),
-				bumpScale: 0.6,
-				//	alphaMap: THREE.ImageUtils.loadTexture(alphaMap),
-			})
-		);
-		var clouds = new THREE.Mesh(
-		new THREE.SphereGeometry(0.41, 34, 34),
-		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('/assets/textures/earth/fair_clouds_4k.png'),
-			//alphaMap	: new THREE.TextureLoader().load('/assets/textures/earth/earthcloudmaptrans.jpg'),
-			//	bumpScale: bumpScale,
-			//	bumpMap	: bumpMap,
-			//	bumpScale: 0.6,
-			//	alphaMap: THREE.ImageUtils.loadTexture(alphaMap),
-			opacity:0.8,
-			transparent:true
-		}));
-				
-		// marker object
-		var pointerr = new THREE.Mesh(
-		new THREE.CylinderGeometry(.02, 0, .10),
-		new THREE.MeshPhongMaterial({color: 0xcc9900}));
-		pointerr.position.set(0.45, 0, 0); // rotating obj should set (X > 0, 0, 0)
-		pointerr.quaternion.setFromUnitVectors(
-		new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
-		var marker = new THREE.Object3D();
-		marker.add(pointerr);
-
-	// setup scene
-	var obje = new THREE.Object3D();
-	obje.add(marker);
-	obje.add(clouds);
-	obje.add(earth);
-	//var scene = new THREE.Scene();
-	scene.add(obje);
-	// [initial position] rotate by lat/long
-	// For ball is at (X,0,0), the lat rotation should be around Z axis
-	var rad = Math.PI / 180;
-	marker.quaternion.setFromEuler(
-		new THREE.Euler(0, 135 * rad, 45 * rad, "YZX"));
-
-	// from geolocation API
-		navigator.geolocation.getCurrentPosition(function (poso) {
-			var lat = poso.coords.latitude, lon = poso.coords.longitude;
-			console.log(lat,lon)
-			marker.quaternion.setFromEuler(new THREE.Euler(0, lon * rad, lat * rad, "YZX"));
-		});
-		this.object = obje;
-	}
-	
-}
-
+// window resize listener
 window.addEventListener( 'resize', onWindowResize, false );
-
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
+
+
 var moveForward,moveLeft,moveBackward,moveRight;
 
 // Locomotion
@@ -3976,7 +3855,10 @@ export class Sky {
 		}
 	}
 }
-				
+
+
+// ========== Media ========== //
+
 const audioSelect = document.querySelector("select#audioSource");
 const videoSelect = document.querySelector("select#videoSource");
 var videomesh
@@ -4140,175 +4022,8 @@ function newRatio(q,w){
 	// videomesh.position.set(...po);
 	// videomesh.rotation.set(...ro);
 }
-					  
-export class Button {
-	constructor(options){
-		if(!options){options={}}
-		this._pos = options.position || [0,3,0],
-		this._scale = options.scale || [1,0.29],
-		this._color = options.color ||'black'
-		this._background = options.background || 'grey'
-		this._opacity = options.opacity || 1
-		this._fontSize = options.fontSize || 0.3
-		this._fontColor = options.fontColor || 'black'
-		this._hover = options.hover || 'green'
 
-		var ps =  this._pos
-		var ac = options.action
-		new Plane({
-			color:this._color,
-			//  scale:[1,0.4],
-			position:ps,
-			color:this._background,
-			scale:this._scale,
-			at:mainmenu,
-			action:ac,
-			name: options.name,
-			opacity:this._opacity,
-			hover:this._hover
-		});
-		new Text({ size:this._fontSize, color:this._color,position:[ps[0],(ps[1]-(this._fontSize * 0.4)),ps[2]], text:options.text, material:'basic' })
-	}
-}
-
-export class Splash {
-	constructor(options){
-		
-	this.length =	options.length  || 1000
-		//new Light({position:[0,0,5]})
-		//new Light({position:[3,0,-5]})
-		//delete3DOBJ('floor');
-		if(!options){options={}}
-		this._text 		= options.text		|| 'hello';
-		this._position 	= options.position 	|| [0,0,0];
-		this._rotation 	= options.rotation 	|| [0,0,0];
-		this._scale 	= options.scale		|| 0.01;
-		var t = this._text
-		var s = this._scale
-		var p = this._position
-		var r = this._rotation
-		var thick = options.thickness
-		scene.background = new THREE.Color( '#000000');
-
-		var options = {
-			text:t,size: 1,
-			thickness:thick,
-			font:'/assets/fonts/helvetiker_bold.json',
-			position:p,
-			rotation:r,
-			bevel:true,
-			href:'https://github.com/xrscript',
-			name:'Splash',
-			opacity:0,
-			transparent:true,
-			color:'red'
-			//font:'/assets/fonts/Opus_Regular.json'
-		}
-
-		//function delete3DOBJ(objName){
-		//	var selectedObject = scene.getObjectByName(objName);
-		/////	scene.remove( selectedObject );
-		//}
-		
-		var dfgs = new Text(options);
-		this.object = dfgs
-		
-		
-		//new TWEEN.Tween( dfgs.background ).to( {r:7,g:7,b:7}, 20 ).start();
-		var col = new THREE.Color('#000000');
-		//TweenLite.to(dfgs._at.background, 5, { r: col.r, g: col.g,b: col.b });
-		//var targetPosition = new THREE.Vector3( 10, 10, 10 );
-		//var duration = 500;
-			var targetPosition = new THREE.Vector3( 1, 1, 2 );
-			var duration = 3000;
-			tweenCamera( targetPosition, duration );
-		setTimeout(function(){
-			var targetPosition = new THREE.Vector3( -1, 1, 2 );
-			var duration = 10000;
-			tweenCamera( targetPosition, duration );
-			//	new TWEEN.Tween(camera.position).to(t, 6).start();
-			//	new TWEEN.Tween( targetObject.material ).to( t, dur ).start();
-			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:1,  }, 100).start();
-			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:0}, 1040).to( {scale:0}, 1000).start();
-			//  console.log(scene.getObjectByName('Splash'))
-			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {scale:0}, 1000).start();
-			//  new TWEEN.Tween(scene.getObjectByName('Splash').position).to({scale:0}, 6000).repeat( r ).yoyo(true).start();
-			//  new TWEEN.Tween(  scene.getObjectByName('Splash').scale ).to( {  y:   1.5}, 1000 ).easing( TWEEN.Easing.Quadratic.EaseOut).start();
-			var col = new THREE.Color('#ffffff');
-			//TweenLite.to(dfgs._at.background, 20, { r: col.r, g: col.g, b: col.b, }); }, 3099);
-		},78);
-	}
-}
-
-function tweenCamera( targetPosition, duration ) {
-   controls.enabled = false;
-   var position = new THREE.Vector3().copy( camera.position );
-   var tween = new TWEEN.Tween( position ).to( targetPosition, duration ) .easing( TWEEN.Easing.Cubic.InOut) .onUpdate( function () { camera.position.copy( position ); camera.lookAt( controls.target ); } )
-	   .onComplete( function () {
-		   camera.position.copy( targetPosition );
-		   camera.lookAt( controls.target );
-		   controls.enabled = true;
-	   })
-	   .start();
-}
-
-export class Dropdown {
-	constructor(options){
-		if(!options){options={}}
-		console.log(options.options);
-		var o = options.options
-		//const group = new THREE.Group();
-		this._pos = options.position || [0,0,0]
-		this._rot = options.rotation || [0,0,0]
-		this._color = options.color || 'black'
-		this._opacity = options.opacity || 1
-		var ps =  this._pos
-		// example
-		var menuItems = o;
-		var fontSize = options.fontSize || 0.2
-		var sdfg = this._pos;
-		var sdfg1 = this._rot;
-		//mainmenu.add(group)
-		//group.position.set(...this._pos)
-		//mainmenu.rotation.set(...this._rot)
-		var oui = this._opacity
-		menuItems.forEach(function(e, i) { createMenu(e,i,sdfg,sdfg1, ps,fontSize,oui); });
-		/*function dropdownAction(e, href){
-		console.log(e)
-		//if(href){location.href = href; window.location.replace(href)}
-		*/
-	}
-}
-			
-
-export class ScreenRec {
-	constructor(options){
-
-	function newRatio(q,w){
-		var geometry = new THREE.IcosahedronGeometry(1, 6, 6);
-		var material = new THREE.MeshStandardMaterial( { roughness: 0 } );
-		var objectnk = new THREE.Mesh( geometry, material );
-		scene.add(objectnk);
-		objectnk.position.z += new THREE.Box3().setFromObject(objectnk).getSize().z * 0.5;
-		var sc = 1;
-		video = document.getElementById( 'video' );
-		videotexture = new THREE.Texture( video );
-		
-		// videotexture.wrapT = 512;
-		// videotexture.wrapS = 512;
-		videotexture.flipY = true;
-		videogeo = new THREE.PlaneGeometry(4,4,1,1)
-		videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
-		const material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
-		videomesh = new THREE.Mesh( videogeo, material1 );
-		scene.add( videomesh );
-		// videomesh.position.set(...po);
-		// videomesh.rotation.set(...ro);
-		}
-	}
-}
-var centerOffset1;
-						 
+// SVG
 export class SVG {
 	constructor(options){
 		if(!options){options={}}
@@ -4384,7 +4099,37 @@ export class SVG {
 		}
 	}
 }
-							  
+
+export class ScreenRec {
+	constructor(options){
+
+	function newRatio(q,w){
+		var geometry = new THREE.IcosahedronGeometry(1, 6, 6);
+		var material = new THREE.MeshStandardMaterial( { roughness: 0 } );
+		var objectnk = new THREE.Mesh( geometry, material );
+		scene.add(objectnk);
+		objectnk.position.z += new THREE.Box3().setFromObject(objectnk).getSize().z * 0.5;
+		var sc = 1;
+		video = document.getElementById( 'video' );
+		videotexture = new THREE.Texture( video );
+		
+		// videotexture.wrapT = 512;
+		// videotexture.wrapS = 512;
+		videotexture.flipY = true;
+		videogeo = new THREE.PlaneGeometry(4,4,1,1)
+		videogeo.scale(1* sc,(video.videoHeight / video.videoWidth)* sc,1 );
+		const material1 = new THREE.MeshBasicMaterial( { map: videotexture, side:2 } );
+		videomesh = new THREE.Mesh( videogeo, material1 );
+		scene.add( videomesh );
+		// videomesh.position.set(...po);
+		// videomesh.rotation.set(...ro);
+		}
+	}
+}
+var centerOffset1;
+	
+
+// Character
 var currentAction;
 var characters = []
 export class Character {
@@ -4636,17 +4381,17 @@ export class Model {
 	constructor (options) {
 		var model = this;
 		if(!options){options={}}
-		var file = options.file   || '/assets/models/beethoven.obj';
-		var scale = options.scale || [1,1,1];
+		var file = options.file		|| '/assets/models/beethoven.obj';
+		var scale = options.scale	|| [1,1,1];
 		if (!scale.length){ scale =[scale,scale,scale]; }
 		
-		var p = options.position || [0,0,0];
-		var r = options.rotation || [0,0,0];
-		var o = options.opacity || 1;
-		var c = options.color || 'white'
-		var mat = options.material || 'standard';
+		var p = options.position	|| [0,0,0];
+		var r = options.rotation	|| [0,0,0];
+		var o = options.opacity		|| 1;
+		var c = options.color		|| 'white'
+		var mat = options.material	|| 'standard';
 		var re = /(?:\.([^.]+))?$/;
-		var tex = options.textures || null;
+		var tex = options.textures	|| null;
 		
 		var castShadow = options.castShadow
 		console.log( castShadow)
@@ -4676,11 +4421,10 @@ export class Model {
 			}
 		}
 		else if (ext == 'fbx'){
-			let loader = new FBXLoader();
-			loader.load(file, callback, null, null, null );
+			new FBXLoader().load(file, callback, null, null, null );
 		}
 		else if (ext == 'md2'){
-			let loader = new FBXLoader();
+			let loader = new MD2Character();
 			loader.load(file, callback, null, null, null );
 		}
 		else if (ext == 'ply'){
@@ -4756,9 +4500,8 @@ export class Model {
 			   } );
 			   sf = vrm.scene
 			   scene.add(sf);
-			   sf.scale.x = scale[0];
-			   sf.scale.y = scale[1];
-			   sf.scale.z = scale[2];
+			   
+			   sf.scale.set( scale[0], scale[1],scale[2] );
 			   sf.rotation.set( r[0],r[1], r[2] );
 			   model.object = sf
 		   } );
@@ -4767,7 +4510,7 @@ export class Model {
 		// XYZ loader
 		else if (ext == 'xyz'){
 			const loader = new XYZLoader();
-			var points
+			var points;
 			loader.load( file, function ( geometry ) {
 				geometry.center();
 				const material = new THREE.PointsMaterial( { size: 0.1 } );
@@ -4806,8 +4549,6 @@ export class Model {
 					actions[ 0 ][ 'stand' ].play();
 				});
 				object = null;
-				
-			
 			}, onProgress, onError);
 			const animationSelection = document.getElementById( 'mech1_anime' );
 			animationSelection.addEventListener( 'change', mech1_changeAnime );
@@ -4815,24 +4556,21 @@ export class Model {
 
 		// AMF loader
 		else if (ext == 'amf'){
-			const loader = new AMFLoader();
-			loader.load( file, callback );
+			new AMFLoader().load( file, callback );
 		}
 
 		// 3DM loader
 		else if (ext == '3dm'){
 			const loader = new Rhino3dmLoader();
 			//	loader.setLibraryPath( '/assets/models/3dm/Rhino_Logo.3dm' );
-			loader.load( file, function ( object ) {
+			new Rhino3dmLoader().load( file, function ( object ) {
 				scene.add( object );
 				callback(object)
 			} );
 		}
 		// 3MF loader
 		else if (ext == '3mf'){
-			manager = new THREE.LoadingManager();
-			const loader = new ThreeMFLoader( manager );
-			loader.load( file,callback);
+			new ThreeMFLoader( new THREE.LoadingManager() ).load( file,callback);
 		}
 		// PCD File
 		else if (ext == 'pcd'){
@@ -4854,7 +4592,7 @@ export class Model {
 			);
 
 		}
-				// PDB File
+		// PDB File
 		else if (ext == 'pdb'){
 			// instantiate a loader
 			const loader = new PDBLoader();
@@ -4883,34 +4621,27 @@ export class Model {
 					 const color = new THREE.Color();
 
 					 for ( let i = 0; i < positions.count; i ++ ) {
-
 						 position.x = positions.getX( i );
 						 position.y = positions.getY( i );
 						 position.z = positions.getZ( i );
-
 						 color.r = colors.getX( i );
 						 color.g = colors.getY( i );
 						 color.b = colors.getZ( i );
 						 // console.log(positions)
 						 const material = new THREE.MeshPhongMaterial( { color: color } );
-
 						 const object = new THREE.Mesh( sphereGeometry, material );
 						 object.position.copy( position );
 						 object.position.multiplyScalar( 1 );
 						 object.scale.multiplyScalar( 1 );
 						 root.add( object );
-
 						 const atom = json.atoms[ i ];
-
 						 const text = document.createElement( 'div' );
 						 text.className = 'label';
 						 text.style.color = 'rgb(' + atom[ 3 ][ 0 ] + ',' + atom[ 3 ][ 1 ] + ',' + atom[ 3 ][ 2 ] + ')';
 						 text.textContent = atom[ 4 ];
-
 						 const label = new CSS2DObject( text );
 						 label.position.copy( object.position );
 						 root.add( label );
-
 					 }
 
 					 positions = geometryBonds.getAttribute( 'position' );
@@ -4944,22 +4675,12 @@ export class Model {
 			);
 		}
 		else if (ext == 'prwm'){
-			// instantiate a loader
-			let loader = new PRWMLoader();
-
-			// load a resource
-			loader.load( file,
-				// called when resource is loaded
-				function ( bufferGeometry ) {
-
+			new PRWMLoader().load( file, function ( bufferGeometry ) {
 					var math =  getMaterial({
 						type:mat,
 						color: c,
-						//	transparent:true,
 						opacity:o,
 						side: THREE.FrontSide,
-						//map:this._map,
-						//repeat: options.repeat
 					})
 					const object = new THREE.Mesh( bufferGeometry, math );
 					model.object = object
@@ -4978,22 +4699,17 @@ export class Model {
 			// ASCII file
 			const loader = new STLLoader();
 			loader.load(file, function ( geometry ) {
-			var material
-				console.log(geometry)
 				if ( geometry.hasColors )	{ material = new THREE.MeshPhongMaterial( { opacity: geometry.alpha, vertexColors: true } );	}
 				else 						{ material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } ); }
-
-			const mesh = new THREE.Mesh( geometry, material );
-			
+				
+				const mesh = new THREE.Mesh( geometry, material );
 				mesh.castShadow = castShadow;
 				mesh.receiveShadow = receiveShadow;
 				scene.add( mesh );
 				model.object = mesh
-				mesh.scale.x = scale[0]
-				mesh.scale.y = scale[1]
-				mesh.scale.z = scale[2]
-				mesh.position.set(p[0], p[1],p[2])
-				mesh.rotation.set(r[0],r[1],r[2])
+				mesh.scale.set(scale[0], scale[1],scale[2])
+				mesh.position.set(p[0], p[1], p[2])
+				mesh.rotation.set(r[0], r[1], r[2])
 			});
 
 		}
@@ -5011,10 +4727,8 @@ export class Model {
 					gltf.scenes;  // Array<THREE.Group>
 					gltf.cameras; // Array<THREE.Camera>
 					gltf.asset;   // Object
-					theGLFT.scale.x = scale[0];
-					theGLFT.scale.y = scale[1];
-					theGLFT.scale.z = scale[2];
-				
+				theGLFT.scale.set(scale[0], scale[1],scale[2]);
+
 					callback(theGLFT)
 				},
 				function (xhr)   { /* console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); */ },
@@ -5023,10 +4737,8 @@ export class Model {
 		}
 		// GLB loader
 		else if (ext == 'glb'){
-				const gltfLoader = new GLTFLoader();
-				gltfLoader.load( file, function ( gltf ) {
+			new GLTFLoader().load( file, function ( gltf ) {
 					const boomBox = gltf.scene;
-
 					boomBox.scale.set( scale[0], scale[1], scale[2] );
 					boomBox.traverse( function ( object ) {
 						if ( object.isMesh ) {
@@ -5035,14 +4747,12 @@ export class Model {
 						}
 					} );
 					scene.add(boomBox)
-					//callback(boomBox)
 					model.object = boomBox
 				} );
 		}
 		// DAE loader
 		else if (ext == 'dae'){
-			const loader = new ColladaLoader( loadingManager );
-			loader.load( file, function ( collada ) {
+			new ColladaLoader( loadingManager ).load( file, function ( collada ) {
 				sf = collada.scene;
 				var avatar = collada.scene;
 				let boxes = [];
@@ -5052,12 +4762,9 @@ export class Model {
 					mixerDAE = new THREE.AnimationMixer( avatar );
 					mixerDAE.clipAction( animations[ 0 ] ).play();
 				}
-				//console.log(sf);
-				sf.scale.x = scale[0]
-				sf.scale.y = scale[1]
-				sf.scale.z = scale[2]
-				sf.position.set(p[0], p[1],p[2])
-				sf.rotation.set(r[0],r[1],r[2])
+				sf.scale.set(scale[0], scale[1],scale[2])
+				sf.position.set(p[0], p[1], p[2])
+				sf.rotation.set(r[0], r[1], r[2])
 				sf.traverse( function ( child ) {
 					if ( child.isMesh ) {
 						child.castShadow = castShadow;
@@ -5068,10 +4775,10 @@ export class Model {
 			
 			});
 		}
+		
+		// model loader callback
 		function callback (e){
 			sf = e;
-			sf.position.set(p[0], p[1],p[2])
-			sf.rotation.set(r[0],r[1],r[2])
 			scene.add(sf);
 			if (scale.length)	{ sf.scale.set(...scale) }
 			else 				{ sf.scale.set(scale,scale,scale) }
@@ -5082,13 +4789,10 @@ export class Model {
 					child.castShadow = castShadow;
 					child.receiveShadow = receiveShadow;
 					if(child.material){
-						// console.log(child.material);
-						// if(child.material.color.r)
 						if(	child.material.color){child.material.color.set = c;}
 					}
 					if ( child instanceof THREE.Mesh ) {
-						//		child.material.map = texture;
-						//child.castShadow = castShadow;
+						//child.material.map = texture; child.castShadow = castShadow;
 					}
 				});
 			}
@@ -5097,11 +4801,10 @@ export class Model {
 				const action = mixerFBX.clipAction( sf.animations[ 0 ] );
 				action.play();
 			}
-			//position
+			
 			sf.position.set(p[0], p[1],p[2])
-			sf.rotation.set(r[0],r[1],r[2])
-
-
+			sf.position.set(p[0], p[1], p[2])
+			sf.rotation.set(r[0], r[1], r[2])
 			model.object = sf
 		}
 	}
@@ -5136,19 +4839,148 @@ function mech1_changeAnime( event ) {
 		} );
 	} );
 }
+
+// ========== User Interface ========== //
+			  
+export class Button {
+	constructor(options){
+		if(!options){options={}}
+		this._pos = options.position || [0,3,0],
+		this._scale = options.scale || [1,0.29],
+		this._color = options.color ||'black'
+		this._background = options.background || 'grey'
+		this._opacity = options.opacity || 1
+		this._fontSize = options.fontSize || 0.3
+		this._fontColor = options.fontColor || 'black'
+		this._hover = options.hover || 'green'
+
+		var ps =  this._pos
+		var ac = options.action
+		new Plane({
+			color:this._color,
+			//  scale:[1,0.4],
+			position:ps,
+			color:this._background,
+			scale:this._scale,
+			at:mainmenu,
+			action:ac,
+			name: options.name,
+			opacity:this._opacity,
+			hover:this._hover
+		});
+		new Text({ size:this._fontSize, color:this._color,position:[ps[0],(ps[1]-(this._fontSize * 0.4)),ps[2]], text:options.text, material:'basic' })
+	}
+}
+
+export class Dropdown {
+	constructor(options){
+		if(!options){options={}}
+		console.log(options.options);
+		var o = options.options
+		//const group = new THREE.Group();
+		this._pos = options.position || [0,0,0]
+		this._rot = options.rotation || [0,0,0]
+		this._color = options.color || 'black'
+		this._opacity = options.opacity || 1
+		var ps =  this._pos
+		// example
+		var menuItems = o;
+		var fontSize = options.fontSize || 0.2
+		var sdfg = this._pos;
+		var sdfg1 = this._rot;
+		//mainmenu.add(group)
+		//group.position.set(...this._pos)
+		//mainmenu.rotation.set(...this._rot)
+		var oui = this._opacity
+		menuItems.forEach(function(e, i) { createMenu(e,i,sdfg,sdfg1, ps,fontSize,oui); });
+		/*function dropdownAction(e, href){
+		console.log(e)
+		//if(href){location.href = href; window.location.replace(href)}
+		*/
+	}
+}
+	
+export class Splash {
+	constructor(options){
+		
+	this.length =	options.length  || 1000
+		scene.getObjectByName('floor')
+		if(!options){options={}}
+		this._text 		= options.text		|| 'hello';
+		this._position 	= options.position 	|| [0,0,0];
+		this._rotation 	= options.rotation 	|| [0,0,0];
+		this._scale 	= options.scale		|| 0.01;
+		var t = this._text
+		var s = this._scale
+		var p = this._position
+		var r = this._rotation
+		var thick = options.thickness
+		scene.background = new THREE.Color( '#000000');
+
+		var options = {
+			text:t,size: 1,
+			thickness:thick,
+			font:'/assets/fonts/helvetiker_bold.json',
+			position:p,
+			rotation:r,
+			bevel:true,
+			href:'https://github.com/xrscript',
+			name:'Splash',
+			opacity:0,
+			transparent:true,
+			color:'red'
+			//font:'/assets/fonts/Opus_Regular.json'
+		}
+
+		
+		var dfgs = new Text(options);
+		this.object = dfgs
+		
+		//new TWEEN.Tween( dfgs.background ).to( {r:7,g:7,b:7}, 20 ).start();
+		var col = new THREE.Color('#000000');
+			var targetPosition = new THREE.Vector3( 1, 1, 2 );
+			var duration = 3000;
+			tweenCamera( targetPosition, duration );
+		setTimeout(function(){
+			var targetPosition = new THREE.Vector3( -1, 1, 2 );
+			var duration = 10000;
+			tweenCamera( targetPosition, duration );
+			//	new TWEEN.Tween(camera.position).to(t, 6).start();
+			//	new TWEEN.Tween( targetObject.material ).to( t, dur ).start();
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:1,  }, 100).start();
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {opacity:0}, 1040).to( {scale:0}, 1000).start();
+			//	new TWEEN.Tween(  scene.getObjectByName('Splash').material ).to( {scale:0}, 1000).start();
+			//  new TWEEN.Tween(scene.getObjectByName('Splash').position).to({scale:0}, 6000).repeat( r ).yoyo(true).start();
+			//  new TWEEN.Tween(  scene.getObjectByName('Splash').scale ).to( {  y:   1.5}, 1000 ).easing( TWEEN.Easing.Quadratic.EaseOut).start();
+			var col = new THREE.Color('#ffffff');
+		},78);
+	}
+}
+
+function tweenCamera( targetPosition, duration ) {
+   controls.enabled = false;
+   var position = new THREE.Vector3().copy( camera.position );
+   var tween = new TWEEN.Tween( position ).to( targetPosition, duration ) .easing( TWEEN.Easing.Cubic.InOut) .onUpdate( function () { camera.position.copy( position ); camera.lookAt( controls.target ); } )
+	   .onComplete( function () {
+		   camera.position.copy( targetPosition );
+		   camera.lookAt( controls.target );
+		   controls.enabled = true;
+	   })
+	   .start();
+}
 // Text
 export class Text {
 	constructor (options) {
 		if(!options){options={}}
-		this._text	= options.text	|| 'XR.js';
-		this._color = options.color || 0xFFFFFF;
+		this._text		= options.text		|| 'XR.js';
+		this._color		= options.color		|| 0xFFFFFF;
 		this._specular 	= options.specular	|| 0xFFFFFF;
-		this._size	= options.size	|| 1;
-		this._thickness 	= options.thickness	|| 0.008;
-		this._opacity 	= options.opacity;
+		this._size		= options.size		|| 1;
+		this._thickness	= options.thickness	|| 0.008;
+		this._opacity	= options.opacity;
 		
 		if (this._opacity != undefined){ this._opacity = 1 }
-		this._font 	= options.font	|| '/assets/fonts/helvetiker_bold.json';
+		this._font		= options.font	|| '/assets/fonts/helvetiker_bold.json';
 		this._segments 	= options.segments	|| 12;
 		this._position 	= options.position	|| [0,0,0];
 		this._name 		= options.name 		|| null;
@@ -5207,10 +5039,52 @@ export class Text {
 				text.position.set(centerOffset + pos[0], pos[1],pos[2])
 				//text.name = this._name
 				//this.object = text
-				//objects.push(mesh);
 			});
 	}
 }
+
+											   
+
+// Slider
+export class Slider {
+	constructor (options) {
+		 
+		 var bullet = new THREE.BoxGeometry( 1, 1, 1 );
+		 
+		 var physijs_mesh_a, material;
+		 material = Physijs.createMaterial(new THREE.MeshLambertMaterial({ }),.2,.5);
+		 physijs_mesh_a = new Physijs.BoxMesh( bullet, material );
+		 scene.add( physijs_mesh_a );
+		 // var physijs_mesh_b;
+		 // physijs_mesh_b = new Physijs.BoxMesh( bullet, material,1);
+		 // hing.position.set(0,35,-3)
+		 //scene.add( physijs_mesh_b);
+		 var constraint = new Physijs.SliderConstraint(
+			 physijs_mesh_a, // First object to be constrained
+		//	 physijs_mesh_b, // OPTIONAL second object - if omitted then physijs_mesh_1
+			 new THREE.Vector3( 0, 10, 0 ), // point in the scene to apply the constraint
+			 new THREE.Vector3( 10, 0, 0 ) // Axis along which the hinge lies -
+										  // in this case it is the X axis
+		 );
+		 scene.addConstraint( constraint );
+		 constraint.setLimits(
+			 1,  // lower limit of linear movement,  expressed in world units
+			 10, // upper limit of linear movement,  expressed in world units
+			 0,  // lower limit of angular movement, expressed in radians
+			 0   // upper limit of angular movement, expressed in radians
+		 );
+		 //constraint.setRestitution(
+		 //	 linear, // amount of restitution when reaching the linear limits
+		 //	 angular // amount of restitution when reaching the angular limits
+		 //);
+		 // constraint.enableLinearMotor( target_velocity, acceration_force );
+		 // constraint.disableLinearMotor();
+		 // constraint.enableAngularMotor( target_velocity, acceration_force );
+		 // constraint.disableAngularMotor();
+	 }
+			 
+ }
+					
 
 // Expload
 export class Expload {
@@ -5258,47 +5132,8 @@ export class Hinge {
 	}
 			
 }
-// slider
- export class Slider {
-	 constructor (options) {
-		 
-		 var bullet = new THREE.BoxGeometry( 1, 1, 1 );
-		 
-		 var physijs_mesh_a, material;
-		 material = Physijs.createMaterial(new THREE.MeshLambertMaterial({ }),.2,.5);
-		 physijs_mesh_a = new Physijs.BoxMesh( bullet, material );
-		 scene.add( physijs_mesh_a );
-		 //var physijs_mesh_b;
-		 //physijs_mesh_b = new Physijs.BoxMesh( bullet, material,1);
-		 // hing.position.set(0,35,-3)
-		 //scene.add( physijs_mesh_b);
-		 var constraint = new Physijs.SliderConstraint(
-			 physijs_mesh_a, // First object to be constrained
-		//	 physijs_mesh_b, // OPTIONAL second object - if omitted then physijs_mesh_1
-			 new THREE.Vector3( 0, 10, 0 ), // point in the scene to apply the constraint
-			 new THREE.Vector3( 10, 0, 0 ) // Axis along which the hinge lies -
-										  // in this case it is the X axis
-		 );
-		 scene.addConstraint( constraint );
-		 constraint.setLimits(
-			 1,  // lower limit of linear movement,  expressed in world units
-			 10, // upper limit of linear movement,  expressed in world units
-			 0,  // lower limit of angular movement, expressed in radians
-			 0   // upper limit of angular movement, expressed in radians
-		 );
-		 //constraint.setRestitution(
-		//	 linear, // amount of restitution when reaching the linear limits
-		//	 angular // amount of restitution when reaching the angular limits
-		 //);
-		// constraint.enableLinearMotor( target_velocity, acceration_force );
-		// constraint.disableLinearMotor();
-		// constraint.enableAngularMotor( target_velocity, acceration_force );
-		// constraint.disableAngularMotor();
-	 }
-			 
- }
-					
-					
+
+
 var soundPlayer;
 var listener;var audioFile;
 // Audio
@@ -5603,7 +5438,6 @@ function handleError(error) { console.log(error); }
 			
 // ========== MISC ========== //
 // Car
-var ground_material, car_material, wheel_material, wheel_geometry, ground, car = {};
 export class Car {
 	constructor (options) {
 		
@@ -5615,9 +5449,9 @@ export class Car {
 		var carspeed = this._speed;
 		
 		loader = new THREE.TextureLoader();
-		car_material   = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._color }),1, .2 );
+		car_material   = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._color }), 0, .2 );
 		wheel_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ color: this._wheel }), 1, .5 );
-		wheel_geometry = new THREE.CylinderGeometry( 2, 2, 1, 10 );
+		wheel_geometry = new THREE.CylinderGeometry( 2, 2, 1, 8 );
 		car.body = new Physijs.BoxMesh( new THREE.BoxGeometry( 10, 3, 7 ), car_material, 100 );
 		car.body.position.y = 8;
 		// car.body.receiveShadow = ]
@@ -5631,8 +5465,8 @@ export class Car {
 		scene.add( car.wheel_fl );
 		car.wheel_fl_constraint = new Physijs.DOFConstraint( car.wheel_fl, car.body, new THREE.Vector3( -3.5, 6.5, 5 ) );
 		scene.addConstraint( car.wheel_fl_constraint );
-		car.wheel_fl_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
+		car.wheel_fl_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 1, z: 1 });
+		car.wheel_fl_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 1, z: 0 });
 
 		car.wheel_fr = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
 		car.wheel_fr.rotation.x = Math.PI / 2;
@@ -5641,8 +5475,8 @@ export class Car {
 		scene.add( car.wheel_fr );
 		car.wheel_fr_constraint = new Physijs.DOFConstraint( car.wheel_fr, car.body, new THREE.Vector3( -3.5, 6.5, -5 ) );
 		scene.addConstraint( car.wheel_fr_constraint );
-		car.wheel_fr_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 8, z: 1 });
-		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 8, z: 0 });
+		car.wheel_fr_constraint.setAngularLowerLimit({ x: 0, y: -Math.PI / 1, z: 1 });
+		car.wheel_fr_constraint.setAngularUpperLimit({ x: 0, y:  Math.PI / 1, z: 0 });
 
 		car.wheel_bl = new Physijs.CylinderMesh( wheel_geometry, wheel_material, 500 );
 		car.wheel_bl.rotation.x = Math.PI / 2;
@@ -5663,54 +5497,188 @@ export class Car {
 		scene.addConstraint( car.wheel_br_constraint );
 		car.wheel_br_constraint.setAngularLowerLimit({ x: 0, y: 0, z: 0 });
 		car.wheel_br_constraint.setAngularUpperLimit({ x: 0, y: 0, z: 0 });
+
+		car.body.add(dolly)
+		camera.rotation.z = Math.PI / 2;
+		camera.rotation.x = -Math.PI / 2;
+		
+		//dolly.position.set(0,0,0);
+		dolly.position.z =0;
+
+console.log(getCenterPoint(car.body))
+	   document.addEventListener( 'keydown', function( ev ) {
 		   
-		   document.addEventListener( 'keydown', function( ev ) {
-				   switch( ev.keyCode ) {
-					   case 37: // left
-						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
-						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
-						   car.wheel_fl_constraint.enableAngularMotor(1);
-						   car.wheel_fr_constraint.enableAngularMotor(1);
-						   break;
-					   case 39: // right
-						   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
-						   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
-						   car.wheel_fl_constraint.enableAngularMotor( 1 );
-						   car.wheel_fr_constraint.enableAngularMotor( 1 );
-						   break;
-					   case 38: // up
-						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
-						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
-						   car.wheel_bl_constraint.enableAngularMotor(2);
-						   car.wheel_br_constraint.enableAngularMotor(2);
-						   break;
-					   case 40: // down
-						   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
-						   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
-						   /* constraint.configureAngularMotor(
-							   which, // which angular motor to configure - 0,1,2 match x,y,z
-							   low_limit, // lower limit of the motor
-							   high_limit, // upper limit of the motor
-							   velocity, // target velocity
-							   max_force // maximum force the motor can apply
-						   );*/
-						   car.wheel_bl_constraint.enableAngularMotor(2); // which angular motor to configure - 0,1,2 match x,y,z
-						   car.wheel_br_constraint.enableAngularMotor(2);
-						   break;
-				   }
+			   switch( ev.keyCode ) {
+				   case 37: // left
+					   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
+					   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, 1, 200);
+					   car.wheel_fl_constraint.enableAngularMotor(1);
+					   car.wheel_fr_constraint.enableAngularMotor(1);
+					   break;
+				   case 39: // right
+					   car.wheel_fl_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
+					   car.wheel_fr_constraint.configureAngularMotor(1, -Math.PI/2, Math.PI/2, -1, 200);
+					   car.wheel_fl_constraint.enableAngularMotor( 1 );
+					   car.wheel_fr_constraint.enableAngularMotor( 1 );
+					   break;
+				   case 38: // up
+					   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
+					   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, carspeed, 2000);
+					   car.wheel_bl_constraint.enableAngularMotor(2);
+					   car.wheel_br_constraint.enableAngularMotor(2);
+					   break;
+				   case 40: // down
+					   car.wheel_bl_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
+					   car.wheel_br_constraint.configureAngularMotor(2, 1, 0, -1 * carspeed, 2000);
+					   /* constraint.configureAngularMotor(
+						   which,      // which angular motor to configure - 0,1,2 match x,y,z
+						   low_limit,  // lower limit of the motor
+						   high_limit, // upper limit of the motor
+						   velocity,   // target velocity
+						   max_force   // maximum force the motor can apply
+					   );*/
+					   car.wheel_bl_constraint.enableAngularMotor(2); // which angular motor to configure - 0,1,2 match x,y,z
+					   car.wheel_br_constraint.enableAngularMotor(2);
+					   break;
 			   }
-		   );
-		   
-		   document.addEventListener( 'keyup', function( ev ) {
-				   switch( ev.keyCode ) {
-					   case 37:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
-					   case 39:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
-					   case 38:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
-					   case 40:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
-				   }
+		   }
+	   );
+	   
+	   document.addEventListener( 'keyup', function( ev ) {
+			   switch( ev.keyCode ) {
+				   case 37:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
+				   case 39:car.wheel_fl_constraint.disableAngularMotor( 1 );car.wheel_fr_constraint.disableAngularMotor( 1 );break;
+				   case 38:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
+				   case 40:car.wheel_bl_constraint.disableAngularMotor( 2 );car.wheel_br_constraint.disableAngularMotor( 2 );break;
 			   }
-		   );
+		   }
+	   );
+	}
 }
+
+function getCenterPoint(mesh) {
+    var middle = new THREE.Vector3();
+    var geometry = mesh.geometry;
+
+    geometry.computeBoundingBox();
+
+    middle.x = (geometry.boundingBox.max.x + geometry.boundingBox.min.x) / 2;
+    middle.y = (geometry.boundingBox.max.y + geometry.boundingBox.min.y) / 2;
+    middle.z = (geometry.boundingBox.max.z + geometry.boundingBox.min.z) / 2;
+
+    mesh.localToWorld( middle );
+    return middle;
+}
+
+
+var	chair_material,ground_material,ground
+var spawnChair
+// Chairs
+export class Chairs {
+	constructor (options) {
+		loader = new THREE.TextureLoader();
+		chair_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }),.6,.9);
+		chair_material.map.wrapS = chair_material.map.wrapT = THREE.RepeatWrapping;
+		chair_material.map.repeat.set( .25, .25 );
+		spawnChair();
+	}
+}
+
+spawnChair = (function() {
+	var buildBack, buildLegs, doSpawn;
+	
+	buildBack = function() {
+		var back, _object;
+		   back = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, .5 ),chair_material);back.position.y = 5;back.position.z = -2.5;back.castShadow = true;back.receiveShadow = true;// rungs - relative to back
+		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = -2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
+		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
+		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = 2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
+		return back;
+	};
+	buildLegs = function() {
+		var leg, _leg;
+		 leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);leg.position.x = 2.25;  leg.position.z = -2.25; leg.position.y    = -2.5; leg.castShadow = true;leg.receiveShadow = true;// back left
+		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.x = -4.5;_leg.castShadow = true; _leg.receiveShadow = true; leg.add( _leg );// front left - relative to back left le
+		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.z = 4.5; _leg.castShadow = true; _leg.receiveShadow = true; leg.add( _leg ); // front left - relative to back left leg
+		_leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);_leg.position.x = -4.5;_leg.position.z = 4.5;  _leg.castShadow    = true;_leg.receiveShadow = true;leg.add( _leg );  // front right - relative to back left leg
+		return leg;
+	};
+	
+	doSpawn = function() {
+		var chair;
+		// seat of the chair
+		chair = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, 5 ),chair_material);
+		chair.castShadow = true;
+		chair.receiveShadow = true;
+		chair.add( buildBack() ); // back - relative to chair ( seat )
+		chair.add( buildLegs() ); // legs - relative to chair ( seat )
+		chair.position.set(Math.random() * 50 - 25, 100, Math.random() * 50 - 25);
+		chair.rotation.set(Math.random() * Math.PI * 2,Math.random() * Math.PI * 2,Math.random() * Math.PI * 2);
+		chair.addEventListener( 'ready', spawnChair );
+		scene.add( chair );
+	};
+	
+	return function() {setTimeout( doSpawn, 1000 );};
+})();
+
+// Globe
+export class Globe {
+	constructor (options) {
+		var earth = new THREE.Mesh(
+			new THREE.SphereGeometry(0.4, 34, 34),
+			new THREE.MeshPhongMaterial({
+				map 		: new THREE.TextureLoader().load('/assets/textures/earth/earthmap1k.jpg'),
+				specularMap	: new THREE.TextureLoader().load('/assets/textures/earth/earthspec1k.jpg'),
+				bumpMap		: new THREE.TextureLoader().load('/assets/textures/earth/earthbump1k.jpg'),
+				bumpScale: 0.6,
+				//	alphaMap: THREE.ImageUtils.loadTexture(alphaMap),
+			})
+		);
+		var clouds = new THREE.Mesh(
+		new THREE.SphereGeometry(0.41, 34, 34),
+		new THREE.MeshPhongMaterial({
+			map: new THREE.TextureLoader().load('/assets/textures/earth/fair_clouds_4k.png'),
+			//alphaMap	: new THREE.TextureLoader().load('/assets/textures/earth/earthcloudmaptrans.jpg'),
+			//	bumpScale: bumpScale,
+			//	bumpMap	: bumpMap,
+			//	bumpScale: 0.6,
+			//	alphaMap: THREE.ImageUtils.loadTexture(alphaMap),
+			opacity:0.8,
+			transparent:true
+		}));
+				
+		// marker object
+		var pointerr = new THREE.Mesh(
+		new THREE.CylinderGeometry(.02, 0, .10),
+		new THREE.MeshPhongMaterial({color: 0xcc9900}));
+		pointerr.position.set(0.45, 0, 0); // rotating obj should set (X > 0, 0, 0)
+		pointerr.quaternion.setFromUnitVectors(
+		new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
+		var marker = new THREE.Object3D();
+		marker.add(pointerr);
+
+	// setup scene
+	var obje = new THREE.Object3D();
+	obje.add(marker);
+	obje.add(clouds);
+	obje.add(earth);
+	//var scene = new THREE.Scene();
+	scene.add(obje);
+	// [initial position] rotate by lat/long
+	// For ball is at (X,0,0), the lat rotation should be around Z axis
+	var rad = Math.PI / 180;
+	marker.quaternion.setFromEuler(
+		new THREE.Euler(0, 135 * rad, 45 * rad, "YZX"));
+
+	// from geolocation API
+		navigator.geolocation.getCurrentPosition(function (poso) {
+			var lat = poso.coords.latitude, lon = poso.coords.longitude;
+			console.log(lat,lon)
+			marker.quaternion.setFromEuler(new THREE.Euler(0, lon * rad, lat * rad, "YZX"));
+		});
+		this.object = obje;
+	}
+	
 }
 // Pendulum
 export class Pendulum{
@@ -5751,7 +5719,6 @@ export class Pendulum{
 	   init();
 	}
 }
-var multiplayerHead;
 
 var initEventHandling, createTower, jengaOptions = {}, loader, table, blocks = [], table_material, block_material, intersect_plane, selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, _i, _v3 = new THREE.Vector3;
 
@@ -5787,45 +5754,30 @@ export class Jenga {
 		table.position.y = -.5;
 		table.receiveShadow = true;
 		scene.add( table );
-		//camera.position.set( 25, 20, 25 );
-		//camera.lookAt(new THREE.Vector3( 0, 7, 0 ));
 		setTimeout(function () { createTower(); }, 1000);
-
 	   intersect_plane = new THREE.Mesh(
 		   new THREE.PlaneGeometry( 150, 150 , 150 , 150 ),
 		   new THREE.MeshBasicMaterial({ opacity: 0.1, transparent: true,wireframe:true })
 	   );
 	   intersect_plane.rotation.x = Math.PI / -2;
 	   scene.add( intersect_plane );
-
 	   initEventHandling();
 	   
-	  // requestAnimationFrame( render );
-	  // scene.simulate();
-			
 		var createTower = (function() {
-			//console.log(jengaOptions.block)
 			var block_length = jengaOptions.block[2],
-			block_height =  jengaOptions.block[1],
-			block_width =  jengaOptions.block[0],
-			block_offset = 2,
-			block_geometry = new THREE.BoxGeometry( block_length, block_height, block_width );
-			// var erty = o.rows
-			
+			block_height 	 = jengaOptions.block[1],
+			block_width 	 = jengaOptions.block[0],
+			block_offset 	 = 2,
+			block_geometry 	 = new THREE.BoxGeometry( block_length, block_height, block_width );
 			return function() {
 				var i, j, rows = jengaOptions.rows, block;
-				//	console.log(erty)
 				for ( i = 0; i < rows; i++ ) {
 					for ( j = 0; j < 3; j++ ) {
 						block = new Physijs.BoxMesh( block_geometry, block_material );
 						block.position.y = (block_height / 2) + block_height * i;
-						if ( i % 2 === 0 ) {
-							block.rotation.y = Math.PI / 2.01; // #TODO: There's a bug somewhere when this is to close to 2
-							block.position.x = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 );
-						}
-						else { block.position.z = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 ); }
-						block.receiveShadow = true;
-						block.castShadow = true;
+						if ( i % 2 === 0 ) { block.position.x = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 ); block.rotation.y = Math.PI / 2.01; }
+						else 			   { block.position.z = block_offset * j - ( block_offset * 3 / 2 - block_offset / 2 ); }
+						block.receiveShadow = true; block.castShadow = true;
 						scene.add( block );
 						blocks.push( block );
 					}
@@ -5868,7 +5820,6 @@ initEventHandling = (function() {//console.log('sdf')
 		   }
 		   
 	   };
-	   
 	   handleMouseUp = function( e ) {
 		   e.preventDefault()
 		   if ( selected_block !== null ) {
