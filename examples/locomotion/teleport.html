@@ -23,6 +23,7 @@
 
 new XR.Reality();
 new XR.Light();
+
 new XR.Floor({
 	map:'/assets/textures/smile.jpg',
 	repeat:[40,40]
@@ -30,7 +31,6 @@ new XR.Floor({
 
 var controller = new XR.Gamepad();
 
-console.log(controller)
 new XR.Locomotion({
 	type:'teleport',
 	bind: controller.right

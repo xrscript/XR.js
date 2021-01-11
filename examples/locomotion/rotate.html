@@ -25,6 +25,14 @@ new XR.Reality();
 new XR.Light();
 new XR.Floor();
 
+
+var controller = new XR.Gamepad();
+
+new XR.Locomotion({
+	type:'rotate',
+	bind: controller.right
+});
+
 </script>
 	
 

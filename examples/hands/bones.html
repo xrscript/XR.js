@@ -13,26 +13,22 @@
 new XR.Reality({
 	physics:false
 });
-new XR.Light();
 
-new XR.Avatar({
-	file:'/assets/models/glb/Soldier.glb'
-});
+new XR.Light();
 
 var hand = new XR.Hands({
 	style:'oculus'
 });
 
-	// create a cube for each finger tip
-	var thumb 	= new XR.Cube({ scale:0.02});
-	var index 	= new XR.Cube({ scale:0.02});
-	var middle 	= new XR.Cube({ scale:0.02});
-	var ring 	= new XR.Cube({ scale:0.02});
-	var pinky 	= new XR.Cube({ scale:0.02});
+// create a cube for each finger tip
+var thumb 	= new XR.Cube({ scale:0.02});
+var index 	= new XR.Cube({ scale:0.02});
+var middle 	= new XR.Cube({ scale:0.02});
+var ring 	= new XR.Cube({ scale:0.02});
+var pinky 	= new XR.Cube({ scale:0.02});
 
-
+// get finger tip positions, and update the cube position
 function update() {
-	// get finger tip positions, and update the cube position
 	thumb .setPosition	( hand.left.thumb.tip.position  )
 	index .setPosition	( hand.left.index.tip.position  )
 	middle.setPosition	( hand.left.middle.tip.position )

@@ -160,6 +160,7 @@ var camera, dolly, controls, material;
 var controller = [];
 var skybox;var floor; var text;
 var teleporting = false;
+var rotate = false;
 var rafCallbacks = new Set(),tempVec, tempVec1,tempVecP,tempVecV,g,lineSegments,lineGeometryVertices,		guideline, guidelight, guidesprite,newPos
 var controllerVec1 =  new THREE.Vector3(),controllerVec2 =  new THREE.Vector3();
 var compass = false;
@@ -484,14 +485,14 @@ function moveOrbit(){
 	//controls.position.set(dolly.getWorldPosition(dollyPostion))
 	//camera.getWorldPosition(dollyPostion)
 	if(dollyPostion){
-	var sdfg = dolly.getWorldPosition(dollyPostion)
-	console.log(dolly.getWorldPosition(dollyPostion))
-	controls.target = dolly.getWorldPosition(dollyPostion)
-		//controls.position0.set( ...position );
-
-	//	controls.update();//	camera.position.set(  0,8,0 )
+		var sdfg = dolly.getWorldPosition(dollyPostion)
+		// console.log(dolly.getWorldPosition(dollyPostion))
+		controls.target = dolly.getWorldPosition(dollyPostion)
+		// controls.position0.set( ...position );
+		// controls.update();
+		// camera.position.set(  0,8,0 )
 	}
-	//	camera.position.set( 0,8,0 );
+	// camera.position.set( 0,8,0 );
 }
 
 let floorMat;
@@ -679,7 +680,7 @@ export class Player {
 			//dolly = new THREE.Mesh(new THREE.PlaneGeometry( 2, 0.01, 2 ),thematerial );
 			
 		//}
-		dolly.position.set( 0, 0.01, 20 );
+		dolly.position.set( 0, 0.01, 1 );
 		dolly.__dirtyPosition = true;
 		if(options.position){
 			var p = options.position
@@ -3071,6 +3072,14 @@ function render(timeNow, frame ) {
 				rafCallbacks.forEach(cb => cb(timeNow));
 				camera.getWorldPosition(cameraPostion)
 			}
+			
+			
+			// Rotate
+			if(rotate){
+				console.log(fullGamepad.joystick.r)
+				
+			}
+	 
 	 
 	if(moveForward){ }
 	// If we are not presenting move the camera a little so the effect is visible
@@ -3510,17 +3519,16 @@ function vibrateR(wr){
 	
 // for teleport locomotion
 function movePlayer(e){
-	//var sdfg = this
 	teleporting = false
 	const feetPos = cameraPostion;
 	feetPos.y = 0;
-				var asdf = camera.getWorldPosition(cameraPostion);
-				//var asdf1 = dolly.getWorldPosition(dollyPostion);
-				//console.log(asdf, asdf1)
-				console.log(differenceVector(feetPos,cameraPostion))
+	var asdf = camera.getWorldPosition(cameraPostion);
+	//var asdf1 = dolly.getWorldPosition(dollyPostion);
+	//console.log(asdf, asdf1)
+	//console.log(differenceVector(feetPos,cameraPostion))
 	const p = guidingController.getWorldPosition(tempVecP);
 	const v = guidingController.getWorldDirection(tempVecV);
-	v.multiplyScalar(6);
+	v.multiplyScalar(10);
 	const t = (-v.y  + Math.sqrt(v.y**2 - 2*p.y*g.y))/g.y;
 	const cursorPos = positionAtT(tempVec1,t,cameraPostion,v,g);
 	const offset = cursorPos.addScaledVector(asdf ,-1);
@@ -3566,21 +3574,32 @@ export class Locomotion {
 
 		}
 		if (options.type == 'rotate'){
-			//rotate = true
+			rotate = true
+			console.log('rotate')
+			guidingController = options.bind
+			var asdf = options.bind;
+			
+			console.log(asdf)
+			
+			console.log(fullGamepad.joystick.l)
+			//asdf.addEventListener( 'selectstart', onSelectStart );
+			//asdf.addEventListener( 'selectend', onSelectEnd );
+
 		}
+		
+		// teleport locomotion
 		if (options.type == 'teleport'){
 			guidingController = options.bind
 			var asdf = options.bind;
 			asdf.addEventListener( 'selectstart', onSelectStart );
 			asdf.addEventListener( 'selectend', onSelectEnd );
 
-			// === LOCOMOTION == //
 			rafCallbacks.add(() => {
-				//	if (guidingController) {
+			//	if (guidingController) {
 				// Controller start position
 				const p = guidingController.getWorldPosition(tempVecP);  // controller position
 				const v = guidingController.getWorldDirection(tempVecV); // controller direction
-				v.multiplyScalar(6);
+				v.multiplyScalar(10);
 				const t = (-v.y  + Math.sqrt(v.y**2 - 2*p.y*g.y))/g.y; // Time for tele ball to hit ground
 				const vertex = tempVec.set(0,0,0);
 				for (let i=1; i<=lineSegments; i++) {
@@ -3594,11 +3613,9 @@ export class Locomotion {
 				// Place the light and sprite near the end of the poing
 				positionAtT(guidelight.position,  t, p, v, g);
 				positionAtT(guidesprite.position, t, p, v, g);
-				guidesprite.position.y = 0.05;
-				guidelight.position.y  = 0.04;
+				guidesprite.position.y = 0.06;
+				guidelight.position.y  = 0.05;
 			});
-
-		 
 		   //}
 		   lineSegments=10;
 		   const lineGeometry = new THREE.BufferGeometry();
@@ -5308,11 +5325,11 @@ export class Shapes {
 		scene.add( group );
 
 		const geometries = [
-			//  new THREE.BoxBufferGeometry( 0.2, 0.2, 0.2 ),
-			//  new THREE.ConeBufferGeometry( 0.2, 0.2, 64 ),
+			// new THREE.BoxBufferGeometry( 0.2, 0.2, 0.2 ),
+			// new THREE.ConeBufferGeometry( 0.2, 0.2, 64 ),
 			new THREE.SphereBufferGeometry( 2, 64,64, 64 ),
-			//   new THREE.IcosahedronBufferGeometry( 0.2, 8 ),
-			//   new THREE.TorusBufferGeometry( 0.2, 0.04, 64, 32 )
+			//  new THREE.IcosahedronBufferGeometry( 0.2, 8 ),
+			//  new THREE.TorusBufferGeometry( 0.2, 0.04, 64, 32 )
 		];
 
 		for ( let i = 0; i <300; i ++ ) {

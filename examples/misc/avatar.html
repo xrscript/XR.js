@@ -34,29 +34,24 @@ var avatar = new XR.Avatar({
 
 var hand = new XR.Hands();
 
-	
-	var thumb 	= new XR.Cube({ scale:0.05});
-	var index 	= new XR.Cube({ scale:0.05});
-	var middle 	= new XR.Cube({ scale:0.05});
-	var ring 	= new XR.Cube({ scale:0.05});
-	var pinky 	= new XR.Cube({ scale:0.05});
+// create cubes
+var thumb 	= new XR.Cube({ scale:0.05});
+var index 	= new XR.Cube({ scale:0.05});
+var middle 	= new XR.Cube({ scale:0.05});
+var ring 	= new XR.Cube({ scale:0.05});
+var pinky 	= new XR.Cube({ scale:0.05});
 
-	var rightArm1
+// update the cube positions
 function update() {
-	
-	
 	thumb .setPosition	( hand.left.thumb.tip.position  )
 	index .setPosition	( hand.left.index.tip.position  )
 	middle.setPosition	( hand.left.middle.tip.position )
 	ring  .setPosition	( hand.left.ring.tip.position   )
 	pinky .setPosition	( hand.left.pinky.tip.position  )
 }
-	
 
 // update every 100 milliseconds
-setInterval(update,100);
-
-
+setInterval(update, 100);
 </script>
 			
 	</body>
