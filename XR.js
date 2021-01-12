@@ -680,8 +680,11 @@ export class Player {
 			//dolly = new THREE.Mesh(new THREE.PlaneGeometry( 2, 0.01, 2 ),thematerial );
 			
 		//}
-		dolly.position.set( 0, 0.01, 1 );
+		
+		// set initial dolly position
+		dolly.position.set( 0, 0, 0 );
 		dolly.__dirtyPosition = true;
+		
 		if(options.position){
 			var p = options.position
 			dolly.position.set( p[0],0,p[2] );

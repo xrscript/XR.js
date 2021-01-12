@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>XR.js | Bones</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+
+		
+<script type="module">import * as XR from '/XR.js';
+new XR.Reality({
+	physics:false
+});
+
+new XR.Light();
+
+var hand = new XR.Hands({
+	style:'oculus'
+});
+
+// create a cube for each finger tip
+var thumb 	= new XR.Cube({ scale:0.02});
+var index 	= new XR.Cube({ scale:0.02});
+var middle 	= new XR.Cube({ scale:0.02});
+var ring 	= new XR.Cube({ scale:0.02});
+var pinky 	= new XR.Cube({ scale:0.02});
+
+// get finger tip positions, and update the cube position
+function update() {
+	
+	console.log(hand.left.thumb.tip.position)
+	thumb .setPosition	( hand.left.thumb.tip.position  )
+	index .setPosition	( hand.left.index.tip.position  )
+	middle.setPosition	( hand.left.middle.tip.position )
+	ring  .setPosition	( hand.left.ring.tip.position   )
+	pinky .setPosition	( hand.left.pinky.tip.position  )
+}
+
+// update every 100 milliseconds
+setInterval(update,100);
+</script>
+
+	</body>
+</html>
