@@ -607,7 +607,7 @@ spawnBox = (function() {
 		},
 		createBox = function() {
 			var box, material;
-			material = Physijs.createMaterial(new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }),.6,.3);
+			material = Physijs.createMaterial(new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood/color.jpg' ) }),.6,.3);
 			//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
 			box = new Physijs.BoxMesh( box_geometry, material );
 			box.collisions = 0;
@@ -1227,7 +1227,7 @@ export class Collisions {
 				},
 				createBox = function() {
 					var box, material;
-					material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }), .6, .9 );
+					material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood/color.jpg' ) }), .6, .9 );
 					//material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) });
 					box = new Physijs.BoxMesh( box_geometry, material );
 					box.collisions = 0;
@@ -5597,7 +5597,7 @@ var spawnChair
 export class Chairs {
 	constructor (options) {
 		loader = new THREE.TextureLoader();
-		chair_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood.jpg' ) }),.6,.9);
+		chair_material = Physijs.createMaterial( new THREE.MeshLambertMaterial({ map: loader.load( '/assets/textures/wood/color.jpg' ) }),.6,.9);
 		chair_material.map.wrapS = chair_material.map.wrapT = THREE.RepeatWrapping;
 		chair_material.map.repeat.set( .25, .25 );
 		spawnChair();
@@ -5607,6 +5607,7 @@ export class Chairs {
 spawnChair = (function() {
 	var buildBack, buildLegs, doSpawn;
 	
+	// chair back
 	buildBack = function() {
 		var back, _object;
 		   back = new Physijs.BoxMesh(new THREE.BoxGeometry( 5, 1, .5 ),chair_material);back.position.y = 5;back.position.z = -2.5;back.castShadow = true;back.receiveShadow = true;// rungs - relative to back
@@ -5615,6 +5616,8 @@ spawnChair = (function() {
 		_object = new Physijs.BoxMesh(new THREE.BoxGeometry( 1, 5, .5 ),chair_material);_object.position.y = -3;_object.position.x = 2;_object.castShadow = true;_object.receiveShadow = true;back.add( _object );
 		return back;
 	};
+			
+	// chair legs
 	buildLegs = function() {
 		var leg, _leg;
 		 leg = new Physijs.BoxMesh(new THREE.BoxGeometry( .5, 4, .5 ),chair_material);leg.position.x = 2.25;  leg.position.z = -2.25; leg.position.y    = -2.5; leg.castShadow = true;leg.receiveShadow = true;// back left
@@ -5638,6 +5641,7 @@ spawnChair = (function() {
 		scene.add( chair );
 	};
 	
+	// spawn a chair every second
 	return function() {setTimeout( doSpawn, 1000 );};
 })();
 

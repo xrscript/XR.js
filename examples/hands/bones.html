@@ -89,7 +89,7 @@ setInterval(update,10);
 
 // start recording data after 5 seconds
 setTimeout(function(){
-	recordData();
+	//recordData();
 },5000);
 
 // hand data
@@ -160,7 +160,12 @@ function onResults(results) {
 				
 				
 				
-				points.then(() => { difference.then(() => { normal.then(() => { predictFrame(hand.right.normal.x.concat(hand.right.normal.y), 'right', scale); }); }); });
+				points.then(() => { difference.then(() => { normal.then(() => {
+					
+					// send data to model for prediction
+					//predictFrame(hand.right.normal.x.concat(hand.right.normal.y.concat(hand.right.normal.z)), 'right', scale);
+					
+				}); }); });
 				//showData()
 			}
 /*
@@ -208,7 +213,7 @@ var tempData = [];
 //   btn.addEventListener('click', e => {
 	   
 
-	   function recordData(){
+	function recordData(){
 	   tempData = [];
 	   // wait 1 second
 	   setTimeout(function timer() {
@@ -236,7 +241,7 @@ var tempData = [];
 	   }
 	   
 	   
-	   }
+	}
 //	});
 //});
 
@@ -324,20 +329,18 @@ const loadModel = async (scale) => {
 		console.log('minor loaded')
 	}
 }
-
+*/
 var handsigns
-var scale
-var model
 
 var handsignsAll = ['do','di','ra','re','ri','me','mi','fa','fi','se','so','si','le','la','li','te','ti'];
 									  
 // midi value for each handsign
 var solfegeMIDI = {	'do':0, 'di':1, 'ra':1, 're':2, 'ri':3, 'me':3, 'mi':4, 'fa':5, 'fi':6, 'se':6, 'so':7, 'si':8, 'le':8, 'la':9, 'li':10, 'te':10, 'ti':11 }
-
 //load default (major scale)
-scale = 'major'
-handsigns = ['do','re','mi','fa','so','la','ti']
-loadModel(scale)
+var scale = 'major'
+var handsigns = ['do','re','mi','fa','so','la','ti']
+/*
+									  loadModel(scale)
 
 //event listener for scale
 document.querySelectorAll('input').forEach(btn => {
@@ -360,10 +363,12 @@ document.querySelectorAll('input').forEach(btn => {
 
 	});
 });
-					  
+				*/
 //async function to make prediction
 const predictFrame = async (pred_array, handedness, scale) => {
+console.log(pred_array)
 
+/*
 	// if model is loaded
 	if (model){
 		
@@ -409,9 +414,11 @@ const predictFrame = async (pred_array, handedness, scale) => {
 		
 	// else, load the model
 	else { loadModel(scale)}
+ 
+ */
 }
 
-*/
+
 // keep track of the current hand sign for each hand
 // [current sign index, number of times in a row]
 var currentLeft  = [0,0]

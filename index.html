@@ -28,10 +28,15 @@
 		</header>
 
 <script type="module">import * as XR from '/XR.js';
-new XR.Reality();
+	
+// setup XR.js session
+new XR.Reality({
+	physics:false
+});
 new XR.Light();
 new XR.Floor();
 
+// skyboxes
 var imgs = [
 	'/assets/img/equirectangular/venice_sunset.jpg',
 	'/assets/img/equirectangular/royal_esplanade.jpg',
@@ -55,7 +60,7 @@ var imgs = [
 var item = imgs[Math.floor(Math.random() * imgs.length)];
 new XR.Sky({file:item});
 
-
+// create XR.js logo
 new XR.Text({
 	text:'XR.js',
 	thickness: 0.2,
@@ -64,71 +69,88 @@ new XR.Text({
 	position:[0.1,0.5,-3],
 	bevel:true
 });
+
+// create dropdown menus
 new XR.Dropdown({
 	position:[-3,1,-7],
-	opacity:0.9,
 	options:[
-		{ name:'Models',    href:'/examples/objects/model/', action: myAction },
-		{ name:'Physics',   href:'/examples/physics/',       action: myAction },
-		{ name:'Animation', href:'/examples/animate/',       action: myAction }
-	]
-});
-new XR.Dropdown({
-	position:[-1,1,-7],
-	rotation:[0,0,0],
-	options:[
-	   { name:'Walk', 		href:'/examples/locomotion/walk.html', 		action: myAction },
-	   { name:'Fly', 		href:'/examples/locomotion/fly.html', 		action: myAction },
-	   { name:'Teleport', 	href:'/examples/locomotion/teleport.html', 	action: myAction }
-	]
-});
-new XR.Dropdown({
-	position:[1,1,-7],
-	rotation:[0,0,0],
-	options:[
-		{ name:'Button',   href:'/examples/ui/button.html',   action: myAction },
-		{ name:'Dropdown', href:'/examples/ui/dropdown.html', action: myAction },
-		{ name:'Text',     href:'/examples/ui/text.html',     action: myAction }
-	]
-});
-new XR.Dropdown({
-	position:[3,1,-7],
-	rotation:[0,0,0],
-	options:[
-		{ name:'Light',	    href:'/examples/objects/light/',	 action: myAction },
-		{ name:'Geometry',  href:'/examples/objects/geometry/',  action: myAction },
-		{ name:'Models',	href:'/examples/objects/model/',	 action: myAction }
+		{ name:'Models',    href:'/examples/objects/model/', action: openLink },
+		{ name:'Physics',   href:'/examples/physics/',       action: openLink },
+		{ name:'Animation', href:'/examples/animate/',       action: openLink }
 	]
 });
 
+new XR.Dropdown({
+	position:[-1,1,-7],
+	options:[
+	   { name:'Walk',     href:'/examples/locomotion/walk.html',     action: openLink },
+	   { name:'Fly',      href:'/examples/locomotion/fly.html',      action: openLink },
+	   { name:'Teleport', href:'/examples/locomotion/teleport.html', action: openLink }
+	]
+});
+
+new XR.Dropdown({
+	position:[1,1,-7],
+	options:[
+		{ name:'Button',   href:'/examples/ui/button.html',   action: openLink },
+		{ name:'Dropdown', href:'/examples/ui/dropdown.html', action: openLink },
+		{ name:'Text',     href:'/examples/ui/text.html',     action: openLink }
+	]
+});
+
+new XR.Dropdown({
+	position:[3,1,-7],
+	options:[
+		{ name:'Light',    href:'/examples/objects/light/',    action: openLink },
+		{ name:'Geometry', href:'/examples/objects/geometry/', action: openLink },
+		{ name:'Models',   href:'/examples/objects/model/',    action: openLink }
+	]
+});
 
 new XR.Dropdown({
 	position:[5,1,-7],
-	rotation:[0,0,0],
 	options:[
-		{ name:'Examples',	href:'/examples/',								action: myAction },
-		{ name:'Wiki',		href:'https://github.com/xrscript/XR.js/wiki',	action: myAction },
-		{ name:'GitHub',	href:'https://github.com/xrscript/XR.js/',		action: myAction }
+		{ name:'Examples', href:'/examples/',                             action: openLink },
+		{ name:'Wiki',     href:'https://github.com/xrscript/XR.js/wiki', action: openLink },
+		{ name:'GitHub',   href:'https://github.com/xrscript/XR.js/',     action: openLink }
 	]
 });
 
 var current;
-document.addEventListener("mousedown", myFunc);
+setTimeout(function(){ if (current){ window.location.assign(current); } }, 220);
 
-function myFunc (){
-	setTimeout(function(){ if (current){ window.location.assign(current); } }, 220);
-}
-
-function myAction(e,href){
+function openLink(e,href){
 	current = href;
 	window.location.replace(href);
 }
 
+// setup controller and pointer
 var controller = new XR.Gamepad();
+new XR.Pointer({ bind: controller.right });
 
-new XR.Pointer({
-	bind: controller.right
-});
+
+// add confetti text
+var phrases = [
+	'XRscript',
+	'I <3 VR',
+	'hello world',
+	'hire me elon pls',
+	'hi mom'
+];
+
+// create 100 confetti phrases
+for ( let i = 0; i < 100; i ++ ) {
+	var options = {
+		text:phrases[Math.floor(Math.random() * phrases.length)],
+		size:  0.025,
+		color: 0xffffff * Math.random(),
+		position:[Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5],
+		rotation:[Math.random() *  2 - 1, Math.random() *  2 - 1, Math.random() *  2 - 1],
+		thickness:0.0001
+	}
+	new XR.Text(options);
+}
+
 </script>
 			
 	</body>
