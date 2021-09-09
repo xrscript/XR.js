@@ -35,12 +35,12 @@ import { PRWMLoader		}				from './node_modules/three/examples/jsm/loaders/PRWMLo
 import { STLLoader		}				from './node_modules/three/examples/jsm/loaders/STLLoader.js';
 import { VRMLoader		}				from './node_modules/three/examples/jsm/loaders/VRMLoader.js';
 import { XLoader		}				from './node_modules/three/examples/jsm/loaders/XLoader.js';
-import { XYZLoader		}				from './node_modules/three/examples/jsm/loaders/XYZLoader.js';
+//import { XYZLoader		}				from './node_modules/three/examples/jsm/loaders/XYZLoader.js';
 import { MtlObjBridge	} 				from './node_modules/three/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
-import { Lensflaree,LensflareElement }	from '/node_modules/three/examples/jsm/objects/Lensflare.js';
+//import { Lensflaree,LensflareElement }	from '/node_modules/three/examples/jsm/objects/Lensflare.js';
 import { CSS2DRenderer, CSS2DObject }	from '/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js';
 import { Water } 						from './node_modules/three/examples/jsm/objects/Water.js';
-import { Skyy } 						from '/node_modules/three/examples/jsm/objects/Sky.js';
+//import { Skyy } 						from '/node_modules/three/examples/jsm/objects/Sky.js';
 
 import '/lib/jquery/jquery.min.js';
 import '/js/website.js';
@@ -2873,9 +2873,9 @@ export class  Ocean {
 		);
 		water.rotation.x = - Math.PI / 2;
 		scene.add( water );
-		const sky = new Skyy();
-		sky.scale.setScalar( 1000 );
-		scene.add( sky );
+		//const sky = new Skyy();
+		//sky.scale.setScalar( 1000 );
+		//scene.add( sky );
 		const skyUniforms = sky.material.uniforms;
 		skyUniforms[ 'turbidity' ].value = 10;
 		skyUniforms[ 'rayleigh' ].value = 2;
